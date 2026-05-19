@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCNA 200-301 Prep Platform — Simulador + Tutor Adaptativo</title>
+<link rel="stylesheet" href="css/app.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="app-container">
+  <!-- Header -->
+  <header class="app-header">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      <div class="logo-text">CCNA<span>Prep</span></div>
+    </div>
+    <div class="header-stats" id="headerStats">
+      <div class="header-stat">📚 <span>Preguntas:</span> <span class="val" id="statQuestions">0</span></div>
+      <div class="header-stat">✅ <span>Precisión:</span> <span class="val" id="statAccuracy">—</span></div>
+      <div class="header-stat">🔥 <span>Racha:</span> <span class="val" id="statStreak">0d</span></div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" data-view="dashboard">📊 Dashboard</button>
+    <button class="nav-tab" data-view="practice">📝 Practicar</button>
+    <button class="nav-tab" data-view="exam">🎯 Simulacro</button>
+    <button class="nav-tab" data-view="labs">🔧 Labs CLI</button>
+    <button class="nav-tab" data-view="guide">📖 Guía</button>
+    <button class="nav-tab" data-view="analytics">📈 Análisis</button>
+    <button class="nav-tab" data-view="tutor">🤖 Tutor</button>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main id="mainContent">
+    <!-- Dashboard View -->
+    <div id="view-dashboard" class="view fade-in">
+      <div class="dashboard-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="dashQuestions">0</div>
+          <div class="stat-label">Preguntas Respondidas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="dashAccuracy">—</div>
+          <div class="stat-label">Precisión General</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="dashExams">0</div>
+          <div class="stat-label">Simulacros Completados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="dashLabs">0</div>
+          <div class="stat-label">Labs Resueltos</div>
+        </div>
+      </div>
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🎯 Dominios del CCNA 200-301</div>
+            <div class="card-subtitle">Desempeño por área — haz clic para practicar</div>
+          </div>
+        </div>
+        <div class="domain-grid" id="domainGrid"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🧠 Recomendación del Tutor</div>
+            <div class="card-subtitle">Basado en tu desempeño</div>
+          </div>
+        </div>
+        <div id="tutorRecommendation" class="text-muted" style="padding:8px 0">Responde preguntas para recibir recomendaciones personalizadas.</div>
+      </div>
+    </div>
+
+    <!-- Practice View -->
+    <div id="view-practice" class="view hidden">
+      <div class="card mb-2">
+        <div class="card-header flex-between">
+          <div>
+            <div class="card-title">📝 Modo Práctica</div>
+            <div class="card-subtitle">Selecciona dominio y dificultad</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <select id="practiceDomain" style="background:var(--bg-input);color:var(--text-primary);border:1px solid var(--border-card);border-radius:var(--radius-sm);padding:8px 12px;font-family:var(--font-sans)">
+              <option value="all">Todos los dominios</option>
+            </select>
+            <select id="practiceDifficulty" style="background:var(--bg-input);color:var(--text-primary);border:1px solid var(--border-card);border-radius:var(--radius-sm);padding:8px 12px;font-family:var(--font-sans)">
+              <option value="adaptive">Adaptativo</option>
+              <option value="easy">Fácil</option>
+              <option value="medium">Medio</option>
+              <option value="hard">Difícil</option>
+            </select>
+            <button class="btn btn-primary btn-sm" id="btnPracticeStart">Iniciar Ronda</button>
+          </div>
+        </div>
+      </div>
+      <div id="practiceArea">
+        <div class="text-center text-muted mt-3">Selecciona los filtros y presiona "Iniciar Ronda" para comenzar.</div>
+      </div>
+    </div>
+
+    <!-- Exam View -->
+    <div id="view-exam" class="view hidden">
+      <div id="examIntro" class="card text-center" style="max-width:600px;margin:0 auto">
+        <h2 style="margin-bottom:12px;font-size:1.3rem">🎯 Simulacro CCNA 200-301</h2>
+        <p class="text-muted" style="margin-bottom:8px">Simula el examen real de Cisco con preguntas aleatorias y límite de tiempo.</p>
+        <div style="display:flex;gap:16px;justify-content:center;margin:20px 0;flex-wrap:wrap">
+          <div class="stat-card" style="flex:1;min-width:120px">
+            <div class="stat-value">60</div>
+            <div class="stat-label">Preguntas</div>
+          </div>
+          <div class="stat-card" style="flex:1;min-width:120px">
+            <div class="stat-value">90 min</div>
+            <div class="stat-label">Tiempo</div>
+          </div>
+          <div class="stat-card" style="flex:1;min-width:120px">
+            <div class="stat-value">825/1000</div>
+            <div class="stat-label">Puntaje Mínimo</div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg" id="btnStartExam">🚀 Iniciar Simulacro</button>
+        <p class="text-muted mt-2" style="font-size:0.78rem">El temporizador inicia inmediatamente. Asegúrate de tener 90 minutos disponibles.</p>
+      </div>
+      <div id="examArea" class="hidden"></div>
+      <div id="examResults" class="hidden"></div>
+    </div>
+
+    <!-- Labs View -->
+    <div id="view-labs" class="view hidden">
+      <div class="card mb-2">
+        <div class="card-header flex-between">
+          <div>
+            <div class="card-title">🔧 Labs de Troubleshooting</div>
+            <div class="card-subtitle">Simulador de CLI Cisco IOS — diagnostica y resuelve</div>
+          </div>
+          <select id="labSelector" style="background:var(--bg-input);color:var(--text-primary);border:1px solid var(--border-card);border-radius:var(--radius-sm);padding:8px 12px;font-family:var(--font-sans)"></select>
+        </div>
+      </div>
+      <div id="labArea">
+        <div class="lab-container">
+          <div class="lab-scenario" id="labScenario"></div>
+          <div class="lab-terminal" id="labTerminal">
+            <div class="terminal-header">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+              <span class="terminal-title" id="labTermTitle">Router> enable</span>
+            </div>
+            <div class="terminal-output" id="labOutput"></div>
+            <div class="terminal-input-line">
+              <span class="terminal-prompt" id="labPrompt">Router#</span>
+              <input type="text" class="terminal-input" id="labInput" placeholder="Escribe un comando..." autocomplete="off">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Study Guide View -->
+    <div id="view-guide" class="view hidden">
+      <div class="card mb-2">
+        <div class="card-title">📖 Guía de Estudio CCNA 200-301</div>
+        <div class="card-subtitle">Resúmenes por dominio del examen</div>
+      </div>
+      <div id="guideContent"></div>
+    </div>
+
+    <!-- Analytics View -->
+    <div id="view-analytics" class="view hidden">
+      <div class="card mb-3">
+        <div class="card-title mb-2">📈 Análisis de Desempeño</div>
+        <div class="card-subtitle">Identifica tus fortalezas y debilidades</div>
+      </div>
+      <div id="analyticsContent">
+        <div class="text-center text-muted mt-3">Responde preguntas para generar análisis de desempeño.</div>
+      </div>
+    </div>
+
+    <!-- Tutor View -->
+    <div id="view-tutor" class="view hidden">
+      <div class="card mb-2">
+        <div class="card-title mb-2">🤖 Tutor Inteligente CCNA</div>
+        <div class="card-subtitle">Preguntame cualquier cosa sobre el CCNA — conceptos, comandos, troubleshooting</div>
+      </div>
+      <div class="tutor-panel" style="height:500px">
+        <div class="tutor-messages" id="tutorMessages">
+          <div class="tutor-msg bot fade-in">
+            👋 ¡Hola! Soy tu tutor CCNA. Puedo explicarte conceptos, ayudarte con troubleshooting, y guiarte según tu desempeño.<br><br>
+            <strong>Probá preguntarme:</strong><br>
+            • "¿Cómo funciona OSPF?"<br>
+            • "Explícame subnetting"<br>
+            • "¿Por qué no se forma la adyacencia OSPF?"<br>
+            • "Dame un ejercicio de VLANs"<br>
+            • "¿Qué debo estudiar para aprobar?"
+          </div>
+        </div>
+        <div class="tutor-input-area">
+          <input type="text" class="tutor-input" id="tutorInput" placeholder="Escribí tu pregunta sobre CCNA...">
+          <button class="btn btn-primary" id="btnTutorSend">Enviar</button>
+        </div>
+      </div>
+      <div class="card mt-2" id="tutorRecommendationCard">
+        <div class="card-title">🧠 Recomendación Personalizada</div>
+        <div id="tutorRecContent" class="text-muted"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Reset Modal -->
+<div class="modal-overlay" id="resetModal">
+  <div class="modal">
+    <h2>⚠️ Reiniciar Progreso</h2>
+    <p>Esto eliminará todo tu historial de preguntas, simulacros y progreso. Esta acción no se puede deshacer.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="document.getElementById('resetModal').classList.remove('show')">Cancelar</button>
+      <button class="btn btn-danger" id="btnConfirmReset">Reiniciar Todo</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/data/questions.js"></script>
+<script src="js/data/labs.js"></script>
+<script src="js/data/study-guide.js"></script>
+<script src="js/modules/storage.js"></script>
+<script src="js/modules/analytics.js"></script>
+<script src="js/modules/tutor.js"></script>
+<script src="js/modules/exam.js"></script>
+<script src="js/modules/lab-sim.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
