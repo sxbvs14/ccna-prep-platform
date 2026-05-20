@@ -59,9 +59,9 @@ const Analytics = {
 
     if (weakest && weakest.status === 'needs-work') {
       return {
-        title: `⚠️ ${Lang.t('tutorWeakArea')} ${weakest.nameEs}`,
-        text: `${Lang.t('tutorFamiliar')} ${weakest.nameEs} ${Lang.t('tutorIs')} ${weakest.pct}%. ${Lang.t('tutorExamPct')}`,
-        action: `${Lang.t('tutorFocus')} ${weakest.nameEs}`,
+        title: `⚠️ ${Lang.t('tutorWeakArea')} ${Lang.domainName(weakest)}`,
+        text: `${Lang.t('tutorFamiliar')} ${Lang.domainName(weakest)} ${Lang.t('tutorIs')} ${weakest.pct}%. ${Lang.t('tutorExamPct')}`,
+        action: `${Lang.t('tutorFocus')} ${Lang.domainName(weakest)}`,
         domain: weakest.id
       };
     }
