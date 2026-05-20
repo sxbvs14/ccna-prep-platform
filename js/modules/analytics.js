@@ -41,44 +41,44 @@ const Analytics = {
 
     if (totalAnswered === 0) {
       return {
-        title: '🚀 Empezá tu preparación',
-        text: 'Todavía no respondiste preguntas. Te recomiendo empezar con "Fundamentos de Red" — es la base para todo lo demás y representa el 20% del examen.',
-        action: 'Fundamentos de Red',
+        title: Lang.isEn() ? '🚀 Start your preparation' : '🚀 Empezá tu preparación',
+        text: Lang.isEn() ? "You haven't answered any questions yet. I recommend starting with \"Network Fundamentals\" — it's the foundation for everything else and makes up 20% of the exam." : 'Todavía no respondiste preguntas. Te recomiendo empezar con "Fundamentos de Red" — es la base para todo lo demás y representa el 20% del examen.',
+        action: Lang.isEn() ? 'Network Fundamentals' : 'Fundamentos de Red',
         domain: 'network_fundamentals'
       };
     }
 
     if (totalAnswered < 10) {
       return {
-        title: '📝 Seguí practicando',
-        text: `Respondiste ${totalAnswered} preguntas. Seguí practicando para que el tutor pueda identificar tus áreas débiles y armar un plan de estudio personalizado.`,
-        action: 'Practicar más',
+        title: Lang.isEn() ? '📝 Keep practicing' : '📝 Seguí practicando',
+        text: Lang.isEn() ? `You've answered ${totalAnswered} questions. Keep practicing so the tutor can identify your weak areas and build a personalized study plan.` : `Respondiste ${totalAnswered} preguntas. Seguí practicando para que el tutor pueda identificar tus áreas débiles y armar un plan de estudio personalizado.`,
+        action: Lang.isEn() ? 'Practice more' : 'Practicar más',
         domain: 'all'
       };
     }
 
     if (weakest && weakest.status === 'needs-work') {
       return {
-        title: `⚠️ Área débil: ${weakest.nameEs}`,
-        text: `Tu precisión en ${weakest.nameEs} es del ${weakest.pct}%. Esto representa el ${weakest.pct}% del examen. Te sugiero enfocarte en esta área con 20-30 preguntas de práctica.`,
-        action: `Reforzar ${weakest.nameEs}`,
+        title: `⚠️ ${Lang.t('tutorWeakArea')} ${weakest.nameEs}`,
+        text: `${Lang.t('tutorFamiliar')} ${weakest.nameEs} ${Lang.t('tutorIs')} ${weakest.pct}%. ${Lang.t('tutorExamPct')}`,
+        action: `${Lang.t('tutorFocus')} ${weakest.nameEs}`,
         domain: weakest.id
       };
     }
 
     if (overallPct && overallPct < 80) {
       return {
-        title: '📈 Mejorando',
-        text: `Tu precisión general es del ${overallPct}%. Estás en buen camino pero todavía hay margen de mejora. Probá un simulacro completo para medirte bajo presión.`,
-        action: 'Hacer simulacro',
+        title: `📈 ${Lang.t('tutorImproving')}`,
+        text: Lang.t('tutorGoodPath'),
+        action: Lang.t('examStart'),
         domain: 'exam'
       };
     }
 
     return {
-      title: '🔥 ¡Excelente!',
-      text: `Precisión general del ${overallPct}%. Estás listo para el examen. Mantené la práctica con simulacros y repasá las áreas donde tuviste errores.`,
-      action: 'Hacer simulacro',
+      title: Lang.t('tutorExcellent'),
+      text: Lang.t('tutorReady'),
+      action: Lang.t('examStart'),
       domain: 'exam'
     };
   },
@@ -103,7 +103,7 @@ const Analytics = {
           <div class="domain-header">
             <div>
               <span style="font-size:1.2rem;margin-right:6px">${d.icon}</span>
-              <span class="domain-name">${d.nameEs}</span>
+              <span class="domain-name">${Lang.domainName(d)}</span>
             </div>
             <span class="domain-pct" style="color:${pctColor}">${pct}</span>
           </div>
@@ -131,24 +131,22 @@ const Analytics = {
     html += `<div class="dashboard-grid" style="margin-bottom:24px">
       <div class="stat-card">
         <div class="stat-value">${totalAnswered}</div>
-        <div class="stat-label">Total Preguntas</div>
+        <div class="stat-label" data-i18n="analyticsTotal">Total Preguntas</div>
       </div>
       <div class="stat-card">
         <div class="stat-value">${overallPct}%</div>
-        <div class="stat-label">Precisión General</div>
+        <div class="stat-label" data-i18n="analyticsAccuracy">Precisión General</div>
       </div>
       <div class="stat-card">
         <div class="stat-value">${data.examsTaken.length}</div>
-        <div class="stat-label">Simulacros</div>
+        <div class="stat-label" data-i18n="analyticsExams">Simulacros</div>
       </div>
       <div class="stat-card">
         <div class="stat-value">${data.streakDays}</div>
-        <div class="stat-label">Días de Racha</div>
+        <div class="stat-label" data-i18n="analyticsStreak">Días de Racha</div>
       </div>
     </div>`;
-
-    // Domain breakdown
-    html += `<div class="card mb-2"><div class="card-title mb-2">Desglose por Dominio</div>`;
+    html += `<div class="card mb-2"><div class="card-title mb-2" data-i18n="analyticsDomainBreakdown">Desglose por Dominio</div>`;
     html += `<div class="domain-grid" style="margin-top:0">${analysis.map(d => {
       const pct = d.pct !== null ? `${d.pct}%` : '—';
       const pctColor = d.status === 'strong' ? 'var(--success)' :
@@ -161,7 +159,7 @@ const Analytics = {
       return `
         <div class="domain-card" style="cursor:default">
           <div class="domain-header">
-            <span>${d.icon} ${d.nameEs}</span>
+            <span>${d.icon} ${Lang.domainName(d)}</span>
             <span style="color:${pctColor};font-weight:700">${pct}</span>
           </div>
           <div class="progress-bar">
@@ -173,13 +171,13 @@ const Analytics = {
 
     // Last exams
     if (data.examsTaken.length > 0) {
-      html += `<div class="card"><div class="card-title mb-2">Historial de Simulacros</div>`;
+      html += `<div class="card"><div class="card-title mb-2" data-i18n="analyticsExamHistory">Historial de Simulacros</div>`;
       const lastExams = [...data.examsTaken].reverse().slice(0, 5);
       html += lastExams.map((e, i) => {
         const d = new Date(e.date);
         const passed = e.pct >= 83;
         return `<div class="weakness-item" style="justify-content:space-between">
-          <div><strong>Simulacro #${data.examsTaken.length - i}</strong> — ${d.toLocaleDateString()}</div>
+          <div><strong>${Lang.t('analyticsExam')} #${data.examsTaken.length - i}</strong> — ${d.toLocaleDateString()}</div>
           <div>
             <span style="color:${passed ? 'var(--success)' : 'var(--danger)'};font-weight:600">${e.score}/${e.totalQuestions} (${e.pct}%)</span>
             ${passed ? '✅' : '❌'}
@@ -193,14 +191,14 @@ const Analytics = {
     // Weak areas focus
     const weakOnes = analysis.filter(d => d.status === 'needs-work');
     if (weakOnes.length > 0) {
-      html += `<div class="card mt-2"><div class="card-title mb-2">🔴 Áreas a Reforzar</div>`;
+      html += `<div class="card mt-2"><div class="card-title mb-2" data-i18n="analyticsWeakAreas">🔴 Áreas a Reforzar</div>`;
       html += weakOnes.map(d => `
         <div class="weakness-item">
           <div class="weakness-info">
-            <div class="weakness-name">${d.icon} ${d.nameEs}</div>
-            <div class="weakness-detail">${d.pct}% — ${d.total} preguntas, ${d.correct} correctas</div>
+            <div class="weakness-name">${d.icon} ${Lang.domainName(d)}</div>
+            <div class="weakness-detail">${d.pct}% — ${d.total} ${Lang.t('analyticsQuestions')}, ${d.correct} ${Lang.t('analyticsCorrect')}</div>
           </div>
-          <span class="weakness-status needs-work">Necesita Práctica</span>
+          <span class="weakness-status needs-work" data-i18n="analyticsWeakLabel">Necesita Práctica</span>
         </div>`).join('');
       html += `</div>`;
     }

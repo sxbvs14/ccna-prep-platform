@@ -72,16 +72,16 @@ const ExamSimulator = {
     area.innerHTML = `
       <div class="exam-header">
         <span class="exam-timer" id="examTimerDisplay">${this.formatTime(this.state.timeRemaining)}</span>
-        <span class="exam-progress">Pregunta <strong id="examCurrentNum">1</strong> de ${this.state.totalQuestions}</span>
-        <span class="exam-progress">Respondidas: <strong id="examAnsweredCount">0</strong></span>
-        <button class="btn btn-secondary btn-sm" id="btnFlagQuestion">🚩 Marcar</button>
+        <span class="exam-progress">${Lang.t('examQuestion')} <strong id="examCurrentNum">1</strong> ${Lang.t('examScore')} ${this.state.totalQuestions}</span>
+        <span class="exam-progress">${Lang.t('examAnswered')} <strong id="examAnsweredCount">0</strong></span>
+        <button class="btn btn-secondary btn-sm" id="btnFlagQuestion">🚩 ${Lang.t('examFlag')}</button>
       </div>
       <div class="exam-question-nav" id="examQuestionNav"></div>
       <div id="examQuestionCard"></div>
       <div class="exam-actions">
-        <button class="btn btn-secondary" id="btnPrevQuestion" disabled>← Anterior</button>
-        <button class="btn btn-primary" id="btnNextQuestion">Siguiente →</button>
-        <button class="btn btn-danger btn-sm" id="btnEndExam">Finalizar</button>
+        <button class="btn btn-secondary" id="btnPrevQuestion" disabled>← ${Lang.t('examPrev')}</button>
+        <button class="btn btn-primary" id="btnNextQuestion">${Lang.t('examNext')} →</button>
+        <button class="btn btn-danger btn-sm" id="btnEndExam">${Lang.t('examEnd')}</button>
       </div>
     `;
 
@@ -142,11 +142,12 @@ const ExamSimulator = {
     document.getElementById('examCurrentNum').textContent = index + 1;
 
     let html = `<div class="question-card fade-in">
-      <div class="question-number">PREGUNTA ${index + 1} · ${CCNA_DOMAINS[q.domain].nameEs} · ${q.type === 'multi' ? 'Selección Múltiple' : 'Opción Única'}</div>
-      <div class="question-text">${q.text}</div>
+      <div class="question-number">${Lang.t('examQuestion')} ${index + 1} · ${Lang.domainName(CCNA_DOMAINS[q.domain])} · ${q.type === 'multi' ? Lang.t('examMultiQuestion') : Lang.t('examSingleQuestion')}</div>
+      <div class="question-text">${Lang.questionText(q)}</div>
       <ul class="option-list">`;
 
-    q.options.forEach((opt, oi) => {
+    const options = Lang.questionOptions(q);
+    options.forEach((opt, oi) => {
       let cls = 'option-item';
       if (isMulti) {
         if (selected && Array.isArray(selected) && selected.includes(oi)) cls += ' selected';
@@ -221,11 +222,11 @@ const ExamSimulator = {
   confirmEnd() {
     const unanswered = this.state.totalQuestions - Object.keys(this.state.answers).length;
     if (unanswered > 0) {
-      if (confirm(`⚠️ Tenés ${unanswered} preguntas sin responder. ¿Seguro querés finalizar?`)) {
+      if (confirm(`⚠️ ${unanswered} ${Lang.t('examConfirmUnanswered')}`)) {
         this.finish();
       }
     } else {
-      if (confirm('¿Finalizar el simulacro?')) {
+      if (confirm(Lang.t('examConfirmEnd'))) {
         this.finish();
       }
     }
@@ -278,20 +279,20 @@ const ExamSimulator = {
     resultsDiv.classList.remove('hidden');
     resultsDiv.innerHTML = `
       <div class="results-container fade-in">
-        <h2 style="margin-bottom:20px">${passed ? '🎉 ¡Aprobaste!' : '📚 Seguí practicando'}</h2>
+        <h2 style="margin-bottom:20px">${passed ? Lang.t('examPassed') : Lang.t('examFailed')}</h2>
         <div class="result-score-ring" style="--score-pct:${pct}%">
           <div class="result-score">${pct}%</div>
         </div>
         <div class="result-grade ${passed ? 'pass' : 'fail'}">
-          ${score} de ${s.totalQuestions} correctas — ${passed ? '¡Pasaste el corte de 825/1000!' : 'El corte es ~83% (825/1000). ¡No te rindas!'}
+          ${score} ${Lang.t('examScore')} ${s.totalQuestions} ${Lang.t('examCorrect')} — ${passed ? Lang.t('examPassNote') : Lang.t('examFailNote')}
         </div>
-        <div style="font-size:0.85rem;color:var(--text-muted)">Tiempo: ${s.timeTaken} minutos</div>
+        <div style="font-size:0.85rem;color:var(--text-muted)">${Lang.t('examTimeTaken')}: ${s.timeTaken} min</div>
 
         <div class="result-breakdown">
           ${Object.entries(domainResults).map(([domain, d]) => {
             const dpct = Math.round((d.correct / d.total) * 100);
             const icon = CCNA_DOMAINS[domain].icon;
-            const name = CCNA_DOMAINS[domain].nameEs;
+            const name = Lang.domainName(CCNA_DOMAINS[domain]);
             const color = dpct >= 83 ? 'var(--success)' : dpct >= 60 ? 'var(--warning)' : 'var(--danger)';
             return `<div class="stat-card" style="padding:14px">
               <div style="font-size:1.5rem">${icon}</div>
@@ -303,9 +304,9 @@ const ExamSimulator = {
         </div>
 
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px">
-          <button class="btn btn-primary" id="btnExamReview">🔍 Revisar Respuestas</button>
-          <button class="btn btn-secondary" id="btnExamRetry">🔄 Nuevo Simulacro</button>
-          <button class="btn btn-secondary" id="btnExamDashboard">📊 Dashboard</button>
+          <button class="btn btn-primary" id="btnExamReview">${Lang.t('examReview')}</button>
+          <button class="btn btn-secondary" id="btnExamRetry">${Lang.t('examRetry')}</button>
+          <button class="btn btn-secondary" id="btnExamDashboard">${Lang.t('examDashboard')}</button>
         </div>
 
         <div id="examReviewArea" class="hidden mt-2"></div>
@@ -331,7 +332,7 @@ const ExamSimulator = {
     area.classList.remove('hidden');
     const s = this.state;
 
-    let html = '<h3 style="margin-top:20px">Revisión de Respuestas</h3>';
+    let html = `<h3 style="margin-top:20px">${Lang.t('examReviewTitle')}</h3>`;
     s.questions.forEach((q, i) => {
       const userAnswer = s.answers[i];
       let isCorrect = false;
@@ -350,25 +351,25 @@ const ExamSimulator = {
       html += `<div class="question-card" style="text-align:left;border-left:3px solid ${statusColor}">
         <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
           <span>${statusIcon}</span>
-          <strong>Pregunta ${i + 1}</strong>
-          <span style="color:var(--text-muted);font-size:0.8rem">${CCNA_DOMAINS[q.domain].nameEs}</span>
+          <strong>${Lang.t('practiceQuestion')} ${i + 1}</strong>
+          <span style="color:var(--text-muted);font-size:0.8rem">${Lang.domainName(CCNA_DOMAINS[q.domain])}</span>
         </div>
-        <div style="margin-bottom:8px">${q.text}</div>
+        <div style="margin-bottom:8px">${Lang.questionText(q)}</div>
         <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:4px">
-          Tu respuesta: <strong style="color:${statusColor}">${
-            userAnswer === undefined ? 'Sin responder' :
+          ${Lang.t('examYourAnswer')} <strong style="color:${statusColor}">${
+            userAnswer === undefined ? Lang.t('examUnanswered') :
             Array.isArray(userAnswer) ? userAnswer.map(a => String.fromCharCode(65 + a)).join(', ') :
             String.fromCharCode(65 + userAnswer)
           }</strong>
         </div>
         <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:8px">
-          Correcta: <strong style="color:var(--success)">${
+          ${Lang.t('examCorrectAnswer')} <strong style="color:var(--success)">${
             Array.isArray(q.answer) ? q.answer.map(a => String.fromCharCode(65 + a)).join(', ') :
             String.fromCharCode(65 + q.answer)
           }</strong>
         </div>
         <div class="explanation-panel show" style="margin-top:8px;border:none;background:var(--bg-card)">
-          <div class="exp-text">💡 ${q.explanation}</div>
+          <div class="exp-text">💡 ${Lang.questionExplanation(q)}</div>
         </div>
       </div>`;
     });

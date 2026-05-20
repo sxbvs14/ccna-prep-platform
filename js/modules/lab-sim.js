@@ -27,12 +27,12 @@ const LabSim = {
 
     // Scenario
     document.getElementById('labScenario').innerHTML = `
-      ${lab.scenario}
+      ${Lang.labScenario(lab)}
       <div class="lab-question" id="labQuestionArea">
-        <h4 style="color:var(--accent-light);margin-bottom:10px">🔍 Pregunta de Troubleshooting</h4>
-        <p style="margin-bottom:12px">${lab.question}</p>
+        <h4 style="color:var(--accent-light);margin-bottom:10px">🔍 ${Lang.t('labsQuestionLabel')}</h4>
+        <p style="margin-bottom:12px">${Lang.labQuestion(lab)}</p>
         <ul class="option-list" id="labOptions">
-          ${lab.options.map((opt, i) => `
+          ${Lang.labOptions(lab).map((opt, i) => `
             <li class="option-item" data-oi="${i}">
               <div class="option-marker">${String.fromCharCode(65 + i)}</div>
               <span>${opt}</span>
@@ -47,7 +47,7 @@ const LabSim = {
     const selector = document.getElementById('labSelector');
     if (selector && selector.options.length === 0) {
       selector.innerHTML = LAB_SCENARIOS.map(l =>
-        `<option value="${l.id}">${l.title} (${l.difficulty})</option>`
+        `<option value="${l.id}">${Lang.isEn() ? (l.titleEn || l.title) : l.title} (${Lang.t('practiceDiff' + l.difficulty.charAt(0).toUpperCase() + l.difficulty.slice(1))})</option>`
       ).join('');
       selector.value = lab.id;
       selector.addEventListener('change', (e) => {
@@ -61,9 +61,8 @@ const LabSim = {
     this.outputLines = [
       `<span class="highlight">╔══════════════════════════════════════╗</span>`,
       `<span class="highlight">║   CCNA Lab Simulator — Cisco IOS   ║</span>`,
-      `<span class="highlight">║   Tipo '?' para ver comandos        ║</span>`,
-      `<span class="highlight">║   Tipo 'host SW1'/'host SW2' para    ║</span>`,
-      `<span class="highlight">║   cambiar de dispositivo            ║</span>`,
+      `<span class="highlight">║   ${Lang.t('labsCmdHelp')}       ║</span>`,
+      `<span class="highlight">║   ${Lang.t('labsCmdHost')}    ║</span>`,
       `<span class="highlight">╚══════════════════════════════════════╝</span>`,
       ``
     ];
@@ -85,7 +84,7 @@ const LabSim = {
 
     // Special commands
     if (cmdLower === 'clear' || cmdLower === 'cls') {
-      this.outputLines = [`<span class="highlight">Terminal limpiada.</span>`];
+      this.outputLines = [`<span class="highlight">${Lang.t('labsTermCleared')}</span>`];
       this.updateOutput();
       return;
     }
@@ -94,11 +93,11 @@ const LabSim = {
       const target = cmd.split(' ')[1].toUpperCase();
       if (lab.hosts.includes(target)) {
         this.currentHost = target;
-        this.outputLines.push(`<span class="highlight">[Conectado a ${target}]</span>`);
+        this.outputLines.push(`<span class="highlight">${Lang.t('labsConnected')} ${target}]</span>`);
         document.getElementById('labTermTitle').textContent = `${target}> enable`;
         document.getElementById('labPrompt').textContent = `${target}#`;
       } else {
-        this.outputLines.push(`<span class="error">% Host desconocido: ${target}. Hosts disponibles: ${lab.hosts.join(', ')}</span>`);
+        this.outputLines.push(`<span class="error">% ${Lang.t('labsUnknownHost')} ${target}. ${Lang.t('labsAvailableHosts')}: ${lab.hosts.join(', ')}</span>`);
       }
       this.updateOutput();
       return;
@@ -108,11 +107,11 @@ const LabSim = {
     if (cmdLower === '?' || cmdLower === 'help') {
       const cmds = Object.keys(lab.commands);
       this.outputLines.push(`<span class="prompt">${lab.prompt}</span> <span class="cmd">?</span>`);
-      this.outputLines.push(`<span class="highlight">Comandos disponibles:</span>`);
+      this.outputLines.push(`<span class="highlight">${Lang.t('labsAvailableCmds')}</span>`);
       cmds.forEach(c => this.outputLines.push(`  ${c}`));
-      this.outputLines.push(`  host <name>    — Cambiar de dispositivo`);
-      this.outputLines.push(`  clear/cls      — Limpiar terminal`);
-      this.outputLines.push(`  ?/help         — Mostrar esta ayuda`);
+      this.outputLines.push(`  ${Lang.t('labsChangeHost')}`);
+      this.outputLines.push(`  ${Lang.t('labsClear')}`);
+      this.outputLines.push(`  ${Lang.t('labsHelp')}`);
       this.updateOutput();
       return;
     }
@@ -137,7 +136,7 @@ const LabSim = {
     }
 
     if (!matched) {
-      this.outputLines.push(`<span class="error">% Comando inválido o no disponible en este escenario. Usá '?' para ver comandos disponibles.</span>`);
+      this.outputLines.push(`<span class="error">${Lang.t('labsInvalidCmd')}</span>`);
     }
 
     this.updateOutput();
@@ -158,17 +157,17 @@ const LabSim = {
       this.solved = true;
       feedback.innerHTML = `
         <div class="explanation-panel show">
-          <div class="exp-header correct-header">✅ ¡Correcto! Acertaste el diagnóstico.</div>
-          <div class="exp-text">${lab.explanation}</div>
-          ${lab.solvedCommand ? `<div class="exp-text mt-2"><strong>Solución:</strong> En <code>${lab.solvedHost}</code>, ejecutar:<br><code>${lab.solvedCommand}</code></div>` : ''}
+          <div class="exp-header correct-header">${Lang.t('labsCorrect')}</div>
+          <div class="exp-text">${Lang.labExplanation(lab)}</div>
+          ${lab.solvedCommand ? `<div class="exp-text mt-2"><strong>${Lang.t('labsSolution')}</strong> ${Lang.t('labsSolutionCmd')} <code>${lab.solvedHost}</code>, ${Lang.t('labsExecCmd')}<br><code>${lab.solvedCommand}</code></div>` : ''}
         </div>`;
       Storage.recordLab(lab.id, true);
     } else {
       feedback.innerHTML = `
         <div class="explanation-panel show">
-          <div class="exp-header incorrect-header">❌ Incorrecto. La respuesta correcta es la ${String.fromCharCode(65 + lab.answer)}.</div>
-          <div class="exp-text">${lab.explanation}</div>
-          ${lab.solvedCommand ? `<div class="exp-text mt-2"><strong>Solución:</strong> En <code>${lab.solvedHost}</code>, ejecutar:<br><code>${lab.solvedCommand}</code></div>` : ''}
+          <div class="exp-header incorrect-header">${Lang.t('labsIncorrectPrefix')}${String.fromCharCode(65 + lab.answer)}.</div>
+          <div class="exp-text">${Lang.labExplanation(lab)}</div>
+          ${lab.solvedCommand ? `<div class="exp-text mt-2"><strong>${Lang.t('labsSolution')}</strong> ${Lang.t('labsSolutionCmd')} <code>${lab.solvedHost}</code>, ${Lang.t('labsExecCmd')}<br><code>${lab.solvedCommand}</code></div>` : ''}
         </div>`;
     }
 

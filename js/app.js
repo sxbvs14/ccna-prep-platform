@@ -11,11 +11,68 @@ const App = {
   practiceCorrect: 0,
   practiceMode: 'practice',
 
+  toggleLanguage() {
+    Lang.toggle();
+    this.applyI18n();
+    this.refresh();
+    this.updateHeaderStats();
+    // Re-render current view
+    if (this.currentView === 'tutor') this.renderTutorView();
+    if (this.currentView === 'guide') this.renderGuideView();
+    if (this.currentView === 'labs') this.renderLabView();
+  },
+
+  applyI18n() {
+    // Update html lang attribute
+    document.getElementById('htmlTag').setAttribute('lang', Lang.current);
+    // Update lang toggle button
+    document.getElementById('langLabel').textContent = Lang.isEn() ? 'ES' : 'EN';
+    document.querySelector('.lang-toggle').title = Lang.isEn() ? 'Cambiar a español' : 'Switch to English';
+    // Update all data-i18n elements
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      el.textContent = Lang.t(key);
+    });
+    // Update data-i18n-placeholder elements
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      el.placeholder = Lang.t(el.dataset.i18nPlaceholder);
+    });
+    // Update practice domain dropdown
+    const sel = document.getElementById('practiceDomain');
+    if (sel) {
+      const allOpt = sel.querySelector('option[value="all"]');
+      if (allOpt) allOpt.textContent = Lang.t('practiceDomainAll');
+      sel.querySelectorAll('option[value]').forEach(opt => {
+        if (opt.value !== 'all') {
+          const d = CCNA_DOMAINS[opt.value];
+          if (d) opt.textContent = `${d.icon} ${Lang.domainName(d)}`;
+        }
+      });
+    }
+    // Update difficulty dropdown
+    const diffSel = document.getElementById('practiceDifficulty');
+    if (diffSel) {
+      diffSel.querySelectorAll('option').forEach(opt => {
+        const key = 'practiceDiff' + opt.value.charAt(0).toUpperCase() + opt.value.slice(1);
+        opt.textContent = Lang.t(key);
+      });
+    }
+    // Update tutor welcome
+    const welcomeEl = document.getElementById('tutorWelcomeMsg');
+    if (welcomeEl) {
+      const esWelcome = '👋 ¡Hola! Soy tu tutor CCNA. Puedo explicarte conceptos, ayudarte con troubleshooting, y guiarte según tu desempeño.<br><br><strong>Probá preguntarme:</strong><br>• "¿Cómo funciona OSPF?"<br>• "Explícame subnetting"<br>• "¿Por qué no se forma la adyacencia OSPF?"<br>• "Dame un ejercicio de VLANs"<br>• "¿Qué debo estudiar para aprobar?"';
+      const enWelcome = '👋 Hi! I\'m your CCNA tutor. I can explain concepts, help with troubleshooting, and guide you based on your performance.<br><br><strong>Try asking me:</strong><br>• "How does OSPF work?"<br>• "Explain subnetting"<br>• "Why won\'t OSPF adjacency form?"<br>• "Give me a VLAN exercise"<br>• "What should I study to pass?"';
+      welcomeEl.innerHTML = Lang.isEn() ? enWelcome : esWelcome;
+    }
+  },
+
   init() {
     this.data = Storage.load();
     this.setupNavigation();
     this.setupEventListeners();
     this.renderDashboard();
+    // Apply language settings
+    this.applyI18n();
     this.refresh();
   },
 
@@ -63,7 +120,7 @@ const App = {
         Object.values(CCNA_DOMAINS).forEach(d => {
           const opt = document.createElement('option');
           opt.value = d.id;
-          opt.textContent = `${d.icon} ${d.nameEs}`;
+          opt.textContent = `${d.icon} ${Lang.domainName(d)}`;
           sel.appendChild(opt);
         });
       }
@@ -182,7 +239,7 @@ const App = {
     if (questions.length === 0) {
       document.getElementById('practiceArea').innerHTML = `
         <div class="card text-center">
-          <p class="text-muted">No hay preguntas disponibles con esos filtros. Intentá con otra combinación.</p>
+          <p class="text-muted" data-i18n="practiceNoQuestions">No hay preguntas disponibles con esos filtros. Intentá con otra combinación.</p>
         </div>`;
       return;
     }
@@ -207,14 +264,14 @@ const App = {
 
     document.getElementById('practiceArea').innerHTML = `
       <div class="card-header flex-between mb-2">
-        <span>Pregunta <strong>${this.practiceIndex + 1}</strong> de ${total} · ${CCNA_DOMAINS[q.domain].nameEs} · ${q.difficulty === 'easy' ? '🟢 Fácil' : q.difficulty === 'medium' ? '🟡 Medio' : '🔴 Difícil'}</span>
-        <span>✅ ${this.practiceCorrect}/${this.practiceAnswered} correctas</span>
+        <span>${Lang.t('practiceQuestion')} <strong>${this.practiceIndex + 1}</strong> ${Lang.t('practiceOf')} ${total} · ${Lang.domainName(CCNA_DOMAINS[q.domain])} · ${q.difficulty === 'easy' ? Lang.t('practiceEasy') : q.difficulty === 'medium' ? Lang.t('practiceMedium') : Lang.t('practiceHard')}</span>
+        <span>✅ ${this.practiceCorrect}/${this.practiceAnswered} ${Lang.t('practiceResultsCorrect')}</span>
       </div>
       <div class="question-card">
-        <div class="question-number">${q.type === 'multi' ? 'SELECCIÓN MÚLTIPLE' : 'OPCIÓN ÚNICA'}</div>
-        <div class="question-text">${q.text}</div>
+        <div class="question-number">${q.type === 'multi' ? Lang.t('practiceMulti') : Lang.t('practiceSingle')}</div>
+        <div class="question-text">${Lang.questionText(q)}</div>
         <ul class="option-list" id="practiceOptions">
-          ${q.options.map((opt, i) => `
+           ${Lang.questionOptions(q).map((opt, i) => `
             <li class="option-item" data-oi="${i}">
               <div class="option-marker">${String.fromCharCode(65 + i)}</div>
               <span>${opt.substring(3)}</span>
@@ -305,9 +362,9 @@ const App = {
     exp.innerHTML = `
       <div class="explanation-panel show">
         <div class="exp-header ${isCorrect ? 'correct-header' : 'incorrect-header'}">
-          ${isCorrect ? '✅ ¡Correcto!' : '❌ Incorrecto'}
+          ${isCorrect ? `✅ ${Lang.t('practiceCorrect')}` : `❌ ${Lang.t('practiceIncorrect')}`}
         </div>
-        <div class="exp-text">${q.explanation}</div>
+        <div class="exp-text">${Lang.questionExplanation(q)}</div>
       </div>
       <button class="btn btn-primary mt-2" id="btnPracticeNext">Siguiente →</button>
     `;
@@ -327,15 +384,15 @@ const App = {
 
     document.getElementById('practiceArea').innerHTML = `
       <div class="card text-center fade-in">
-        <h2 style="margin-bottom:12px">Ronda Completada</h2>
+        <h2 style="margin-bottom:12px">${Lang.t('practiceResultsTitle')}</h2>
         <div class="result-score-ring" style="--score-pct:${pct}%;width:120px;height:120px">
           <div class="result-score" style="font-size:2rem">${pct}%</div>
         </div>
-        <p style="margin:16px 0">${this.practiceCorrect} de ${this.practiceAnswered} correctas</p>
+        <p style="margin:16px 0">${this.practiceCorrect} ${Lang.t('practiceResultsOf')} ${this.practiceAnswered} ${Lang.t('practiceResultsCorrect')}</p>
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-          <button class="btn btn-primary" onclick="App.startPractice()">🔄 Otra Ronda</button>
-          <button class="btn btn-secondary" onclick="App.navigateTo('dashboard')">📊 Dashboard</button>
-          <button class="btn btn-secondary" onclick="App.navigateTo('analytics')">📈 Análisis</button>
+          <button class="btn btn-primary" onclick="App.startPractice()">🔄 ${Lang.t('practiceAnother')}</button>
+          <button class="btn btn-secondary" onclick="App.navigateTo('dashboard')">📊 ${Lang.t('navDashboard')}</button>
+          <button class="btn btn-secondary" onclick="App.navigateTo('analytics')">📈 ${Lang.t('navAnalytics')}</button>
         </div>
       </div>`;
   },
@@ -343,14 +400,24 @@ const App = {
   // ═══ Lab View ═══
   renderLabView() {
     if (LAB_SCENARIOS.length > 0) {
+      // Refresh lab selector labels
+      const selector = document.getElementById('labSelector');
+      if (selector) {
+        const currentVal = selector.value;
+        selector.innerHTML = LAB_SCENARIOS.map(l =>
+          `<option value="${l.id}">${Lang.isEn() ? (l.titleEn || l.title) : l.title}</option>`
+        ).join('');
+        selector.value = currentVal;
+      }
       LabSim.loadLab(LAB_SCENARIOS[0].id);
     }
   },
 
   // ═══ Study Guide View ═══
   renderGuideView() {
+    const guide = Lang.studyGuide();
     const container = document.getElementById('guideContent');
-    container.innerHTML = STUDY_GUIDE.map(section => `
+    container.innerHTML = guide.map(section => `
       <div class="guide-section">
         <div class="guide-header" data-guide="${section.id}">
           <span>${section.icon} <strong>${section.title}</strong></span>
@@ -421,7 +488,7 @@ const App = {
     // Add bot thinking indicator
     const thinkingDiv = document.createElement('div');
     thinkingDiv.className = 'tutor-msg bot';
-    thinkingDiv.textContent = '🤔 Pensando...';
+    thinkingDiv.textContent = Lang.t('tutorThinking');
     thinkingDiv.id = 'tutorThinking';
     messagesDiv.appendChild(thinkingDiv);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;

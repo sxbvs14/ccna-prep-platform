@@ -1,6 +1,22 @@
-/* ═══════════════════════════════════════════
-   CCNA Prep Platform — Dark Premium Theme
-   ═══════════════════════════════════════════ */
+.lang-toggle {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  color: var(--text-primary);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: var(--font-sans);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.lang-toggle:hover {
+  border-color: var(--accent);
+  background: var(--accent-muted);
+}
 
 :root {
   --bg-deep: #06060c;

@@ -6,6 +6,7 @@ const LAB_SCENARIOS = [
   {
     id: 'lab-vlan-misconfig',
     title: 'Lab 1: VLAN Mal Configurada',
+    titleEn: 'Lab 1: VLAN Misconfiguration',
     difficulty: 'medium',
     domain: 'network_access',
     scenario: `<h3>🔧 Escenario: VLAN Mal Configurada</h3>
@@ -13,6 +14,11 @@ const LAB_SCENARIOS = [
 <p><strong>Problema:</strong> PC-A no puede hacer ping a PC-B. Ambas PCs están en la misma subred 192.168.10.0/24.</p>
 <p><strong>Tu tarea:</strong> Usa la CLI simulada en SW1 y SW2 para diagnosticar por qué PC-A y PC-B no se comunican.</p>
 <p><em>Tip: Revisa la configuración de VLANs en los puertos de acceso, el trunk, y las VLANs permitidas.</em></p>`,
+    scenarioEn: `<h3>🔧 Scenario: VLAN Misconfiguration</h3>
+<p><strong>Topology:</strong> PC-A (VLAN 10) ↔ SW1 ↔ SW2 (Trunk) ↔ PC-B (VLAN 10)</p>
+<p><strong>Problem:</strong> PC-A cannot ping PC-B. Both PCs are on the same subnet 192.168.10.0/24.</p>
+<p><strong>Your task:</strong> Use the simulated CLI on SW1 and SW2 to diagnose why PC-A and PC-B cannot communicate.</p>
+<p><em>Tip: Check the VLAN configuration on access ports, the trunk, and allowed VLANs.</em></p>`,
     hosts: ['SW1', 'SW2'],
     initialHost: 'SW1',
     prompt: 'SW1#',
@@ -101,14 +107,22 @@ Success rate is 0 percent (0/5)`
       }
     },
     question: '¿Cuál es la causa raíz del problema de conectividad entre PC-A y PC-B?',
+    questionEn: 'What is the root cause of the connectivity issue between PC-A and PC-B?',
     options: [
       'A. El trunk entre SW1 y SW2 está caído',
       'B. PC-B está en VLAN 20 en lugar de VLAN 10',
       'C. La VLAN 10 no está permitida en el trunk de SW1',
       'D. La VLAN 10 no existe en SW2'
     ],
+    optionsEn: [
+      'A. The trunk between SW1 and SW2 is down',
+      'B. PC-B is on VLAN 20 instead of VLAN 10',
+      'C. VLAN 10 is not allowed on the SW1 trunk',
+      'D. VLAN 10 does not exist on SW2'
+    ],
     answer: 1,
     explanation: 'PC-B está configurada en el puerto Gi0/5 de SW2 como access VLAN 20, no VLAN 10. Aunque ambas PCs están en la misma subred IP, pertenecen a diferentes VLANs (PC-A en VLAN 10, PC-B en VLAN 20), por lo que no pueden comunicarse sin un router (inter-VLAN routing). Solución: cambiar SW2 Gi0/5 a `switchport access vlan 10`.',
+    explanationEn: 'PC-B is configured on port Gi0/5 of SW2 as access VLAN 20, not VLAN 10. Although both PCs are on the same IP subnet, they belong to different VLANs (PC-A in VLAN 10, PC-B in VLAN 20), so they cannot communicate without a router (inter-VLAN routing). Solution: change SW2 Gi0/5 to `switchport access vlan 10`.',
     solvedCommand: 'switchport access vlan 10',
     solvedHost: 'SW2',
     solvedInterface: 'GigabitEthernet0/5'
@@ -116,6 +130,7 @@ Success rate is 0 percent (0/5)`
   {
     id: 'lab-acl-blocking',
     title: 'Lab 2: ACL Bloqueando Tráfico',
+    titleEn: 'Lab 2: ACL Blocking Traffic',
     difficulty: 'hard',
     domain: 'security_fundamentals',
     scenario: `<h3>🔒 Escenario: ACL Bloqueando Tráfico Web</h3>
@@ -123,6 +138,11 @@ Success rate is 0 percent (0/5)`
 <p><strong>Problema:</strong> La PC no puede acceder al servidor web en 203.0.113.80. Otros servicios (DNS, SSH) funcionan correctamente desde la PC.</p>
 <p><strong>Tu tarea:</strong> Diagnostica por qué el tráfico HTTP/HTTPS está bloqueado usando comandos show en R1.</p>
 <p><em>Tip: Revisa las ACLs aplicadas, presta atención a la dirección y máscara wildcard.</em></p>`,
+    scenarioEn: `<h3>🔒 Scenario: ACL Blocking Web Traffic</h3>
+<p><strong>Topology:</strong> PC (192.168.1.10) ↔ R1 ↔ Internet (Web Server: 203.0.113.80:80)</p>
+<p><strong>Problem:</strong> The PC cannot access the web server at 203.0.113.80. Other services (DNS, SSH) work correctly from the PC.</p>
+<p><strong>Your task:</strong> Diagnose why HTTP/HTTPS traffic is blocked using show commands on R1.</p>
+<p><em>Tip: Review the applied ACLs, pay attention to the source address and wildcard mask.</em></p>`,
     hosts: ['R1'],
     initialHost: 'R1',
     prompt: 'R1#',
@@ -165,20 +185,29 @@ GigabitEthernet0/1      192.168.1.1     YES manual up                    up`
       }
     },
     question: '¿Por qué la PC (192.168.1.10) no puede acceder al servidor web en 203.0.113.80?',
+    questionEn: 'Why can the PC (192.168.1.10) not access the web server at 203.0.113.80?',
     options: [
       'A. No hay ruta hacia 203.0.113.80',
       'B. La ACL BLOCK_WEB deniega tráfico TCP puerto 80 de la subred 192.168.1.0/25',
       'C. La interfaz GigabitEthernet0/1 está caída',
       'D. La ACL PROTECT_IN está bloqueando el tráfico'
     ],
+    optionsEn: [
+      'A. There is no route to 203.0.113.80',
+      'B. The ACL BLOCK_WEB denies TCP port 80 traffic from subnet 192.168.1.0/25',
+      'C. Interface GigabitEthernet0/1 is down',
+      'D. ACL PROTECT_IN is blocking the traffic'
+    ],
     answer: 1,
     explanation: 'La ACL BLOCK_WEB está aplicada inbound en Gi0/1. La primera entrada deniega tráfico TCP de 192.168.1.0/25 (wildcard 0.0.0.127 = /25, que cubre 192.168.1.0 - 192.168.1.127) hacia 203.0.113.80:80. La PC (192.168.1.10) cae dentro de este rango. La ACL fue probablemente mal configurada — si la intención era bloquear solo un rango pequeño, la wildcard debería ser más restrictiva. Solución: remover o ajustar la ACL.',
+    explanationEn: 'The BLOCK_WEB ACL is applied inbound on Gi0/1. The first entry denies TCP traffic from 192.168.1.0/25 (wildcard 0.0.0.127 = /25, covering 192.168.1.0 - 192.168.1.127) to 203.0.113.80:80. The PC (192.168.1.10) falls within this range. The ACL was likely misconfigured — if the intention was to block only a small range, the wildcard should be more restrictive. Solution: remove or adjust the ACL.',
     solvedCommand: 'no access-list 150',
     solvedHost: 'R1'
   },
   {
     id: 'lab-dhcp-issue',
     title: 'Lab 3: Falla en DHCP',
+    titleEn: 'Lab 3: DHCP Failure',
     difficulty: 'medium',
     domain: 'ip_services',
     scenario: `<h3>⚙️ Escenario: Cliente Sin Dirección IP</h3>
@@ -186,6 +215,11 @@ GigabitEthernet0/1      192.168.1.1     YES manual up                    up`
 <p><strong>Problema:</strong> La PC no recibe dirección IP por DHCP. La configuración manual funciona correctamente.</p>
 <p><strong>Tu tarea:</strong> Investiga por qué el servidor DHCP en R1 no está respondiendo a las solicitudes.</p>
 <p><em>Tip: Verifica la configuración del pool DHCP, el estado del servicio, y posibles exclusiones.</em></p>`,
+    scenarioEn: `<h3>⚙️ Scenario: Client Without IP Address</h3>
+<p><strong>Topology:</strong> PC (DHCP Client) ↔ SW1 ↔ R1 (DHCP Server)</p>
+<p><strong>Problem:</strong> The PC does not receive an IP address via DHCP. Manual configuration works correctly.</p>
+<p><strong>Your task:</strong> Investigate why the DHCP server on R1 is not responding to requests.</p>
+<p><em>Tip: Check the DHCP pool configuration, service status, and possible exclusions.</em></p>`,
     hosts: ['R1'],
     initialHost: 'R1',
     prompt: 'R1#',
@@ -234,20 +268,29 @@ ip dhcp pool LAN
       }
     },
     question: '¿Por qué la PC nueva no recibe dirección IP del servidor DHCP?',
+    questionEn: 'Why does the new PC not receive an IP address from the DHCP server?',
     options: [
       'A. El servicio DHCP no está corriendo en R1',
       'B. El pool DHCP está agotado — todas las direcciones están asignadas',
       'C. La PC está en la VLAN incorrecta',
       'D. El default-router está mal configurado'
     ],
+    optionsEn: [
+      'A. The DHCP service is not running on R1',
+      'B. The DHCP pool is exhausted — all addresses are allocated',
+      'C. The PC is on the wrong VLAN',
+      'D. The default-router is misconfigured'
+    ],
     answer: 1,
     explanation: 'El pool DHCP "LAN" está completamente agotado (254 de 254 direcciones arrendadas, utilization 100%). Solo hay 254 direcciones en el pool (192.168.1.1 a 192.168.1.254) y las primeras 10 están excluidas. El lease time es de solo 8 horas, pero todos los leases están activos. Soluciones: (1) Reducir el lease time, (2) Expandir el rango excluyendo menos direcciones, (3) Crear un nuevo pool con una subred más grande (ej. /23).',
+    explanationEn: 'The DHCP pool "LAN" is completely exhausted (254 out of 254 addresses leased, utilization 100%). There are only 254 addresses in the pool (192.168.1.1 to 192.168.1.254) and the first 10 are excluded. The lease time is only 8 hours, but all leases are still active. Solutions: (1) Reduce the lease time, (2) Expand the range by excluding fewer addresses, (3) Create a new pool with a larger subnet (e.g., /23).',
     solvedCommand: 'ip dhcp pool LAN\n network 192.168.1.0 255.255.254.0',
     solvedHost: 'R1'
   },
   {
     id: 'lab-ospf-neighbor',
     title: 'Lab 4: Vecino OSPF No Se Establece',
+    titleEn: 'Lab 4: OSPF Neighbor Not Forming',
     difficulty: 'hard',
     domain: 'ip_connectivity',
     scenario: `<h3>🔗 Escenario: Adyacencia OSPF Caída</h3>
@@ -255,6 +298,11 @@ ip dhcp pool LAN
 <p><strong>Problema:</strong> R1 y R2 no forman adyacencia OSPF. El enlace serial está físicamente up.</p>
 <p><strong>Tu tarea:</strong> Diagnostica por qué los vecinos OSPF no se establecen. Revisa timers, áreas, autenticación, y tipos de red.</p>
 <p><em>Tip: Compara las configuraciones OSPF de ambos lados del enlace punto a punto.</em></p>`,
+    scenarioEn: `<h3>🔗 Scenario: OSPF Adjacency Down</h3>
+<p><strong>Topology:</strong> R1 (Area 0) ---serial link--- R2 (Area 0)</p>
+<p><strong>Problem:</strong> R1 and R2 are not forming an OSPF adjacency. The serial link is physically up.</p>
+<p><strong>Your task:</strong> Diagnose why the OSPF neighbors are not establishing. Check timers, areas, authentication, and network types.</p>
+<p><em>Tip: Compare the OSPF configurations on both sides of the point-to-point link.</em></p>`,
     hosts: ['R1', 'R2'],
     initialHost: 'R1',
     prompt: 'R1#',
@@ -309,20 +357,29 @@ GigabitEthernet0/0      172.16.1.1      YES manual up                    up`
       }
     },
     question: '¿Cuáles son los DOS problemas que previenen la adyacencia OSPF entre R1 y R2?',
+    questionEn: 'What are the TWO problems preventing the OSPF adjacency between R1 and R2?',
     options: [
       'A. Los router IDs están duplicados y el costo no coincide',
       'B. Las áreas no coinciden (R1 Área 0, R2 Área 1) y los tipos de red/timers son diferentes',
       'C. La autenticación OSPF no está configurada y el MTU no coincide',
       'D. La subred IP no es /30 y los process IDs no coinciden'
     ],
+    optionsEn: [
+      'A. The router IDs are duplicated and the cost does not match',
+      'B. The areas do not match (R1 Area 0, R2 Area 1) and the network types/timers are different',
+      'C. OSPF authentication is not configured and the MTU does not match',
+      'D. The IP subnet is not /30 and the process IDs do not match'
+    ],
     answer: 1,
     explanation: 'Dos problemas: (1) R1 está en Área 0 pero R2 está en Área 1 — para formar adyacencia, ambos extremos del enlace deben estar en la misma área OSPF. (2) R1 tiene el tipo de red POINT_TO_POINT (Hello 10s) mientras R2 tiene NON_BROADCAST (Hello 30s) — los timers de Hello y Dead deben coincidir. Solución: configurar ambos en la misma área y el mismo tipo de red.',
+    explanationEn: 'Two problems: (1) R1 is in Area 0 but R2 is in Area 1 — to form an adjacency, both ends of the link must be in the same OSPF area. (2) R1 has network type POINT_TO_POINT (Hello 10s) while R2 has NON_BROADCAST (Hello 30s) — the Hello and Dead timers must match. Solution: configure both in the same area and the same network type.',
     solvedCommand: 'router ospf 1\n network 10.0.0.0 0.0.0.3 area 0\n!\ninterface s0/0/0\n ip ospf network point-to-point',
     solvedHost: 'R2'
   },
   {
     id: 'lab-port-security',
     title: 'Lab 5: Puerto en Err-Disable',
+    titleEn: 'Lab 5: Port in Err-Disable',
     difficulty: 'medium',
     domain: 'security_fundamentals',
     scenario: `<h3>🔒 Escenario: Puerto Deshabilitado por Port Security</h3>
@@ -330,6 +387,11 @@ GigabitEthernet0/0      172.16.1.1      YES manual up                    up`
 <p><strong>Problema:</strong> Un usuario reporta que su PC perdió conectividad después de que un compañero conectó su laptop al mismo puerto.</p>
 <p><strong>Tu tarea:</strong> Diagnostica qué pasó con el puerto Gi0/10 y cómo restaurar la conectividad.</p>
 <p><em>Tip: Revisa el estado del puerto, las violaciones de port security, y las MACs aprendidas.</em></p>`,
+    scenarioEn: `<h3>🔒 Scenario: Port Disabled by Port Security</h3>
+<p><strong>Topology:</strong> PC → SW1 (Gi0/10)</p>
+<p><strong>Problem:</strong> A user reports that their PC lost connectivity after a coworker connected their laptop to the same port.</p>
+<p><strong>Your task:</strong> Diagnose what happened to port Gi0/10 and how to restore connectivity.</p>
+<p><em>Tip: Check the port status, port security violations, and learned MAC addresses.</em></p>`,
     hosts: ['SW1'],
     initialHost: 'SW1',
     prompt: 'SW1#',
@@ -380,20 +442,29 @@ Total Addresses in System: 1`
       }
     },
     question: '¿Qué causó que el puerto Gi0/10 entrara en estado err-disable y cómo se restaura?',
+    questionEn: 'What caused port Gi0/10 to enter err-disable state and how is it restored?',
     options: [
       'A. El puerto fue administrativamente apagado; usar "no shutdown"',
       'B. Se detectó una violación de port security (MAC diferente a la sticky); requiere shutdown + no shutdown',
       'C. El cable está defectuoso; reemplazar el cable',
       'D. STP bloqueó el puerto; configurar PortFast'
     ],
+    optionsEn: [
+      'A. The port was administratively shut down; use "no shutdown"',
+      'B. A port security violation was detected (different MAC than the sticky one); requires shutdown + no shutdown',
+      'C. The cable is faulty; replace the cable',
+      'D. STP blocked the port; configure PortFast'
+    ],
     answer: 1,
     explanation: 'Port Security con violación modo "shutdown" detectó una MAC diferente (00:1A:2B:3C:4D:5F) a la MAC sticky original (00:50:79:66:68:01) cuando otro usuario conectó su laptop. Esto disparó la violación y puso el puerto en err-disable. Solución: `shutdown` + `no shutdown` en la interfaz para restaurar, o `errdisable recovery cause psecure-violation` para autorecuperación.',
+    explanationEn: 'Port Security with violation mode "shutdown" detected a different MAC (00:1A:2B:3C:4D:5F) than the original sticky MAC (00:50:79:66:68:01) when another user connected their laptop. This triggered the violation and put the port in err-disable state. Solution: `shutdown` + `no shutdown` on the interface to restore, or `errdisable recovery cause psecure-violation` for auto-recovery.',
     solvedCommand: 'interface Gi0/10\n shutdown\n no shutdown',
     solvedHost: 'SW1'
   },
   {
     id: 'lab-nat-misconfig',
     title: 'Lab 6: NAT Sin Traducción',
+    titleEn: 'Lab 6: NAT Not Translating',
     difficulty: 'hard',
     domain: 'ip_connectivity',
     scenario: `<h3>🔄 Escenario: Hosts Sin Acceso a Internet por NAT</h3>
@@ -401,6 +472,11 @@ Total Addresses in System: 1`
 <p><strong>Problema:</strong> Los hosts de la LAN no pueden acceder a Internet. El enlace al ISP está up.</p>
 <p><strong>Tu tarea:</strong> Diagnosticá por qué NAT no está funcionando. Revisá interfaces inside/outside, ACLs de NAT, y el estado de las traducciones.</p>
 <p><em>Tip: Verificá qué interfaz está configurada como inside y cuál como outside, y si la ACL de NAT es correcta.</em></p>`,
+    scenarioEn: `<h3>🔄 Scenario: Hosts Without Internet Access Due to NAT</h3>
+<p><strong>Topology:</strong> PCs (192.168.1.0/24) ↔ SW1 ↔ R1 (NAT) ↔ ISP (203.0.113.0/30)</p>
+<p><strong>Problem:</strong> The LAN hosts cannot access the Internet. The ISP link is up.</p>
+<p><strong>Your task:</strong> Diagnose why NAT is not working. Check inside/outside interfaces, NAT ACLs, and translation status.</p>
+<p><em>Tip: Verify which interface is configured as inside and which as outside, and whether the NAT ACL is correct.</em></p>`,
     hosts: ['R1'],
     initialHost: 'R1',
     prompt: 'R1#',
@@ -455,20 +531,29 @@ Success rate is 100 percent (5/5)`
       }
     },
     question: '¿Por qué los hosts de la LAN 192.168.1.0/24 no pueden acceder a Internet a través de NAT?',
+    questionEn: 'Why can the LAN hosts on 192.168.1.0/24 not access the Internet through NAT?',
     options: [
       'A. La interfaz Gi0/0 tiene ip nat outside pero debería tener ip nat inside',
       'B. No hay ruta hacia Internet',
       'C. La ACL 10 solo permite 192.168.2.0/24 y 192.168.3.0/24 — no incluye 192.168.1.0/24',
       'D. El pool NAT-POOL está agotado'
     ],
+    optionsEn: [
+      'A. Interface Gi0/0 has ip nat outside but should have ip nat inside',
+      'B. There is no route to the Internet',
+      'C. ACL 10 only permits 192.168.2.0/24 and 192.168.3.0/24 — it does not include 192.168.1.0/24',
+      'D. The NAT-POOL is exhausted'
+    ],
     answer: 2,
     explanation: 'La ACL 10 usada para NAT solo tiene entradas para 192.168.2.0/24 y 192.168.3.0/24, pero la LAN real usa 192.168.1.0/24. Por eso no hay traducciones (0 translations). Solución: agregar `access-list 10 permit 192.168.1.0 0.0.0.255` o cambiar a PAT con `ip nat inside source list 10 interface Gi0/0 overload`.',
+    explanationEn: 'ACL 10 used for NAT only has entries for 192.168.2.0/24 and 192.168.3.0/24, but the actual LAN uses 192.168.1.0/24. That is why there are no translations (0 translations). Solution: add `access-list 10 permit 192.168.1.0 0.0.0.255` or switch to PAT with `ip nat inside source list 10 interface Gi0/0 overload`.',
     solvedCommand: 'access-list 10 permit 192.168.1.0 0.0.0.255',
     solvedHost: 'R1'
   },
   {
     id: 'lab-stp-root',
     title: 'Lab 7: STP — Root Bridge Subóptimo',
+    titleEn: 'Lab 7: STP — Suboptimal Root Bridge',
     difficulty: 'hard',
     domain: 'network_access',
     scenario: `<h3>🌲 Escenario: Tráfico Toma Ruta Subóptima por STP</h3>
@@ -476,6 +561,11 @@ Success rate is 100 percent (5/5)`
 <p><strong>Problema:</strong> El tráfico entre SW-Access y SW-Core está tomando una ruta de 3 saltos en vez de 1 salto directo. La latencia es alta.</p>
 <p><strong>Tu tarea:</strong> Diagnosticá por qué STP está bloqueando el enlace directo y cómo forzar la topología correcta.</p>
 <p><em>Tip: Revisá quién es el Root Bridge, el costo de los enlaces, y los roles de puerto.</em></p>`,
+    scenarioEn: `<h3>🌲 Scenario: Traffic Takes Suboptimal Path Due to STP</h3>
+<p><strong>Topology:</strong> SW-Core ↔ SW-Dist1 ↔ SW-Dist2 ↔ SW-Access (triangle with redundant links)</p>
+<p><strong>Problem:</strong> Traffic between SW-Access and SW-Core is taking a 3-hop path instead of a direct 1-hop path. Latency is high.</p>
+<p><strong>Your task:</strong> Diagnose why STP is blocking the direct link and how to force the correct topology.</p>
+<p><em>Tip: Check who the Root Bridge is, the link costs, and port roles.</em></p>`,
     hosts: ['SW-Core', 'SW-Dist1', 'SW-Access'],
     initialHost: 'SW-Core',
     prompt: 'SW-Core#',
@@ -537,14 +627,22 @@ Gi0/2     Link to SW-Dist2    connected    trunk      a-full  a-1000`
       }
     },
     question: '¿Por qué el enlace directo Gi0/1 entre SW-Access y SW-Core está bloqueado (Role: Altn, Status: BLK) y cómo se soluciona?',
+    questionEn: 'Why is the direct link Gi0/1 between SW-Access and SW-Core blocked (Role: Altn, Status: BLK) and how is it resolved?',
     options: [
       'A. El enlace Gi0/1 tiene un costo STP de 100 mientras Gi0/2 tiene costo 4, haciendo que STP prefiera Gi0/2. Solución: cambiar el costo del enlace directo.',
       'B. El Root Bridge está mal configurado; no se puede solucionar',
       'C. BPDU Guard bloqueó el puerto; deshabilitar BPDU Guard',
       'D. La VLAN 10 no está permitida en el trunk Gi0/1'
     ],
+    optionsEn: [
+      'A. Link Gi0/1 has an STP cost of 100 while Gi0/2 has cost 4, making STP prefer Gi0/2. Solution: change the cost of the direct link.',
+      'B. The Root Bridge is misconfigured; it cannot be fixed',
+      'C. BPDU Guard blocked the port; disable BPDU Guard',
+      'D. VLAN 10 is not allowed on trunk Gi0/1'
+    ],
     answer: 0,
     explanation: 'STP elige la ruta de menor costo al Root Bridge. SW-Access ve dos caminos a SW-Core (el Root): directo por Gi0/1 con costo 100, o vía SW-Dist1→SW-Dist2 por Gi0/2 con costo 4+4+4=12. STP prefiere la ruta de costo 12 (!) y bloquea Gi0/1. Esto es porque Gi0/1 en SW-Access está conectado a Gi0/2 en SW-Core que opera a 100 Mbps (costo 100 en STP clásico con ref 100 Mbps), mientras que los enlaces entre switches de distribución operan a 1 Gbps (costo 4). Solución: `spanning-tree vlan 10 cost 3` en Gi0/1 o `spanning-tree vlan 10 port-priority 64` para forzar el camino directo.',
+    explanationEn: 'STP selects the lowest-cost path to the Root Bridge. SW-Access sees two paths to SW-Core (the Root): direct via Gi0/1 with cost 100, or via SW-Dist1→SW-Dist2 through Gi0/2 with cost 4+4+4=12. STP prefers the cost 12 path (!) and blocks Gi0/1. This is because Gi0/1 on SW-Access connects to Gi0/2 on SW-Core which operates at 100 Mbps (cost 100 in classic STP at 100 Mbps reference), while the links between distribution switches operate at 1 Gbps (cost 4). Solution: `spanning-tree vlan 10 cost 3` on Gi0/1 or `spanning-tree vlan 10 port-priority 64` to force the direct path.',
     solvedCommand: 'interface Gi0/1\n spanning-tree vlan 10 cost 3',
     solvedHost: 'SW-Access'
   }
