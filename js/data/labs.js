@@ -8,7 +8,7 @@ const LAB_SCENARIOS = [
     title: 'Lab 1: VLAN Mal Configurada',
     titleEn: 'Lab 1: VLAN Misconfiguration',
     difficulty: 'medium',
-    domain: 'network_access',
+    domain: 'switching_network_access',
     scenario: `<h3>🔧 Escenario: VLAN Mal Configurada</h3>
 <p><strong>Topología:</strong> PC-A (VLAN 10) ↔ SW1 ↔ SW2 (Trunk) ↔ PC-B (VLAN 10)</p>
 <p><strong>Problema:</strong> PC-A no puede hacer ping a PC-B. Ambas PCs están en la misma subred 192.168.10.0/24.</p>
@@ -132,7 +132,7 @@ Success rate is 0 percent (0/5)`
     title: 'Lab 2: ACL Bloqueando Tráfico',
     titleEn: 'Lab 2: ACL Blocking Traffic',
     difficulty: 'hard',
-    domain: 'security_fundamentals',
+    domain: 'network_services_security',
     scenario: `<h3>🔒 Escenario: ACL Bloqueando Tráfico Web</h3>
 <p><strong>Topología:</strong> PC (192.168.1.10) ↔ R1 ↔ Internet (Servidor Web: 203.0.113.80:80)</p>
 <p><strong>Problema:</strong> La PC no puede acceder al servidor web en 203.0.113.80. Otros servicios (DNS, SSH) funcionan correctamente desde la PC.</p>
@@ -209,7 +209,7 @@ GigabitEthernet0/1      192.168.1.1     YES manual up                    up`
     title: 'Lab 3: Falla en DHCP',
     titleEn: 'Lab 3: DHCP Failure',
     difficulty: 'medium',
-    domain: 'ip_services',
+    domain: 'network_services_security',
     scenario: `<h3>⚙️ Escenario: Cliente Sin Dirección IP</h3>
 <p><strong>Topología:</strong> PC (Cliente DHCP) ↔ SW1 ↔ R1 (Servidor DHCP)</p>
 <p><strong>Problema:</strong> La PC no recibe dirección IP por DHCP. La configuración manual funciona correctamente.</p>
@@ -284,7 +284,7 @@ ip dhcp pool LAN
     answer: 1,
     explanation: 'El pool DHCP "LAN" está completamente agotado (254 de 254 direcciones arrendadas, utilization 100%). Solo hay 254 direcciones en el pool (192.168.1.1 a 192.168.1.254) y las primeras 10 están excluidas. El lease time es de solo 8 horas, pero todos los leases están activos. Soluciones: (1) Reducir el lease time, (2) Expandir el rango excluyendo menos direcciones, (3) Crear un nuevo pool con una subred más grande (ej. /23).',
     explanationEn: 'The DHCP pool "LAN" is completely exhausted (254 out of 254 addresses leased, utilization 100%). There are only 254 addresses in the pool (192.168.1.1 to 192.168.1.254) and the first 10 are excluded. The lease time is only 8 hours, but all leases are still active. Solutions: (1) Reduce the lease time, (2) Expand the range by excluding fewer addresses, (3) Create a new pool with a larger subnet (e.g., /23).',
-    solvedCommand: 'ip dhcp pool LAN\n network 192.168.1.0 255.255.254.0',
+    solvedCommand: 'ip dhcp pool LAN\\n network 192.168.1.0 255.255.254.0',
     solvedHost: 'R1'
   },
   {
@@ -292,7 +292,7 @@ ip dhcp pool LAN
     title: 'Lab 4: Vecino OSPF No Se Establece',
     titleEn: 'Lab 4: OSPF Neighbor Not Forming',
     difficulty: 'hard',
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     scenario: `<h3>🔗 Escenario: Adyacencia OSPF Caída</h3>
 <p><strong>Topología:</strong> R1 (Área 0) ---enlace serial--- R2 (Área 0)</p>
 <p><strong>Problema:</strong> R1 y R2 no forman adyacencia OSPF. El enlace serial está físicamente up.</p>
@@ -373,7 +373,7 @@ GigabitEthernet0/0      172.16.1.1      YES manual up                    up`
     answer: 1,
     explanation: 'Dos problemas: (1) R1 está en Área 0 pero R2 está en Área 1 — para formar adyacencia, ambos extremos del enlace deben estar en la misma área OSPF. (2) R1 tiene el tipo de red POINT_TO_POINT (Hello 10s) mientras R2 tiene NON_BROADCAST (Hello 30s) — los timers de Hello y Dead deben coincidir. Solución: configurar ambos en la misma área y el mismo tipo de red.',
     explanationEn: 'Two problems: (1) R1 is in Area 0 but R2 is in Area 1 — to form an adjacency, both ends of the link must be in the same OSPF area. (2) R1 has network type POINT_TO_POINT (Hello 10s) while R2 has NON_BROADCAST (Hello 30s) — the Hello and Dead timers must match. Solution: configure both in the same area and the same network type.',
-    solvedCommand: 'router ospf 1\n network 10.0.0.0 0.0.0.3 area 0\n!\ninterface s0/0/0\n ip ospf network point-to-point',
+    solvedCommand: 'router ospf 1\\n network 10.0.0.0 0.0.0.3 area 0\\n!\\ninterface s0/0/0\\n ip ospf network point-to-point',
     solvedHost: 'R2'
   },
   {
@@ -381,7 +381,7 @@ GigabitEthernet0/0      172.16.1.1      YES manual up                    up`
     title: 'Lab 5: Puerto en Err-Disable',
     titleEn: 'Lab 5: Port in Err-Disable',
     difficulty: 'medium',
-    domain: 'security_fundamentals',
+    domain: 'network_services_security',
     scenario: `<h3>🔒 Escenario: Puerto Deshabilitado por Port Security</h3>
 <p><strong>Topología:</strong> PC → SW1 (Gi0/10)</p>
 <p><strong>Problema:</strong> Un usuario reporta que su PC perdió conectividad después de que un compañero conectó su laptop al mismo puerto.</p>
@@ -458,7 +458,7 @@ Total Addresses in System: 1`
     answer: 1,
     explanation: 'Port Security con violación modo "shutdown" detectó una MAC diferente (00:1A:2B:3C:4D:5F) a la MAC sticky original (00:50:79:66:68:01) cuando otro usuario conectó su laptop. Esto disparó la violación y puso el puerto en err-disable. Solución: `shutdown` + `no shutdown` en la interfaz para restaurar, o `errdisable recovery cause psecure-violation` para autorecuperación.',
     explanationEn: 'Port Security with violation mode "shutdown" detected a different MAC (00:1A:2B:3C:4D:5F) than the original sticky MAC (00:50:79:66:68:01) when another user connected their laptop. This triggered the violation and put the port in err-disable state. Solution: `shutdown` + `no shutdown` on the interface to restore, or `errdisable recovery cause psecure-violation` for auto-recovery.',
-    solvedCommand: 'interface Gi0/10\n shutdown\n no shutdown',
+    solvedCommand: 'interface Gi0/10\\n shutdown\\n no shutdown',
     solvedHost: 'SW1'
   },
   {
@@ -466,7 +466,7 @@ Total Addresses in System: 1`
     title: 'Lab 6: NAT Sin Traducción',
     titleEn: 'Lab 6: NAT Not Translating',
     difficulty: 'hard',
-    domain: 'ip_connectivity',
+    domain: 'network_services_security',
     scenario: `<h3>🔄 Escenario: Hosts Sin Acceso a Internet por NAT</h3>
 <p><strong>Topología:</strong> PCs (192.168.1.0/24) ↔ SW1 ↔ R1 (NAT) ↔ ISP (203.0.113.0/30)</p>
 <p><strong>Problema:</strong> Los hosts de la LAN no pueden acceder a Internet. El enlace al ISP está up.</p>
@@ -555,7 +555,7 @@ Success rate is 100 percent (5/5)`
     title: 'Lab 7: STP — Root Bridge Subóptimo',
     titleEn: 'Lab 7: STP — Suboptimal Root Bridge',
     difficulty: 'hard',
-    domain: 'network_access',
+    domain: 'switching_network_access',
     scenario: `<h3>🌲 Escenario: Tráfico Toma Ruta Subóptima por STP</h3>
 <p><strong>Topología:</strong> SW-Core ↔ SW-Dist1 ↔ SW-Dist2 ↔ SW-Access (triángulo con enlaces redundantes)</p>
 <p><strong>Problema:</strong> El tráfico entre SW-Access y SW-Core está tomando una ruta de 3 saltos en vez de 1 salto directo. La latencia es alta.</p>
@@ -643,8 +643,119 @@ Gi0/2     Link to SW-Dist2    connected    trunk      a-full  a-1000`
     answer: 0,
     explanation: 'STP elige la ruta de menor costo al Root Bridge. SW-Access ve dos caminos a SW-Core (el Root): directo por Gi0/1 con costo 100, o vía SW-Dist1→SW-Dist2 por Gi0/2 con costo 4+4+4=12. STP prefiere la ruta de costo 12 (!) y bloquea Gi0/1. Esto es porque Gi0/1 en SW-Access está conectado a Gi0/2 en SW-Core que opera a 100 Mbps (costo 100 en STP clásico con ref 100 Mbps), mientras que los enlaces entre switches de distribución operan a 1 Gbps (costo 4). Solución: `spanning-tree vlan 10 cost 3` en Gi0/1 o `spanning-tree vlan 10 port-priority 64` para forzar el camino directo.',
     explanationEn: 'STP selects the lowest-cost path to the Root Bridge. SW-Access sees two paths to SW-Core (the Root): direct via Gi0/1 with cost 100, or via SW-Dist1→SW-Dist2 through Gi0/2 with cost 4+4+4=12. STP prefers the cost 12 path (!) and blocks Gi0/1. This is because Gi0/1 on SW-Access connects to Gi0/2 on SW-Core which operates at 100 Mbps (cost 100 in classic STP at 100 Mbps reference), while the links between distribution switches operate at 1 Gbps (cost 4). Solution: `spanning-tree vlan 10 cost 3` on Gi0/1 or `spanning-tree vlan 10 port-priority 64` to force the direct path.',
-    solvedCommand: 'interface Gi0/1\n spanning-tree vlan 10 cost 3',
+    solvedCommand: 'interface Gi0/1\\n spanning-tree vlan 10 cost 3',
     solvedHost: 'SW-Access'
+  },
+  {
+    id: 'lab-cdp-lldp',
+    title: 'Lab 8: CDP Vecino Visible, LLDP Silencioso',
+    titleEn: 'Lab 8: CDP Neighbor Visible, LLDP Silent',
+    difficulty: 'easy',
+    domain: 'switching_network_access',
+    scenario: `<h3>🔌 Escenario: Descubrimiento de Vecinos Incompleto</h3>
+<p><strong>Topología:</strong> SW1 (Gi0/1) ↔ SW2 (Gi0/1)</p>
+<p><strong>Problema:</strong> Los administradores confían en LLDP para documentar la red, pero note que \`show lldp neighbors\` en SW1 no muestra ningún vecino a pesar de que ambos switches están conectados y operativos. CDP funciona correctamente: \`show cdp neighbors\` sí muestra a SW2 en SW1.</p>
+<p><strong>Tu tarea:</strong> Diagnosticá por qué LLDP no está mostrando vecinos en SW1 y proponé la solución.</p>
+<p><em>Tip: Verificá el estado global de LLDP y la configuración en la interfaz.</em></p>`,
+    scenarioEn: `<h3>🔌 Scenario: Incomplete Neighbor Discovery</h3>
+<p><strong>Topology:</strong> SW1 (Gi0/1) ↔ SW2 (Gi0/1)</p>
+<p><strong>Problem:</strong> Administrators rely on LLDP for network documentation, but notice that \`show lldp neighbors\` on SW1 shows no neighbors despite both switches being connected and operational. CDP works fine: \`show cdp neighbors\` does show SW2 on SW1.</p>
+<p><strong>Your task:</strong> Diagnose why LLDP is not showing neighbors on SW1 and propose the fix.</p>
+<p><em>Tip: Check the global LLDP status and the interface-level configuration.</em></p>`,
+    hosts: ['SW1', 'SW2'],
+    initialHost: 'SW1',
+    prompt: 'SW1#',
+    commands: {
+      'show cdp neighbors': {
+        SW1: `Capability Codes: R - Router, T - Trans Bridge, B - Source Route Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater, P - Phone
+
+Device ID        Local Intrfce     Holdtme    Capability  Platform  Port ID
+SW2              Gig 0/1            132         S          cisco     Gig 0/1`,
+        SW2: `Capability Codes: R - Router, T - Trans Bridge, B - Source Route Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater, P - Phone
+
+Device ID        Local Intrfce     Holdtme    Capability  Platform  Port ID
+SW1              Gig 0/1            146         S          cisco     Gig 0/1`
+      },
+      'show lldp neighbors': {
+        SW1: `(no LLDP neighbors found)`,
+        SW2: `Capability Codes: (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS
+                  (W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
+
+Device ID        Local Intrfce     Hold-time  Capability  Port ID
+SW1              Gig 0/1            120        B           Gig 0/1`
+      },
+      'show lldp neighbors detail': {
+        SW1: `(no LLDP neighbors found)`,
+        SW2: `Local Intf: Gig 0/1
+Chassis id: 0050.7966.6801
+Port id: Gig 0/1
+Port Description: GigabitEthernet0/1
+System Name: SW1
+System Description: Cisco IOS Software, C3560 Software
+Time remaining: 107 seconds
+Hold Time: 120 seconds
+Capabilities: Bridge
+Enabled Capabilities: Bridge
+Management Addresses:
+  IP: 192.168.1.10`
+      },
+      'show lldp': {
+        SW1: `Global LLDP Information:
+  Status: DISABLED
+  LLDP advertisements are sent every 30 seconds
+  LLDP hold time (multipler) value: 4
+  LLDP reinitialization delay: 2 seconds`,
+        SW2: `Global LLDP Information:
+  Status: ENABLED
+  LLDP advertisements are sent every 30 seconds
+  LLDP hold time (multipler) value: 4
+  LLDP reinitialization delay: 2 seconds`
+      },
+      'show running-config | include lldp': {
+        SW1: `(LLDP not configured)`,
+        SW2: `lldp run
+interface GigabitEthernet0/1
+ lldp transmit
+ lldp receive`
+      },
+      'show interfaces status': {
+        SW1: `Port      Name               Status       Vlan       Duplex  Speed Type
+Gi0/1     Link to SW2         connected    trunk      a-full  a-1000 10/100/1000BaseTX`,
+        SW2: `Port      Name               Status       Vlan       Duplex  Speed Type
+Gi0/1     Link to SW1         connected    trunk      a-full  a-1000 10/100/1000BaseTX`
+      },
+      'ping 192.168.1.2': {
+        SW1: `Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.2, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5)`,
+        SW2: `Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5)`
+      }
+    },
+    question: '¿Por qué SW1 no muestra vecinos LLDP a pesar de que CDP funciona y la conectividad es correcta?',
+    questionEn: 'Why does SW1 not show any LLDP neighbors despite CDP working and connectivity being fine?',
+    options: [
+      'A. El puerto entre SW1 y SW2 está caído',
+      'B. LLDP está globalmente deshabilitado en SW1; CDP es un protocolo diferente y funciona independientemente',
+      'C. SW2 no tiene el mismo nombre de VLAN que SW1',
+      'D. LLDP requiere autenticación, que no está configurada'
+    ],
+    optionsEn: [
+      'A. The link between SW1 and SW2 is down',
+      'B. LLDP is globally disabled on SW1; CDP is a different protocol and works independently',
+      'C. SW2 does not have the same VLAN name as SW1',
+      'D. LLDP requires authentication, which is not configured'
+    ],
+    answer: 1,
+    explanation: 'LLDP está deshabilitado globalmente en SW1 (Status: DISABLED en `show lldp`). CDP (Cisco Discovery Protocol) está habilitado por defecto en switches Cisco y funciona de forma independiente a LLDP, por eso CDP muestra vecinos pero LLDP no. La conectividad es correcta como lo muestra el ping exitoso. Solución: configurar `lldp run` en SW1 para habilitar LLDP globalmente.',
+    explanationEn: 'LLDP is globally disabled on SW1 (Status: DISABLED from `show lldp`). CDP (Cisco Discovery Protocol) is enabled by default on Cisco switches and works independently of LLDP, which is why CDP shows neighbors but LLDP does not. Connectivity is fine as shown by the successful ping. Solution: configure `lldp run` on SW1 to enable LLDP globally.',
+    solvedCommand: 'lldp run',
+    solvedHost: 'SW1'
   }
 ];
 

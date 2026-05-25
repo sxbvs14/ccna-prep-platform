@@ -1,52 +1,45 @@
 // ═══════════════════════════════════════════
-// CCNA 200-301 Question Bank
+// CCNA 200-301 v2.0 Question Bank
+// Updated for 2026 exam topics — 5 Domains
 // ═══════════════════════════════════════════
 
 const CCNA_DOMAINS = {
-  network_fundamentals: {
-    id: 'network_fundamentals',
-    name: 'Network Fundamentals',
-    nameEs: 'Fundamentos de Red',
-    pct: 20,
+  network_infrastructure: {
+    id: 'network_infrastructure',
+    name: 'Network Infrastructure and Connectivity',
+    nameEs: 'Infraestructura y Conectividad de Red',
+    pct: 25,
     icon: '🌐',
     color: '#7c3aed'
   },
-  network_access: {
-    id: 'network_access',
-    name: 'Network Access',
-    nameEs: 'Acceso a la Red',
-    pct: 20,
+  switching_network_access: {
+    id: 'switching_network_access',
+    name: 'Switching and Network Access',
+    nameEs: 'Conmutación y Acceso a la Red',
+    pct: 25,
     icon: '🔌',
     color: '#3b82f6'
   },
-  ip_connectivity: {
-    id: 'ip_connectivity',
-    name: 'IP Connectivity',
-    nameEs: 'Conectividad IP',
-    pct: 25,
+  ip_routing: {
+    id: 'ip_routing',
+    name: 'IP Routing',
+    nameEs: 'Enrutamiento IP',
+    pct: 20,
     icon: '🔗',
     color: '#10b981'
   },
-  ip_services: {
-    id: 'ip_services',
-    name: 'IP Services',
-    nameEs: 'Servicios IP',
-    pct: 10,
-    icon: '⚙️',
-    color: '#f59e0b'
-  },
-  security_fundamentals: {
-    id: 'security_fundamentals',
-    name: 'Security Fundamentals',
-    nameEs: 'Fundamentos de Seguridad',
-    pct: 15,
+  network_services_security: {
+    id: 'network_services_security',
+    name: 'Network Services and Security',
+    nameEs: 'Servicios de Red y Seguridad',
+    pct: 20,
     icon: '🔒',
     color: '#ef4444'
   },
-  automation: {
-    id: 'automation',
-    name: 'Automation & Programmability',
-    nameEs: 'Automatización y Programabilidad',
+  ai_network_operations: {
+    id: 'ai_network_operations',
+    name: 'AI, and Network Operations and Management',
+    nameEs: 'IA, Operaciones y Gestión de Red',
     pct: 10,
     icon: '🤖',
     color: '#8b5cf6'
@@ -55,12 +48,13 @@ const CCNA_DOMAINS = {
 
 const QUESTIONS = [
   // ═══════════════════════════════════════
-  // NETWORK FUNDAMENTALS (Questions 1-25)
+  // NETWORK INFRASTRUCTURE (formerly Network Fundamentals)
+  // Questions 1-15, 63, 68, 71, 77, 81, 86, 91, 98
   // ═══════════════════════════════════════
 
   {
     id: 1,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué capa del modelo OSI es responsable del enrutamiento y direccionamiento lógico?',
@@ -83,7 +77,7 @@ const QUESTIONS = [
   },
   {
     id: 2,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'easy',
     type: 'single',
     text: '¿Cuál de los siguientes es un protocolo de Capa 4 que proporciona entrega confiable y orientada a conexión?',
@@ -106,7 +100,7 @@ const QUESTIONS = [
   },
   {
     id: 3,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'medium',
     type: 'single',
     text: 'Un administrador necesita conectar dos switches a través de un enlace de fibra de 10 Gbps. ¿Qué tipo de transceptor SFP debe usar?',
@@ -129,7 +123,7 @@ const QUESTIONS = [
   },
   {
     id: 4,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué comando muestra la tabla ARP en un router Cisco?',
@@ -152,7 +146,7 @@ const QUESTIONS = [
   },
   {
     id: 5,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué tipo de cable se usa para conectar un router a un switch directamente?',
@@ -175,7 +169,7 @@ const QUESTIONS = [
   },
   {
     id: 6,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'hard',
     type: 'single',
     text: '¿Cuántos bits tiene una dirección IPv6?',
@@ -198,7 +192,7 @@ const QUESTIONS = [
   },
   {
     id: 7,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'medium',
     type: 'single',
     text: '¿Cuál es la dirección de loopback en IPv4?',
@@ -221,7 +215,7 @@ const QUESTIONS = [
   },
   {
     id: 8,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué tipo de fibra óptica usa un solo haz de luz láser y es adecuada para largas distancias?',
@@ -244,7 +238,7 @@ const QUESTIONS = [
   },
   {
     id: 9,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'hard',
     type: 'single',
     text: 'En una trama Ethernet, ¿dónde se encapsula el paquete IP?',
@@ -267,7 +261,7 @@ const QUESTIONS = [
   },
   {
     id: 10,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué dispositivo opera en la Capa 2 del modelo OSI y toma decisiones de reenvío basadas en direcciones MAC?',
@@ -290,7 +284,7 @@ const QUESTIONS = [
   },
   {
     id: 11,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'medium',
     type: 'multi',
     text: '¿Cuáles de los siguientes son protocolos de Capa 3? (Selecciona 2)',
@@ -313,7 +307,7 @@ const QUESTIONS = [
   },
   {
     id: 12,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué es una VLAN y en qué capa del modelo OSI opera?',
@@ -336,7 +330,7 @@ const QUESTIONS = [
   },
   {
     id: 13,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'hard',
     type: 'single',
     text: '¿Cuál es la longitud de una dirección MAC?',
@@ -359,7 +353,7 @@ const QUESTIONS = [
   },
   {
     id: 14,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué comando se usa para verificar conectividad básica entre dos hosts en una red IP?',
@@ -382,7 +376,7 @@ const QUESTIONS = [
   },
   {
     id: 15,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué significa CSMA/CD?',
@@ -405,12 +399,13 @@ const QUESTIONS = [
   },
 
   // ═══════════════════════════════════════
-  // NETWORK ACCESS (Questions 16-30)
+  // SWITCHING AND NETWORK ACCESS (formerly Network Access)
+  // Questions 16-25, 66, 72, 78, 83, 88, 94
   // ═══════════════════════════════════════
 
   {
     id: 16,
-    domain: 'network_access',
+    domain: 'switching_network_access',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué protocolo previene bucles en una red con switches redundantes?',
@@ -433,7 +428,7 @@ const QUESTIONS = [
   },
   {
     id: 17,
-    domain: 'network_access',
+    domain: 'switching_network_access',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué comando configura un puerto de switch como access en la VLAN 10?',
@@ -456,7 +451,7 @@ const QUESTIONS = [
   },
   {
     id: 18,
-    domain: 'network_access',
+    domain: 'switching_network_access',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué estándar IEEE define el Spanning Tree Protocol original?',
@@ -479,7 +474,7 @@ const QUESTIONS = [
   },
   {
     id: 19,
-    domain: 'network_access',
+    domain: 'switching_network_access',
     difficulty: 'hard',
     type: 'single',
     text: 'Un administrador configura un trunk entre dos switches Cisco. ¿Cuál de estos protocolos de trunking es propietario de Cisco?',
@@ -502,7 +497,7 @@ const QUESTIONS = [
   },
   {
     id: 20,
-    domain: 'network_access',
+    domain: 'switching_network_access',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué rango de VLANs se considera el rango "normal" en switches Cisco?',
@@ -525,7 +520,7 @@ const QUESTIONS = [
   },
   {
     id: 21,
-    domain: 'network_access',
+    domain: 'switching_network_access',
     difficulty: 'hard',
     type: 'single',
     text: '¿Qué criterio usa STP para seleccionar el Root Bridge?',
@@ -548,7 +543,7 @@ const QUESTIONS = [
   },
   {
     id: 22,
-    domain: 'network_access',
+    domain: 'switching_network_access',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué tecnología agrupa múltiples enlaces físicos en un solo enlace lógico para aumentar ancho de banda y redundancia?',
@@ -571,7 +566,7 @@ const QUESTIONS = [
   },
   {
     id: 23,
-    domain: 'network_access',
+    domain: 'switching_network_access',
     difficulty: 'medium',
     type: 'multi',
     text: '¿Cuáles son estados de puerto en STP? (Selecciona 3)',
@@ -594,7 +589,7 @@ const QUESTIONS = [
   },
   {
     id: 24,
-    domain: 'network_access',
+    domain: 'switching_network_access',
     difficulty: 'hard',
     type: 'single',
     text: '¿Qué función tiene PortFast en STP?',
@@ -617,7 +612,7 @@ const QUESTIONS = [
   },
   {
     id: 25,
-    domain: 'network_access',
+    domain: 'switching_network_access',
     difficulty: 'medium',
     type: 'single',
     text: '¿En qué modo VTP puede un switch crear, modificar y eliminar VLANs?',
@@ -640,12 +635,13 @@ const QUESTIONS = [
   },
 
   // ═══════════════════════════════════════
-  // IP CONNECTIVITY (Questions 26-45)
+  // IP ROUTING (formerly IP Connectivity)
+  // Questions 26-38 (except 31), 64, 69, 73, 79, 82, 87, 92, 96
   // ═══════════════════════════════════════
 
   {
     id: 26,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué comando configura una ruta estática por defecto en un router Cisco?',
@@ -668,7 +664,7 @@ const QUESTIONS = [
   },
   {
     id: 27,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'medium',
     type: 'single',
     text: '¿Cuál es la distancia administrativa (AD) de OSPF?',
@@ -691,7 +687,7 @@ const QUESTIONS = [
   },
   {
     id: 28,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'hard',
     type: 'single',
     text: 'En OSPF, ¿qué tipo de LSA (Link State Advertisement) genera el Designated Router (DR)?',
@@ -714,7 +710,7 @@ const QUESTIONS = [
   },
   {
     id: 29,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué máscara de subred equivale a /24 en notación CIDR?',
@@ -737,7 +733,7 @@ const QUESTIONS = [
   },
   {
     id: 30,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué protocolo proporciona redundancia de primer salto (FHRP) y es propietario de Cisco?',
@@ -758,32 +754,10 @@ const QUESTIONS = [
     ],
     explanationEn: 'HSRP (Hot Standby Router Protocol) is Cisco proprietary. VRRP is standard (RFC 5798). GLBP is also Cisco proprietary but provides load balancing in addition to redundancy. CARP is open source (OpenBSD).'
   },
-  {
-    id: 31,
-    domain: 'ip_connectivity',
-    difficulty: 'hard',
-    type: 'single',
-    text: '¿Qué tipo de NAT traduce una dirección IP privada a una dirección IP pública de forma uno a uno?',
-    options: [
-      'A. NAT Dinámico (Dynamic NAT)',
-      'B. NAT Estático (Static NAT)',
-      'C. PAT (NAT Overload)',
-      'D. NAT64'
-    ],
-    answer: 1,
-    explanation: 'NAT Estático mapea una IP privada a una IP pública de forma fija uno a uno. NAT Dinámico usa un pool de IPs públicas, PAT (Port Address Translation) mapea múltiples IPs privadas a una sola IP pública usando puertos diferentes. NAT64 traduce IPv6 a IPv4.',
-    textEn: 'What type of NAT translates a private IP address to a public IP address on a one-to-one basis?',
-    optionsEn: [
-      'A. Dynamic NAT',
-      'B. Static NAT',
-      'C. PAT (NAT Overload)',
-      'D. NAT64'
-    ],
-    explanationEn: 'Static NAT maps a private IP to a public IP on a fixed one-to-one basis. Dynamic NAT uses a pool of public IPs, PAT (Port Address Translation) maps multiple private IPs to a single public IP using different ports. NAT64 translates IPv6 to IPv4.'
-  },
+  // id 31: NAT question → now in network_services_security (placed later)
   {
     id: 32,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué comando muestra la tabla de enrutamiento en un router Cisco?',
@@ -806,7 +780,7 @@ const QUESTIONS = [
   },
   {
     id: 33,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'medium',
     type: 'single',
     text: '¿Cuántas subredes se pueden crear tomando prestados 3 bits de la porción de host en una red /24?',
@@ -829,7 +803,7 @@ const QUESTIONS = [
   },
   {
     id: 34,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'hard',
     type: 'single',
     text: 'En OSPF, ¿qué dirección multicast se usa para enviar actualizaciones a todos los routers OSPF (AllSPFRouters)?',
@@ -852,7 +826,7 @@ const QUESTIONS = [
   },
   {
     id: 35,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué significa FIB en el contexto de enrutamiento?',
@@ -875,7 +849,7 @@ const QUESTIONS = [
   },
   {
     id: 36,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'medium',
     type: 'single',
     text: '¿Cuál de estas es una dirección IPv4 privada según RFC 1918?',
@@ -898,7 +872,7 @@ const QUESTIONS = [
   },
   {
     id: 37,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'hard',
     type: 'single',
     text: '¿Qué tipo de ruta OSPF se identifica con el código "O IA" en la tabla de enrutamiento?',
@@ -921,7 +895,7 @@ const QUESTIONS = [
   },
   {
     id: 38,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué protocolo de enrutamiento es un protocolo vector-distancia?',
@@ -944,12 +918,15 @@ const QUESTIONS = [
   },
 
   // ═══════════════════════════════════════
-  // IP SERVICES (Questions 39-50)
+  // NETWORK SERVICES AND SECURITY
+  // (formerly IP Services + Security Fundamentals + NAT from IP Connectivity)
+  // Questions 39-54 (ip_services: 39-46, security_fundamentals: 47-54)
+  // plus 31 (NAT), 65, 67, 70, 74, 75, 80, 84, 85, 89, 93, 97, 99
   // ═══════════════════════════════════════
 
   {
     id: 39,
-    domain: 'ip_services',
+    domain: 'network_services_security',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué protocolo asigna dinámicamente direcciones IP a dispositivos en una red?',
@@ -972,7 +949,7 @@ const QUESTIONS = [
   },
   {
     id: 40,
-    domain: 'ip_services',
+    domain: 'network_services_security',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué puerto TCP usa DNS para transferencias de zona?',
@@ -995,7 +972,7 @@ const QUESTIONS = [
   },
   {
     id: 41,
-    domain: 'ip_services',
+    domain: 'network_services_security',
     difficulty: 'hard',
     type: 'single',
     text: '¿Qué comando configura un router Cisco como servidor DHCP para la red 192.168.1.0/24 con puerta de enlace .1?',
@@ -1009,16 +986,16 @@ const QUESTIONS = [
     explanation: 'La configuración correcta es: `ip dhcp pool LAN` (crea el pool), `network 192.168.1.0 255.255.255.0` (define la red), `default-router 192.168.1.1` (define el gateway). Opcionalmente se puede agregar DNS con `dns-server`.',
     textEn: 'What command configures a Cisco router as a DHCP server for the 192.168.1.0/24 network with gateway .1?',
     optionsEn: [
-      'A. ip dhcp pool LAN\\n   network 192.168.1.0 255.255.255.0\\n   default-router 192.168.1.1',
+      'A. ip dhcp pool LAN\n   network 192.168.1.0 255.255.255.0\n   default-router 192.168.1.1',
       'B. dhcp server 192.168.1.0/24 gateway 192.168.1.1',
-      'C. service dhcp\\n   dhcp pool 192.168.1.0',
-      'D. ip dhcp server enable\\n   pool LAN network 192.168.1.0'
+      'C. service dhcp\n   dhcp pool 192.168.1.0',
+      'D. ip dhcp server enable\n   pool LAN network 192.168.1.0'
     ],
     explanationEn: 'The correct configuration is: `ip dhcp pool LAN` (creates the pool), `network 192.168.1.0 255.255.255.0` (defines the network), `default-router 192.168.1.1` (defines the gateway). Optionally DNS can be added with `dns-server`.'
   },
   {
     id: 42,
-    domain: 'ip_services',
+    domain: 'network_services_security',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué protocolo se usa para sincronizar la hora en dispositivos de red?',
@@ -1041,7 +1018,7 @@ const QUESTIONS = [
   },
   {
     id: 43,
-    domain: 'ip_services',
+    domain: 'network_services_security',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué servicio resuelve nombres de dominio a direcciones IP?',
@@ -1064,7 +1041,7 @@ const QUESTIONS = [
   },
   {
     id: 44,
-    domain: 'ip_services',
+    domain: 'network_services_security',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué tipo de registro DNS mapea un nombre de host a una dirección IPv6?',
@@ -1085,32 +1062,10 @@ const QUESTIONS = [
     ],
     explanationEn: 'The AAAA (quad-A) record maps hostnames to IPv6 addresses. The A record maps to IPv4, MX identifies mail servers, and CNAME creates an alias to another domain name.'
   },
-  {
-    id: 45,
-    domain: 'ip_services',
-    difficulty: 'hard',
-    type: 'single',
-    text: '¿Qué versión de SNMP introduce autenticación y cifrado robustos?',
-    options: [
-      'A. SNMPv1',
-      'B. SNMPv2c',
-      'C. SNMPv3',
-      'D. SNMPv2'
-    ],
-    answer: 2,
-    explanation: 'SNMPv3 introduce seguridad robusta con autenticación (MD5/SHA), cifrado (DES/3DES/AES) y control de acceso basado en usuarios (USM - User-based Security Model). SNMPv1 y v2c solo usan community strings en texto plano para autenticación.',
-    textEn: 'What version of SNMP introduces robust authentication and encryption?',
-    optionsEn: [
-      'A. SNMPv1',
-      'B. SNMPv2c',
-      'C. SNMPv3',
-      'D. SNMPv2'
-    ],
-    explanationEn: 'SNMPv3 introduces robust security with authentication (MD5/SHA), encryption (DES/3DES/AES) and user-based access control (USM - User-based Security Model). SNMPv1 and v2c only use plaintext community strings for authentication.'
-  },
+  // id 45: SNMPv3 → now in ai_network_operations (placed later)
   {
     id: 46,
-    domain: 'ip_services',
+    domain: 'network_services_security',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué protocolo proporciona transferencia segura de archivos y administración remota cifrada?',
@@ -1131,14 +1086,9 @@ const QUESTIONS = [
     ],
     explanationEn: 'SSH (Secure Shell) provides encrypted communication for remote administration and file transfer (SCP/SFTP). Telnet transmits in plaintext (insecure), FTP does not encrypt either, and TFTP has no authentication.'
   },
-
-  // ═══════════════════════════════════════
-  // SECURITY FUNDAMENTALS (Questions 47-60)
-  // ═══════════════════════════════════════
-
   {
     id: 47,
-    domain: 'security_fundamentals',
+    domain: 'network_services_security',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué tipo de lista de control de acceso (ACL) filtra tráfico basado en direcciones IP de origen y destino?',
@@ -1161,7 +1111,7 @@ const QUESTIONS = [
   },
   {
     id: 48,
-    domain: 'security_fundamentals',
+    domain: 'network_services_security',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué comando aplica una ACL de entrada (inbound) a una interfaz?',
@@ -1184,7 +1134,7 @@ const QUESTIONS = [
   },
   {
     id: 49,
-    domain: 'security_fundamentals',
+    domain: 'network_services_security',
     difficulty: 'hard',
     type: 'single',
     text: '¿Qué significa la palabra clave "established" en una ACL extendida?',
@@ -1207,7 +1157,7 @@ const QUESTIONS = [
   },
   {
     id: 50,
-    domain: 'security_fundamentals',
+    domain: 'network_services_security',
     difficulty: 'medium',
     type: 'single',
     text: '¿Cuál es la mejor práctica para la contraseña de enable en un router Cisco?',
@@ -1230,7 +1180,7 @@ const QUESTIONS = [
   },
   {
     id: 51,
-    domain: 'security_fundamentals',
+    domain: 'network_services_security',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué característica de seguridad de puerto limita qué direcciones MAC pueden conectarse a un puerto de switch?',
@@ -1253,7 +1203,7 @@ const QUESTIONS = [
   },
   {
     id: 52,
-    domain: 'security_fundamentals',
+    domain: 'network_services_security',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué protocolo AAA proporciona autenticación, autorización y contabilidad centralizada?',
@@ -1276,7 +1226,7 @@ const QUESTIONS = [
   },
   {
     id: 53,
-    domain: 'security_fundamentals',
+    domain: 'network_services_security',
     difficulty: 'hard',
     type: 'multi',
     text: '¿Cuáles son los tres modos de violación en Port Security? (Selecciona 3)',
@@ -1299,7 +1249,7 @@ const QUESTIONS = [
   },
   {
     id: 54,
-    domain: 'security_fundamentals',
+    domain: 'network_services_security',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué comando configura SSH en un router Cisco?',
@@ -1322,12 +1272,14 @@ const QUESTIONS = [
   },
 
   // ═══════════════════════════════════════
-  // AUTOMATION & PROGRAMMABILITY (Questions 55-65)
+  // AI, NETWORK OPERATIONS AND MANAGEMENT (formerly Automation)
+  // Questions 55-62, 76, 90, 95, 100
+  // plus id 45 (SNMPv3 from ip_services)
   // ═══════════════════════════════════════
 
   {
     id: 55,
-    domain: 'automation',
+    domain: 'ai_network_operations',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué formato de datos estructurados es más común en APIs REST modernas?',
@@ -1350,7 +1302,7 @@ const QUESTIONS = [
   },
   {
     id: 56,
-    domain: 'automation',
+    domain: 'ai_network_operations',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué herramienta de automatización es agentless y usa SSH para gestionar dispositivos de red?',
@@ -1373,7 +1325,7 @@ const QUESTIONS = [
   },
   {
     id: 57,
-    domain: 'automation',
+    domain: 'ai_network_operations',
     difficulty: 'hard',
     type: 'single',
     text: '¿Qué controladora SDN de Cisco proporciona automatización y garantía de red basada en políticas?',
@@ -1396,7 +1348,7 @@ const QUESTIONS = [
   },
   {
     id: 58,
-    domain: 'automation',
+    domain: 'ai_network_operations',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué método HTTP se usa para recuperar datos de una API REST?',
@@ -1419,7 +1371,7 @@ const QUESTIONS = [
   },
   {
     id: 59,
-    domain: 'automation',
+    domain: 'ai_network_operations',
     difficulty: 'hard',
     type: 'single',
     text: 'En YANG y NETCONF, ¿qué operación recupera la configuración running de un dispositivo?',
@@ -1442,7 +1394,7 @@ const QUESTIONS = [
   },
   {
     id: 60,
-    domain: 'automation',
+    domain: 'ai_network_operations',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué significa IaC (Infrastructure as Code)?',
@@ -1465,7 +1417,7 @@ const QUESTIONS = [
   },
   {
     id: 61,
-    domain: 'automation',
+    domain: 'ai_network_operations',
     difficulty: 'medium',
     type: 'single',
     text: '¿Cuál es un código de estado HTTP que indica una solicitud exitosa?',
@@ -1488,7 +1440,7 @@ const QUESTIONS = [
   },
   {
     id: 62,
-    domain: 'automation',
+    domain: 'ai_network_operations',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué orquestador de código abierto usa playbooks YAML para automatizar configuraciones de red?',
@@ -1511,12 +1463,13 @@ const QUESTIONS = [
   },
 
   // ═══════════════════════════════════════
-  // MIXED / SCENARIO (Questions 63-75)
+  // MIXED / SCENARIO (Questions 63-70)
+  // Recategorized individually
   // ═══════════════════════════════════════
 
   {
     id: 63,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'hard',
     type: 'single',
     text: '¿Qué es una colisión en una red Ethernet half-duplex?',
@@ -1539,7 +1492,7 @@ const QUESTIONS = [
   },
   {
     id: 64,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'hard',
     type: 'single',
     text: 'Tienes una red 192.168.1.0/24 y necesitas crear subredes que soporten al menos 50 hosts cada una. ¿Qué máscara de subred debes usar?',
@@ -1562,7 +1515,7 @@ const QUESTIONS = [
   },
   {
     id: 65,
-    domain: 'security_fundamentals',
+    domain: 'network_services_security',
     difficulty: 'hard',
     type: 'single',
     text: '¿Qué rango numérico identifica una ACL extendida en Cisco IOS?',
@@ -1585,7 +1538,7 @@ const QUESTIONS = [
   },
   {
     id: 66,
-    domain: 'network_access',
+    domain: 'switching_network_access',
     difficulty: 'medium',
     type: 'single',
     text: '¿Qué comando verifica qué VLANs están permitidas en un trunk?',
@@ -1608,7 +1561,7 @@ const QUESTIONS = [
   },
   {
     id: 67,
-    domain: 'ip_services',
+    domain: 'network_services_security',
     difficulty: 'hard',
     type: 'single',
     text: '¿Cuál es el propósito de DHCP Snooping?',
@@ -1631,7 +1584,7 @@ const QUESTIONS = [
   },
   {
     id: 68,
-    domain: 'network_fundamentals',
+    domain: 'network_infrastructure',
     difficulty: 'medium',
     type: 'single',
     text: '¿Cuál es la diferencia principal entre TCP y UDP?',
@@ -1654,7 +1607,7 @@ const QUESTIONS = [
   },
   {
     id: 69,
-    domain: 'ip_connectivity',
+    domain: 'ip_routing',
     difficulty: 'medium',
     type: 'multi',
     text: '¿Cuáles de los siguientes son protocolos de enrutamiento dinámico? (Selecciona 3)',
@@ -1677,7 +1630,7 @@ const QUESTIONS = [
   },
   {
     id: 70,
-    domain: 'security_fundamentals',
+    domain: 'network_services_security',
     difficulty: 'easy',
     type: 'single',
     text: '¿Qué tipo de ataque de red implica inundar un switch con tramas con direcciones MAC falsas para llenar la tabla CAM?',
@@ -1697,13 +1650,15 @@ const QUESTIONS = [
       'D. DHCP Starvation'
     ],
     explanationEn: 'MAC Flooding floods a switch with frames from fake source MAC addresses, filling the CAM table. When the table is full, the switch enters "fail-open" mode and forwards frames to all ports like a hub, allowing the attacker to capture traffic. Port Security mitigates this attack.'
-  }
-];
+  },
 
-// Add 10 more rapid-fire questions for a total of 80
-const MORE_QUESTIONS = [
+  // ═══════════════════════════════════════
+  // RAPID-FIRE QUESTIONS (formerly MORE_QUESTIONS)
+  // Questions 71-100 — recategorized
+  // ═══════════════════════════════════════
+
   {
-    id: 71, domain: 'network_fundamentals', difficulty: 'easy', type: 'single',
+    id: 71, domain: 'network_infrastructure', difficulty: 'easy', type: 'single',
     text: '¿Cuántas capas tiene el modelo OSI?',
     options: ['A. 4', 'B. 5', 'C. 7', 'D. 9'],
     answer: 2,
@@ -1713,7 +1668,7 @@ const MORE_QUESTIONS = [
     explanationEn: 'The OSI model has 7 layers: Physical, Data Link, Network, Transport, Session, Presentation, Application. The TCP/IP model has 4 layers.'
   },
   {
-    id: 72, domain: 'network_access', difficulty: 'hard', type: 'single',
+    id: 72, domain: 'switching_network_access', difficulty: 'hard', type: 'single',
     text: '¿Cuál es la VLAN nativa por defecto en switches Cisco?',
     options: ['A. VLAN 0', 'B. VLAN 1', 'C. VLAN 10', 'D. VLAN 100'],
     answer: 1,
@@ -1723,7 +1678,7 @@ const MORE_QUESTIONS = [
     explanationEn: 'VLAN 1 is the default native VLAN on Cisco switches. It is recommended to change it for security. Frames on the native VLAN are not tagged on the 802.1Q trunk.'
   },
   {
-    id: 73, domain: 'ip_connectivity', difficulty: 'medium', type: 'single',
+    id: 73, domain: 'ip_routing', difficulty: 'medium', type: 'single',
     text: 'En una subred /28, ¿cuántas direcciones IP utilizables para hosts hay?',
     options: ['A. 6', 'B. 14', 'C. 30', 'D. 62'],
     answer: 1,
@@ -1733,7 +1688,7 @@ const MORE_QUESTIONS = [
     explanationEn: '/28 = 32 - 28 = 4 host bits. 2⁴ - 2 = 14 usable hosts (subtracting network and broadcast addresses).'
   },
   {
-    id: 74, domain: 'ip_services', difficulty: 'easy', type: 'single',
+    id: 74, domain: 'network_services_security', difficulty: 'easy', type: 'single',
     text: '¿Qué significa QoS?',
     options: ['A. Quality of Service', 'B. Quick Operating System', 'C. Queue of Signals', 'D. Quality Operating Standard'],
     answer: 0,
@@ -1743,7 +1698,7 @@ const MORE_QUESTIONS = [
     explanationEn: 'QoS (Quality of Service) prioritizes network traffic to guarantee bandwidth, low latency, and minimal loss for critical applications like voice and video.'
   },
   {
-    id: 75, domain: 'security_fundamentals', difficulty: 'medium', type: 'single',
+    id: 75, domain: 'network_services_security', difficulty: 'medium', type: 'single',
     text: '¿Qué comando configura una ACL estándar que deniega tráfico de la red 192.168.10.0/24?',
     options: [
       'A. access-list 1 deny 192.168.10.0 0.0.0.255',
@@ -1763,7 +1718,7 @@ const MORE_QUESTIONS = [
     explanationEn: 'Cisco ACLs use wildcard mask (inverted mask): 0.0.0.255 = /24. `access-list 1` is standard ACL (1-99). Option B uses an extended number. Option D uses an incorrect subnet mask (must be wildcard).'
   },
   {
-    id: 76, domain: 'automation', difficulty: 'easy', type: 'single',
+    id: 76, domain: 'ai_network_operations', difficulty: 'easy', type: 'single',
     text: '¿Qué significa API?',
     options: [
       'A. Application Programming Interface',
@@ -1783,7 +1738,7 @@ const MORE_QUESTIONS = [
     explanationEn: 'API (Application Programming Interface) is a set of definitions and protocols that allow different applications to communicate with each other. REST APIs are the modern standard for interacting with SDN controllers and programmable network devices.'
   },
   {
-    id: 77, domain: 'network_fundamentals', difficulty: 'medium', type: 'single',
+    id: 77, domain: 'network_infrastructure', difficulty: 'medium', type: 'single',
     text: '¿Qué dirección IPv4 es el broadcast dirigido para la red 10.0.0.0/16?',
     options: ['A. 10.0.0.255', 'B. 10.0.255.255', 'C. 10.255.255.255', 'D. 255.255.255.255'],
     answer: 1,
@@ -1793,7 +1748,7 @@ const MORE_QUESTIONS = [
     explanationEn: 'For /16, the last 16 bits are host bits. The directed broadcast sets all host bits to 1: 10.0.255.255. 255.255.255.255 is limited broadcast (does not cross routers).'
   },
   {
-    id: 78, domain: 'network_access', difficulty: 'easy', type: 'single',
+    id: 78, domain: 'switching_network_access', difficulty: 'easy', type: 'single',
     text: '¿Cuál es el propósito de BPDU Guard?',
     options: [
       'A. Proteger el Root Bridge',
@@ -1813,7 +1768,7 @@ const MORE_QUESTIONS = [
     explanationEn: 'BPDU Guard immediately disables a port with PortFast enabled if it receives a BPDU, preventing an unauthorized switch from connecting to the port. It is typically used on access ports for endpoints.'
   },
   {
-    id: 79, domain: 'ip_connectivity', difficulty: 'hard', type: 'single',
+    id: 79, domain: 'ip_routing', difficulty: 'hard', type: 'single',
     text: 'En OSPF, ¿cuál es la métrica (cost) para un enlace FastEthernet (100 Mbps)?',
     options: ['A. 1', 'B. 10', 'C. 100', 'D. 1000'],
     answer: 0,
@@ -1823,7 +1778,7 @@ const MORE_QUESTIONS = [
     explanationEn: 'OSPF cost = Reference bandwidth / Link bandwidth. With default reference bandwidth (100 Mbps): FastEthernet (100 Mbps) = 100/100 = 1. Ethernet (10 Mbps) = 10, GigabitEthernet = 1 (because minimum is 1). For modern networks the reference should be adjusted with `auto-cost reference-bandwidth`.'
   },
   {
-    id: 80, domain: 'security_fundamentals', difficulty: 'hard', type: 'single',
+    id: 80, domain: 'network_services_security', difficulty: 'hard', type: 'single',
     text: '¿Qué protocolo de cifrado es más seguro para WPA3 en redes WiFi empresariales?',
     options: ['A. TKIP', 'B. AES-CCMP', 'C. GCMP-256', 'D. WEP'],
     answer: 2,
@@ -1832,7 +1787,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. TKIP', 'B. AES-CCMP', 'C. GCMP-256', 'D. WEP'],
     explanationEn: 'WPA3-Enterprise uses GCMP-256 (Galois/Counter Mode Protocol with AES-256). WPA2 uses AES-CCMP (128 bits). TKIP is for WPA (obsolete), WEP is extremely insecure and obsolete. WPA3 also introduces protection against offline dictionary attacks with SAE (Simultaneous Authentication of Equals).'
   },
-  { id: 81, domain: 'network_fundamentals', difficulty: 'medium', type: 'multi',
+  { id: 81, domain: 'network_infrastructure', difficulty: 'medium', type: 'multi',
     text: '¿Cuáles de las siguientes son ventajas de IPv6 sobre IPv4? (Selecciona 3)',
     options: ['A. Espacio de direcciones más grande', 'B. Cabecera más simple', 'C. No necesita NAT', 'D. Es más rápido que IPv4 en todos los casos'],
     answer: [0,1,2],
@@ -1841,7 +1796,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. Larger address space', 'B. Simpler header', 'C. No NAT required', 'D. It is faster than IPv4 in all cases'],
     explanationEn: 'IPv6 offers: massive address space (128 bits), simpler header (40 bytes fixed), stateless autoconfiguration (SLAAC), and eliminates the need for NAT. However, IPv6 is not inherently "faster" — performance depends on the implementation.'
   },
-  { id: 82, domain: 'ip_connectivity', difficulty: 'hard', type: 'single',
+  { id: 82, domain: 'ip_routing', difficulty: 'hard', type: 'single',
     text: 'Un router Cisco tiene dos rutas al mismo destino: una OSPF con métrica 100 y una EIGRP con métrica 25600. ¿Cuál se instala en la tabla de enrutamiento?',
     options: ['A. OSPF (métrica más baja)', 'B. EIGRP (métrica más baja)', 'C. EIGRP (AD más baja)', 'D. Ambas (load balancing)'],
     answer: 2,
@@ -1850,7 +1805,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. OSPF (lower metric)', 'B. EIGRP (lower metric)', 'C. EIGRP (lower AD)', 'D. Both (load balancing)'],
     explanationEn: 'The administrative distance (AD) is the first tiebreaker. EIGRP has AD 90, OSPF has AD 110. Even though OSPF has a "better" metric, EIGRP wins because it has a lower AD. Metrics are only compared between routes of the same protocol.'
   },
-  { id: 83, domain: 'network_access', difficulty: 'hard', type: 'single',
+  { id: 83, domain: 'switching_network_access', difficulty: 'hard', type: 'single',
     text: '¿Qué comando configura RSTP (Rapid Spanning Tree) en un switch Cisco?',
     options: ['A. spanning-tree mode rstp', 'B. spanning-tree mode rapid-pvst', 'C. spanning-tree mode 802.1w', 'D. spanning-tree rapid enable'],
     answer: 1,
@@ -1859,7 +1814,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. spanning-tree mode rstp', 'B. spanning-tree mode rapid-pvst', 'C. spanning-tree mode 802.1w', 'D. spanning-tree rapid enable'],
     explanationEn: '`spanning-tree mode rapid-pvst` enables RSTP (IEEE 802.1w) in Cisco PVST+ mode — one RSTP instance per VLAN. `spanning-tree mode pvst` uses classic STP, `spanning-tree mode mst` uses MSTP.'
   },
-  { id: 84, domain: 'ip_services', difficulty: 'medium', type: 'single',
+  { id: 84, domain: 'network_services_security', difficulty: 'medium', type: 'single',
     text: '¿Qué tipo de registro DNS se usa para crear un alias de un dominio a otro?',
     options: ['A. A', 'B. MX', 'C. CNAME', 'D. NS'],
     answer: 2,
@@ -1868,7 +1823,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. A', 'B. MX', 'C. CNAME', 'D. NS'],
     explanationEn: 'CNAME (Canonical Name) creates an alias — for example, `www.example.com` can be a CNAME to `example.com`. The A record maps to IPv4, MX identifies mail servers, and NS identifies the domain nameservers.'
   },
-  { id: 85, domain: 'security_fundamentals', difficulty: 'medium', type: 'single',
+  { id: 85, domain: 'network_services_security', difficulty: 'medium', type: 'single',
     text: '¿Cuál es el propósito de configurar `login block-for 120 attempts 3 within 60` en un router Cisco?',
     options: ['A. Limitar intentos de login fallidos (3 intentos en 60s → bloqueo de 120s)', 'B. Bloquear todo el tráfico durante 120 segundos cada 60 segundos', 'C. Permitir solo 120 sesiones SSH simultáneas', 'D. Forzar reconexión cada 120 minutos'],
     answer: 0,
@@ -1877,7 +1832,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. Limit failed login attempts (3 attempts in 60s → 120s block)', 'B. Block all traffic for 120 seconds every 60 seconds', 'C. Allow only 120 simultaneous SSH sessions', 'D. Force reconnection every 120 minutes'],
     explanationEn: 'This command configures brute force attack protection: after 3 failed attempts within 60 seconds, the router blocks new login attempts for 120 seconds. Essential for VTY line security.'
   },
-  { id: 86, domain: 'network_fundamentals', difficulty: 'medium', type: 'single',
+  { id: 86, domain: 'network_infrastructure', difficulty: 'medium', type: 'single',
     text: '¿Qué es un collision domain?',
     options: ['A. Un dominio donde múltiples dispositivos compiten por el medio compartido', 'B. El área lógica donde se reenvían broadcasts', 'C. El rango de direcciones IP en una subred', 'D. El conjunto de puertos bloqueados por STP'],
     answer: 0,
@@ -1886,7 +1841,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. A domain where multiple devices contend for the shared medium', 'B. The logical area where broadcasts are forwarded', 'C. The range of IP addresses in a subnet', 'D. The set of ports blocked by STP'],
     explanationEn: 'A collision domain is a network segment where frames can collide if two devices transmit simultaneously. With hubs, all ports share one collision domain. With full-duplex switches, each port is its own collision domain (zero collisions).'
   },
-  { id: 87, domain: 'ip_connectivity', difficulty: 'hard', type: 'single',
+  { id: 87, domain: 'ip_routing', difficulty: 'hard', type: 'single',
     text: '¿Qué dirección multicast usa EIGRP para enviar actualizaciones?',
     options: ['A. 224.0.0.5', 'B. 224.0.0.6', 'C. 224.0.0.9', 'D. 224.0.0.10'],
     answer: 3,
@@ -1895,7 +1850,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. 224.0.0.5', 'B. 224.0.0.6', 'C. 224.0.0.9', 'D. 224.0.0.10'],
     explanationEn: 'EIGRP uses 224.0.0.10. OSPF uses 224.0.0.5 (AllSPFRouters) and 224.0.0.6 (AllDRouters). RIP uses 224.0.0.9. HSRP v1 uses 224.0.0.2, HSRP v2 uses 224.0.0.102.'
   },
-  { id: 88, domain: 'network_access', difficulty: 'easy', type: 'single',
+  { id: 88, domain: 'switching_network_access', difficulty: 'easy', type: 'single',
     text: '¿Qué comando muestra información detallada de un puerto de switch, incluyendo modo administrativo y operacional?',
     options: ['A. show interfaces status', 'B. show interfaces Gi0/1 switchport', 'C. show vlan brief', 'D. show running-config interface Gi0/1'],
     answer: 1,
@@ -1904,7 +1859,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. show interfaces status', 'B. show interfaces Gi0/1 switchport', 'C. show vlan brief', 'D. show running-config interface Gi0/1'],
     explanationEn: '`show interfaces Gi0/1 switchport` displays complete information: administrative mode (access/trunk), operational mode, access VLAN, native VLAN, allowed VLANs on trunk, and DTP negotiation status.'
   },
-  { id: 89, domain: 'ip_services', difficulty: 'hard', type: 'single',
+  { id: 89, domain: 'network_services_security', difficulty: 'hard', type: 'single',
     text: 'En QoS, ¿qué valor de DSCP corresponde a EF (Expedited Forwarding) para tráfico de voz?',
     options: ['A. DSCP 0', 'B. DSCP 46', 'C. DSCP 26', 'D. DSCP 34'],
     answer: 1,
@@ -1913,7 +1868,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. DSCP 0', 'B. DSCP 46', 'C. DSCP 26', 'D. DSCP 34'],
     explanationEn: 'DSCP 46 (EF — Expedited Forwarding, binary 101110) is used for voice traffic requiring low latency, low jitter, and low loss. DSCP 26 (AF31) for critical traffic, DSCP 34 (AF41) for video, DSCP 0 (Best Effort).'
   },
-  { id: 90, domain: 'automation', difficulty: 'medium', type: 'single',
+  { id: 90, domain: 'ai_network_operations', difficulty: 'medium', type: 'single',
     text: '¿Qué lenguaje de descripción de infraestructura permite definir recursos cloud de forma declarativa?',
     options: ['A. Python', 'B. Terraform (HCL)', 'C. JavaScript', 'D. SQL'],
     answer: 1,
@@ -1922,7 +1877,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. Python', 'B. Terraform (HCL)', 'C. JavaScript', 'D. SQL'],
     explanationEn: 'Terraform uses HCL (HashiCorp Configuration Language) to define infrastructure as code declaratively. You describe the desired state and Terraform calculates how to reach it. Python is imperative, JavaScript is for web, SQL for databases.'
   },
-  { id: 91, domain: 'network_fundamentals', difficulty: 'easy', type: 'single',
+  { id: 91, domain: 'network_infrastructure', difficulty: 'easy', type: 'single',
     text: '¿A qué capa del modelo OSI pertenece HTTP?',
     options: ['A. Capa 4 — Transporte', 'B. Capa 5 — Sesión', 'C. Capa 6 — Presentación', 'D. Capa 7 — Aplicación'],
     answer: 3,
@@ -1931,16 +1886,16 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. Layer 4 — Transport', 'B. Layer 5 — Session', 'C. Layer 6 — Presentation', 'D. Layer 7 — Application'],
     explanationEn: 'HTTP is a Layer 7 (Application) protocol. It uses TCP (Layer 4) as transport, typically on port 80 (HTTP) or 443 (HTTPS). Other Layer 7 protocols: FTP, SMTP, DNS, SSH.'
   },
-  { id: 92, domain: 'ip_connectivity', difficulty: 'medium', type: 'multi',
+  { id: 92, domain: 'ip_routing', difficulty: 'medium', type: 'multi',
     text: '¿Cuáles de los siguientes permiten que dos routers Cisco compartan una IP virtual como default gateway? (Selecciona 2)',
     options: ['A. HSRP', 'B. STP', 'C. VRRP', 'D. OSPF'],
     answer: [0,2],
     explanation: 'HSRP (Cisco propietario) y VRRP (estándar) son protocolos FHRP que permiten redundancia de default gateway con una IP virtual compartida. STP previene bucles de Capa 2, OSPF es enrutamiento dinámico de Capa 3.',
     textEn: 'Which of the following allow two Cisco routers to share a virtual IP as a default gateway? (Select 2)',
     optionsEn: ['A. HSRP', 'B. STP', 'C. VRRP', 'D. OSPF'],
-    explanationEn: 'HSRP (Cisco proprietary) and VRRP (standard) are FHRP protocols that provide default gateway redundancy with a shared virtual IP. STP prevents Layer 2 loops, OSPF is Layer 3 dynamic routing.'
+    explanationEn: 'HSRP (Cisco proprietary) and VRRP (standard) are FHRP protocols that provide default gateway redundancy with a virtual IP shared. STP prevents Layer 2 loops, OSPF is Layer 3 dynamic routing.'
   },
-  { id: 93, domain: 'security_fundamentals', difficulty: 'medium', type: 'single',
+  { id: 93, domain: 'network_services_security', difficulty: 'medium', type: 'single',
     text: '¿Qué comando configura autenticación local para las líneas VTY en un router Cisco?',
     options: ['A. line vty 0 4 → login local', 'B. line vty 0 4 → authentication local', 'C. aaa authentication login VTY local', 'D. username admin → line vty 0 4 → login'],
     answer: 2,
@@ -1949,7 +1904,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. line vty 0 4 → login local', 'B. line vty 0 4 → authentication local', 'C. aaa authentication login VTY local', 'D. username admin → line vty 0 4 → login'],
     explanationEn: 'With AAA enabled (`aaa new-model`), use `aaa authentication login VTY local` and then `line vty 0 4 → login authentication VTY`. Without AAA, use `line vty 0 4 → login local` + `username admin secret pass`.'
   },
-  { id: 94, domain: 'network_access', difficulty: 'medium', type: 'single',
+  { id: 94, domain: 'switching_network_access', difficulty: 'medium', type: 'single',
     text: '¿Qué sucede si dos switches conectados por trunk tienen diferente VLAN nativa?',
     options: ['A. El trunk no se forma', 'B. STP bloquea el enlace', 'C. Las tramas pueden "saltar" entre VLANs nativas (VLAN hopping)', 'D. CDP corrige automáticamente la diferencia'],
     answer: 2,
@@ -1958,7 +1913,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. The trunk does not form', 'B. STP blocks the link', 'C. Frames can "jump" between native VLANs (VLAN hopping)', 'D. CDP automatically corrects the difference'],
     explanationEn: 'Native VLAN mismatch causes untagged frames from one VLAN on a switch to appear in another VLAN on the other switch — a security risk. CDP shows a native VLAN mismatch warning. The solution: configure the same native VLAN on both ends.'
   },
-  { id: 95, domain: 'automation', difficulty: 'hard', type: 'single',
+  { id: 95, domain: 'ai_network_operations', difficulty: 'hard', type: 'single',
     text: 'Un playbook de Ansible que configura 20 switches Cisco con VLANs idénticas es un ejemplo de:',
     options: ['A. Orquestación', 'B. Gestión de configuración', 'C. CI/CD', 'D. Monitoreo'],
     answer: 1,
@@ -1967,7 +1922,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. Orchestration', 'B. Configuration management', 'C. CI/CD', 'D. Monitoring'],
     explanationEn: 'Configuration management ensures devices maintain a consistent desired state. Ansible applies the configuration declared in the playbook to all switches, ensuring they all have the same VLANs. Orchestration coordinates multiple systems.'
   },
-  { id: 96, domain: 'ip_connectivity', difficulty: 'easy', type: 'single',
+  { id: 96, domain: 'ip_routing', difficulty: 'easy', type: 'single',
     text: '¿Cuál es la dirección de broadcast de la red 192.168.5.0/27?',
     options: ['A. 192.168.5.31', 'B. 192.168.5.32', 'C. 192.168.5.63', 'D. 192.168.5.255'],
     answer: 0,
@@ -1976,7 +1931,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. 192.168.5.31', 'B. 192.168.5.32', 'C. 192.168.5.63', 'D. 192.168.5.255'],
     explanationEn: '/27 = 32 IPs per subnet. 192.168.5.0/27 covers 192.168.5.0 - 192.168.5.31, where .0 is the network address and .31 is the broadcast. The next subnet starts at 192.168.5.32/27.'
   },
-  { id: 97, domain: 'ip_services', difficulty: 'medium', type: 'single',
+  { id: 97, domain: 'network_services_security', difficulty: 'medium', type: 'single',
     text: '¿Para qué se usa el comando `ip helper-address` en una interfaz de router Cisco?',
     options: ['A. Reenviar broadcasts DHCP a un servidor en otra subred', 'B. Ayudar a resolver nombres DNS', 'C. Configurar una dirección IP secundaria', 'D. Habilitar NAT en la interfaz'],
     answer: 0,
@@ -1985,7 +1940,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. Forward DHCP broadcasts to a server on another subnet', 'B. Help resolve DNS names', 'C. Configure a secondary IP address', 'D. Enable NAT on the interface'],
     explanationEn: '`ip helper-address <IP>` forwards DHCP broadcasts (and other default protocols) as unicast toward the specified DHCP server. This allows clients on one subnet to obtain IPs from a DHCP server located on another subnet.'
   },
-  { id: 98, domain: 'network_fundamentals', difficulty: 'hard', type: 'single',
+  { id: 98, domain: 'network_infrastructure', difficulty: 'hard', type: 'single',
     text: 'En una red con MTU de 1500, ¿cuál es el tamaño máximo del payload TCP (MSS típico) después de restar cabeceras IP (20B) y TCP (20B)?',
     options: ['A. 1500 bytes', 'B. 1460 bytes', 'C. 1480 bytes', 'D. 1440 bytes'],
     answer: 1,
@@ -1994,7 +1949,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. 1500 bytes', 'B. 1460 bytes', 'C. 1480 bytes', 'D. 1440 bytes'],
     explanationEn: 'MTU 1500 - IP header (20 bytes typical) - TCP header (20 bytes typical) = 1460 bytes of MSS (Maximum Segment Size). If additional IP/TCP options are used, the MSS is reduced. For IPsec/VPN traffic, the overhead is greater.'
   },
-  { id: 99, domain: 'security_fundamentals', difficulty: 'easy', type: 'single',
+  { id: 99, domain: 'network_services_security', difficulty: 'easy', type: 'single',
     text: '¿Qué comando habilita el firewall stateful básico en un router Cisco?',
     options: ['A. ip inspect name FIREWALL tcp', 'B. ip firewall enable', 'C. access-list firewall permit ip any any', 'D. zone-based security enable'],
     answer: 0,
@@ -2003,7 +1958,7 @@ const MORE_QUESTIONS = [
     optionsEn: ['A. ip inspect name FIREWALL tcp', 'B. ip firewall enable', 'C. access-list firewall permit ip any any', 'D. zone-based security enable'],
     explanationEn: 'CBAC (Context-Based Access Control) is enabled with `ip inspect name`. It inspects outgoing traffic and dynamically permits return traffic. `zone-based security` is more modern. A simple ACL is not stateful.'
   },
-  { id: 100, domain: 'automation', difficulty: 'easy', type: 'single',
+  { id: 100, domain: 'ai_network_operations', difficulty: 'easy', type: 'single',
     text: '¿Qué protocolo de transporte usa NETCONF por defecto?',
     options: ['A. HTTP', 'B. SSH', 'C. Telnet', 'D. HTTPS'],
     answer: 1,
@@ -2011,10 +1966,692 @@ const MORE_QUESTIONS = [
     textEn: 'What transport protocol does NETCONF use by default?',
     optionsEn: ['A. HTTP', 'B. SSH', 'C. Telnet', 'D. HTTPS'],
     explanationEn: 'NETCONF (Network Configuration Protocol, RFC 6241) uses SSH as secure transport by default (port 830). It uses XML for data and RPC for operations. RESTCONF uses HTTP/HTTPS and JSON/XML.'
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // QUESTIONS FROM MAPPED DOMAINS (not yet placed above)
+  // id 31 (NAT) → network_services_security
+  // id 45 (SNMPv3) → ai_network_operations
+  // ═══════════════════════════════════════════════════════
+
+  {
+    id: 31,
+    domain: 'network_services_security',
+    difficulty: 'hard',
+    type: 'single',
+    text: '¿Qué tipo de NAT traduce una dirección IP privada a una dirección IP pública de forma uno a uno?',
+    options: [
+      'A. NAT Dinámico (Dynamic NAT)',
+      'B. NAT Estático (Static NAT)',
+      'C. PAT (NAT Overload)',
+      'D. NAT64'
+    ],
+    answer: 1,
+    explanation: 'NAT Estático mapea una IP privada a una IP pública de forma fija uno a uno. NAT Dinámico usa un pool de IPs públicas, PAT (Port Address Translation) mapea múltiples IPs privadas a una sola IP pública usando puertos diferentes. NAT64 traduce IPv6 a IPv4.',
+    textEn: 'What type of NAT translates a private IP address to a public IP address on a one-to-one basis?',
+    optionsEn: [
+      'A. Dynamic NAT',
+      'B. Static NAT',
+      'C. PAT (NAT Overload)',
+      'D. NAT64'
+    ],
+    explanationEn: 'Static NAT maps a private IP to a public IP on a fixed one-to-one basis. Dynamic NAT uses a pool of public IPs, PAT (Port Address Translation) maps multiple private IPs to a single public IP using different ports. NAT64 translates IPv6 to IPv4.'
+  },
+
+  {
+    id: 45,
+    domain: 'ai_network_operations',
+    difficulty: 'hard',
+    type: 'single',
+    text: '¿Qué versión de SNMP introduce autenticación y cifrado robustos?',
+    options: [
+      'A. SNMPv1',
+      'B. SNMPv2c',
+      'C. SNMPv3',
+      'D. SNMPv2'
+    ],
+    answer: 2,
+    explanation: 'SNMPv3 introduce seguridad robusta con autenticación (MD5/SHA), cifrado (DES/3DES/AES) y control de acceso basado en usuarios (USM - User-based Security Model). SNMPv1 y v2c solo usan community strings en texto plano para autenticación.',
+    textEn: 'What version of SNMP introduces robust authentication and encryption?',
+    optionsEn: [
+      'A. SNMPv1',
+      'B. SNMPv2c',
+      'C. SNMPv3',
+      'D. SNMPv2'
+    ],
+    explanationEn: 'SNMPv3 introduces robust security with authentication (MD5/SHA), encryption (DES/3DES/AES) and user-based access control (USM - User-based Security Model). SNMPv1 and v2c only use plaintext community strings for authentication.'
+  },
+
+  // ═══════════════════════════════════════════════════════
+  // NEW QUESTIONS (id 101-125)
+  // Covering topics not addressed by existing questions
+  // ═══════════════════════════════════════════════════════
+
+  // 101: Agentic AI in network operations (5.1)
+  {
+    id: 101,
+    domain: 'ai_network_operations',
+    difficulty: 'medium',
+    type: 'single',
+    text: '¿Qué característica distingue a un agente de IA autónomo en operaciones de red?',
+    options: [
+      'A. Ejecuta comandos predefinidos sin desviación',
+      'B. Puede percibir el entorno, razonar y ejecutar acciones de forma autónoma para lograr objetivos definidos',
+      'C. Reemplaza completamente al ingeniero de red',
+      'D. Solo genera informes de disponibilidad'
+    ],
+    answer: 1,
+    explanation: 'Un agente de IA autónomo en redes puede percibir el estado de la red, razonar sobre problemas, planificar acciones correctivas y ejecutarlas de forma autónoma (o semiautónoma) para cumplir objetivos definidos. A diferencia de la automatización tradicional basada en scripts fijos, los agentes de IA pueden adaptarse a condiciones cambiantes.',
+    textEn: 'What feature distinguishes an autonomous AI agent in network operations?',
+    optionsEn: [
+      'A. Executes predefined commands without deviation',
+      'B. Can perceive the environment, reason, and execute actions autonomously to achieve defined goals',
+      'C. Completely replaces the network engineer',
+      'D. Only generates availability reports'
+    ],
+    explanationEn: 'An autonomous AI agent in networks can perceive network state, reason about problems, plan corrective actions, and execute them autonomously (or semi-autonomously) to meet defined objectives. Unlike traditional script-based automation, AI agents can adapt to changing conditions.'
+  },
+
+  // 102: Generative AI prompts for network ops (5.2)
+  {
+    id: 102,
+    domain: 'ai_network_operations',
+    difficulty: 'medium',
+    type: 'multi',
+    text: '¿Cuáles de los siguientes son usos válidos de IA Generativa (GenAI) en operaciones de red? (Selecciona 2)',
+    options: [
+      'A. Generar configuraciones de dispositivos a partir de descripciones en lenguaje natural',
+      'B. Reemplazar físicamente switches averiados',
+      'C. Interpretar y resumir logs de red para troubleshooting',
+      'D. Aumentar la capacidad de enlaces de fibra óptica'
+    ],
+    answer: [0, 2],
+    explanation: 'La IA Generativa como los grandes modelos de lenguaje (LLMs) puede generar configuraciones de red a partir de descripciones en lenguaje natural (ej. "configura OSPF en el área 0") y puede analizar logs complejos para identificar y resumir problemas. No puede reemplazar hardware ni aumentar capacidad física.',
+    textEn: 'Which of the following are valid uses of Generative AI (GenAI) in network operations? (Select 2)',
+    optionsEn: [
+      'A. Generate device configurations from natural language descriptions',
+      'B. Physically replace faulty switches',
+      'C. Interpret and summarize network logs for troubleshooting',
+      'D. Increase fiber optic link capacity'
+    ],
+    explanationEn: 'Generative AI like large language models (LLMs) can generate network configurations from natural language descriptions (e.g. "configure OSPF in area 0") and can analyze complex logs to identify and summarize issues. It cannot replace hardware or increase physical capacity.'
+  },
+
+  // 103: Hypervisors, VMs, containers (1.2)
+  {
+    id: 103,
+    domain: 'network_infrastructure',
+    difficulty: 'easy',
+    type: 'single',
+    text: '¿Qué tecnología permite ejecutar múltiples sistemas operativos independientes en un solo servidor físico mediante una capa de virtualización?',
+    options: [
+      'A. Contenedores (Docker)',
+      'B. Hipervisor (Type 1/2)',
+      'C. Enrutamiento virtual (VRF)',
+      'D. SDN'
+    ],
+    answer: 1,
+    explanation: 'Un hipervisor (Type 1 como VMware ESXi o Type 2 como VirtualBox) permite ejecutar múltiples máquinas virtuales (VMs), cada una con su propio sistema operativo, sobre un solo servidor físico. Los contenedores comparten el kernel del host. VRF segmenta el enrutamiento en routers.',
+    textEn: 'What technology allows running multiple independent operating systems on a single physical server through a virtualization layer?',
+    optionsEn: [
+      'A. Containers (Docker)',
+      'B. Hypervisor (Type 1/2)',
+      'C. Virtual routing (VRF)',
+      'D. SDN'
+    ],
+    explanationEn: 'A hypervisor (Type 1 like VMware ESXi or Type 2 like VirtualBox) allows running multiple virtual machines (VMs), each with its own operating system, on a single physical server. Containers share the host kernel. VRF segments routing on routers.'
+  },
+
+  // 104: Wireless principles — band/channel (1.5)
+  {
+    id: 104,
+    domain: 'network_infrastructure',
+    difficulty: 'medium',
+    type: 'single',
+    text: 'En redes WiFi, ¿cuál de las siguientes bandas de frecuencia tiene más canales no superpuestos y menor interferencia?',
+    options: [
+      'A. 2.4 GHz (canales 1, 6, 11)',
+      'B. 5 GHz (múltiples canales no superpuestos)',
+      'C. 900 MHz',
+      'D. 60 GHz'
+    ],
+    answer: 1,
+    explanation: 'La banda de 5 GHz ofrece muchos más canales no superpuestos que 2.4 GHz, lo que reduce interferencia y permite mayor rendimiento. La banda de 2.4 GHz solo tiene 3 canales no superpuestos (1, 6, 11) y sufre más interferencia de dispositivos como Bluetooth y microondas.',
+    textEn: 'In WiFi networks, which frequency band has more non-overlapping channels and less interference?',
+    optionsEn: [
+      'A. 2.4 GHz (channels 1, 6, 11)',
+      'B. 5 GHz (multiple non-overlapping channels)',
+      'C. 900 MHz',
+      'D. 60 GHz'
+    ],
+    explanationEn: 'The 5 GHz band offers many more non-overlapping channels than 2.4 GHz, reducing interference and enabling higher throughput. The 2.4 GHz band only has 3 non-overlapping channels (1, 6, 11) and suffers more interference from devices like Bluetooth and microwaves.'
+  },
+
+  // 105: Wireless RF, security protocols, interference (1.5)
+  {
+    id: 105,
+    domain: 'network_infrastructure',
+    difficulty: 'medium',
+    type: 'single',
+    text: '¿Cuál es el método de autenticación más seguro para redes WiFi empresariales?',
+    options: [
+      'A. WPA2-PSK (Pre-Shared Key)',
+      'B. WPA3-Enterprise con 802.1X / RADIUS',
+      'C. WEP con clave compartida',
+      'D. Portal cautivo sin cifrado'
+    ],
+    answer: 1,
+    explanation: 'WPA3-Enterprise con 802.1X y RADIUS proporciona autenticación individual por usuario, cifrado GCMP-256 y protección contra ataques de diccionario offline. WPA2-PSK usa una clave compartida para todos los usuarios. WEP es obsoleto e inseguro.',
+    textEn: 'What is the most secure authentication method for enterprise WiFi networks?',
+    optionsEn: [
+      'A. WPA2-PSK (Pre-Shared Key)',
+      'B. WPA3-Enterprise with 802.1X / RADIUS',
+      'C. WEP with shared key',
+      'D. Unencrypted captive portal'
+    ],
+    explanationEn: 'WPA3-Enterprise with 802.1X and RADIUS provides per-user authentication, GCMP-256 encryption, and protection against offline dictionary attacks. WPA2-PSK uses a shared key for all users. WEP is obsolete and insecure.'
+  },
+
+  // 106: DHCP Snooping (4.7.a)
+  {
+    id: 106,
+    domain: 'network_services_security',
+    difficulty: 'hard',
+    type: 'single',
+    text: 'En DHCP Snooping, ¿qué tipo de mensajes DHCP se filtran en puertos untrusted?',
+    options: [
+      'A. DHCP Discover',
+      'B. DHCP Offer y DHCP ACK (mensajes de servidor)',
+      'C. DHCP Request',
+      'D. DHCP Release'
+    ],
+    answer: 1,
+    explanation: 'DHCP Snooping filtra mensajes DHCP Offer y DHCP ACK en puertos untrusted (no confiables) para prevenir ataques de rogue DHCP server. Los puertos trusted (conectados a servidores DHCP legítimos) permiten todos los mensajes. DHCP Discover y Request son mensajes de cliente y se permiten en todos los puertos.',
+    textEn: 'In DHCP Snooping, what types of DHCP messages are filtered on untrusted ports?',
+    optionsEn: [
+      'A. DHCP Discover',
+      'B. DHCP Offer and DHCP ACK (server messages)',
+      'C. DHCP Request',
+      'D. DHCP Release'
+    ],
+    explanationEn: 'DHCP Snooping filters DHCP Offer and DHCP ACK messages on untrusted ports to prevent rogue DHCP server attacks. Trusted ports (connected to legitimate DHCP servers) allow all messages. DHCP Discover and Request are client messages and are allowed on all ports.'
+  },
+
+  // 107: Dynamic ARP Inspection / DAI (4.7.b)
+  {
+    id: 107,
+    domain: 'network_services_security',
+    difficulty: 'hard',
+    type: 'single',
+    text: '¿Cuál es el propósito de Dynamic ARP Inspection (DAI) en un switch?',
+    options: [
+      'A. Inspeccionar tráfico HTTP en busca de malware',
+      'B. Validar paquetes ARP contra la tabla de binding de DHCP Snooping para prevenir ARP spoofing',
+      'C. Acelerar las respuestas ARP en la red',
+      'D. Reducir el tráfico ARP broadcast'
+    ],
+    answer: 1,
+    explanation: 'Dynamic ARP Inspection (DAI) intercepta todos los paquetes ARP en puertos untrusted y los valida contra la tabla de binding de DHCP Snooping. Si la IP:MAC del paquete ARP no coincide con el binding válido, el paquete se descarta. Esto previene ataques de ARP spoofing y man-in-the-middle.',
+    textEn: 'What is the purpose of Dynamic ARP Inspection (DAI) on a switch?',
+    optionsEn: [
+      'A. Inspect HTTP traffic for malware',
+      'B. Validate ARP packets against the DHCP Snooping binding table to prevent ARP spoofing',
+      'C. Speed up ARP responses on the network',
+      'D. Reduce ARP broadcast traffic'
+    ],
+    explanationEn: 'Dynamic ARP Inspection (DAI) intercepts all ARP packets on untrusted ports and validates them against the DHCP Snooping binding table. If the IP:MAC in the ARP packet does not match a valid binding, the packet is dropped. This prevents ARP spoofing and man-in-the-middle attacks.'
+  },
+
+  // 108: Storm control (4.7.c)
+  {
+    id: 108,
+    domain: 'switching_network_access',
+    difficulty: 'hard',
+    type: 'single',
+    text: '¿Qué función de un switch Cisco limita la cantidad de tráfico broadcast, multicast o unicast desconocido en un puerto?',
+    options: [
+      'A. Port Security',
+      'B. Storm Control',
+      'C. BPDU Guard',
+      'D. VLAN Access-Map'
+    ],
+    answer: 1,
+    explanation: 'Storm Control permite configurar umbrales de velocidad para tráfico broadcast, multicast y unicast desconocido en un puerto. Si el tráfico supera el umbral, el switch descarta el exceso o deshabilita el puerto. Previene tormentas de broadcast que pueden degradar el rendimiento de la red.',
+    textEn: 'What feature on a Cisco switch limits the amount of broadcast, multicast, or unknown unicast traffic on a port?',
+    optionsEn: [
+      'A. Port Security',
+      'B. Storm Control',
+      'C. BPDU Guard',
+      'D. VLAN Access-Map'
+    ],
+    explanationEn: 'Storm Control allows configuring rate thresholds for broadcast, multicast, and unknown unicast traffic on a port. If traffic exceeds the threshold, the switch drops excess traffic or disables the port. It prevents broadcast storms that can degrade network performance.'
+  },
+
+  // 109: RA guard / Router Advertisement guard (4.7.d)
+  {
+    id: 109,
+    domain: 'network_services_security',
+    difficulty: 'hard',
+    type: 'single',
+    text: '¿Qué función de seguridad en switches Cisco protege contra anuncios de router IPv6 no autorizados (rogue RA)?',
+    options: [
+      'A. DHCP Guard',
+      'B. RA Guard',
+      'C. IPv6 Inspection',
+      'D. ND Snooping'
+    ],
+    answer: 1,
+    explanation: 'RA Guard (Router Advertisement Guard) filtra mensajes de Router Advertisement (RA) de IPv6 en puertos designados como "host" para prevenir que dispositivos no autorizados se hagan pasar por routers. Esto evita ataques de man-in-the-middle y modificaciones no autorizadas de la configuración IPv6 de los hosts.',
+    textEn: 'What security feature on Cisco switches protects against unauthorized IPv6 Router Advertisement (rogue RA) messages?',
+    optionsEn: [
+      'A. DHCP Guard',
+      'B. RA Guard',
+      'C. IPv6 Inspection',
+      'D. ND Snooping'
+    ],
+    explanationEn: 'RA Guard (Router Advertisement Guard) filters IPv6 Router Advertisement (RA) messages on ports designated as "host" to prevent unauthorized devices from impersonating routers. This prevents man-in-the-middle attacks and unauthorized modifications of host IPv6 configuration.'
+  },
+
+  // 110: OSPFv3 for IPv6 (3.3)
+  {
+    id: 110,
+    domain: 'ip_routing',
+    difficulty: 'hard',
+    type: 'single',
+    text: '¿Qué versión de OSPF se usa para enrutar IPv6?',
+    options: [
+      'A. OSPFv1',
+      'B. OSPFv2',
+      'C. OSPFv3',
+      'D. OSPF Next Gen'
+    ],
+    answer: 2,
+    explanation: 'OSPFv3 (RFC 5340) se usa para enrutar IPv6. OSPFv2 se usa para IPv4. OSPFv3 tiene un diseño modificado que permite transportar múltiples tipos de prefijos, usando Link-Local addresses como next-hop. En IOS moderno, OSPFv3 puede transportar tanto IPv4 como IPv6.',
+    textEn: 'What version of OSPF is used for routing IPv6?',
+    optionsEn: [
+      'A. OSPFv1',
+      'B. OSPFv2',
+      'C. OSPFv3',
+      'D. OSPF Next Gen'
+    ],
+    explanationEn: 'OSPFv3 (RFC 5340) is used for routing IPv6. OSPFv2 is used for IPv4. OSPFv3 has a redesigned structure that can carry multiple prefix types, using Link-Local addresses as next-hops. In modern IOS, OSPFv3 can carry both IPv4 and IPv6.'
+  },
+
+  // 111: VRRP operational status (3.4)
+  {
+    id: 111,
+    domain: 'ip_routing',
+    difficulty: 'medium',
+    type: 'single',
+    text: 'En VRRP, ¿qué determina qué router se convierte en el maestro (active forwarder)?',
+    options: [
+      'A. La dirección MAC más alta',
+      'B. La prioridad más alta (mayor valor gana)',
+      'C. La menor cantidad de interfaces',
+      'D. El router que envía primero un hello'
+    ],
+    answer: 1,
+    explanation: 'En VRRP, el router con la prioridad más alta se convierte en el maestro (active forwarder). Si las prioridades son iguales, el router con la IP virtual más alta gana. La prioridad por defecto es 100 (rango 1-254). Si el maestro falla, el router con la siguiente prioridad más alta toma el control.',
+    textEn: 'In VRRP, what determines which router becomes the master (active forwarder)?',
+    optionsEn: [
+      'A. The highest MAC address',
+      'B. The highest priority (higher value wins)',
+      'C. The fewest number of interfaces',
+      'D. The router that sends a hello first'
+    ],
+    explanationEn: 'In VRRP, the router with the highest priority becomes the master (active forwarder). If priorities are equal, the router with the highest virtual IP wins. Default priority is 100 (range 1-254). If the master fails, the router with the next highest priority takes over.'
+  },
+
+  // 112: SFTP/SCP file management (4.2)
+  {
+    id: 112,
+    domain: 'network_services_security',
+    difficulty: 'medium',
+    type: 'single',
+    text: '¿Qué protocolo de transferencia de archivos cifrado se recomienda para copiar imágenes IOS y configuraciones a dispositivos Cisco?',
+    options: [
+      'A. TFTP',
+      'B. FTP',
+      'C. SCP (Secure Copy Protocol)',
+      'D. HTTP'
+    ],
+    answer: 2,
+    explanation: 'SCP (Secure Copy Protocol) usa SSH para transferencia de archivos cifrada y autenticada, ideal para copiar imágenes IOS, configuraciones y backups. TFTP no tiene seguridad, FTP transmite credenciales en texto plano, y HTTP no es seguro. Cisco IOS soporta SCP con `ip scp server enable`.',
+    textEn: 'What encrypted file transfer protocol is recommended for copying IOS images and configurations to Cisco devices?',
+    optionsEn: [
+      'A. TFTP',
+      'B. FTP',
+      'C. SCP (Secure Copy Protocol)',
+      'D. HTTP'
+    ],
+    explanationEn: 'SCP (Secure Copy Protocol) uses SSH for encrypted and authenticated file transfer, ideal for copying IOS images, configurations, and backups. TFTP has no security, FTP transmits credentials in plaintext, and HTTP is not secure. Cisco IOS supports SCP with `ip scp server enable`.'
+  },
+
+  // 113: CDP for network documentation (2.3)
+  {
+    id: 113,
+    domain: 'switching_network_access',
+    difficulty: 'easy',
+    type: 'single',
+    text: '¿Qué comando muestra información de los vecinos CDP (Cisco Discovery Protocol) en un switch Cisco?',
+    options: [
+      'A. show cdp neighbors',
+      'B. show lldp neighbors',
+      'C. show cdp table',
+      'D. show discovery cdp'
+    ],
+    answer: 0,
+    explanation: '`show cdp neighbors` muestra los dispositivos Cisco vecinos descubiertos por CDP, incluyendo ID del dispositivo, interfaz local, puerto del vecino, plataforma y capacidad. CDP es propietario de Cisco y opera en Capa 2. `show cdp neighbors detail` da información más detallada.',
+    textEn: 'What command displays CDP (Cisco Discovery Protocol) neighbor information on a Cisco switch?',
+    optionsEn: [
+      'A. show cdp neighbors',
+      'B. show lldp neighbors',
+      'C. show cdp table',
+      'D. show discovery cdp'
+    ],
+    explanationEn: '`show cdp neighbors` displays neighboring Cisco devices discovered by CDP, including device ID, local interface, neighbor port, platform, and capability. CDP is Cisco proprietary and operates at Layer 2. `show cdp neighbors detail` gives more detailed information.'
+  },
+
+  // 114: LLDP configuration and verification (2.3)
+  {
+    id: 114,
+    domain: 'switching_network_access',
+    difficulty: 'medium',
+    type: 'single',
+    text: '¿Qué comando habilita LLDP (Link Layer Discovery Protocol) globalmente en un switch Cisco?',
+    options: [
+      'A. lldp enable',
+      'B. lldp run',
+      'C. lldp start',
+      'D. lldp on'
+    ],
+    answer: 1,
+    explanation: '`lldp run` habilita LLDP globalmente en el switch. LLDP es un protocolo estándar IEEE 802.1AB para descubrimiento de vecinos (a diferencia de CDP que es propietario de Cisco). Se puede deshabilitar por interfaz con `no lldp transmit` y `no lldp receive`.',
+    textEn: 'What command enables LLDP (Link Layer Discovery Protocol) globally on a Cisco switch?',
+    optionsEn: [
+      'A. lldp enable',
+      'B. lldp run',
+      'C. lldp start',
+      'D. lldp on'
+    ],
+    explanationEn: '`lldp run` enables LLDP globally on the switch. LLDP is a standard IEEE 802.1AB protocol for neighbor discovery (unlike CDP which is Cisco proprietary). It can be disabled per interface with `no lldp transmit` and `no lldp receive`.'
+  },
+
+  // 115: Troubleshoot with show logging (2.4)
+  {
+    id: 115,
+    domain: 'ai_network_operations',
+    difficulty: 'medium',
+    type: 'single',
+    text: '¿Qué comando en un router Cisco muestra los mensajes de log almacenados en la memoria RAM (buffer)?',
+    options: [
+      'A. show logging',
+      'B. show log buffer',
+      'C. debug all',
+      'D. show syslog'
+    ],
+    answer: 0,
+    explanation: '`show logging` muestra los mensajes del log almacenados en el buffer de logging en RAM, incluyendo la lista de logs recientes, la configuración de logging (servidor syslog, nivel de severidad, facilidad) y los traps SNMP. Es fundamental para troubleshooting.',
+    textEn: 'What command on a Cisco router shows log messages stored in RAM (buffer)?',
+    optionsEn: [
+      'A. show logging',
+      'B. show log buffer',
+      'C. debug all',
+      'D. show syslog'
+    ],
+    explanationEn: '`show logging` displays log messages stored in the logging buffer in RAM, including recent log entries, logging configuration (syslog server, severity level, facility), and SNMP traps. It is essential for troubleshooting.'
+  },
+
+  // 116: Packet capture / embedded packet capture (2.4)
+  {
+    id: 116,
+    domain: 'network_infrastructure',
+    difficulty: 'hard',
+    type: 'single',
+    text: '¿Qué herramienta integrada en Cisco IOS permite capturar y analizar paquetes en un router o switch para troubleshooting?',
+    options: [
+      'A. Wireshark',
+      'B. Embedded Packet Capture (EPC)',
+      'C. tcpdump',
+      'D. NetFlow'
+    ],
+    answer: 1,
+    explanation: 'Embedded Packet Capture (EPC) es una herramienta integrada en Cisco IOS que permite capturar paquetes en el router/switch sin necesidad de un dispositivo externo. Usa los comandos `monitor capture` para definir buffers, puntos de captura y filtros. Es similar a tcpdump pero integrado en el dispositivo.',
+    textEn: 'What built-in tool in Cisco IOS allows capturing and analyzing packets on a router or switch for troubleshooting?',
+    optionsEn: [
+      'A. Wireshark',
+      'B. Embedded Packet Capture (EPC)',
+      'C. tcpdump',
+      'D. NetFlow'
+    ],
+    explanationEn: 'Embedded Packet Capture (EPC) is a built-in tool in Cisco IOS that allows packet capture on the router/switch without needing an external device. It uses `monitor capture` commands to define buffers, capture points, and filters. It is similar to tcpdump but integrated into the device.'
+  },
+
+  // 117: Network management approaches (5.3)
+  {
+    id: 117,
+    domain: 'ai_network_operations',
+    difficulty: 'medium',
+    type: 'multi',
+    text: '¿Cuáles de los siguientes son enfoques de gestión de red válidos? (Selecciona 2)',
+    options: [
+      'A. Gestión basada en dispositivo (CLI/SNMP)',
+      'B. Gestión basada en controladora SDN (DNA Center, ACI)',
+      'C. Gestión basada en hojas de cálculo manuales',
+      'D. Gestión basada en tráfico únicamente'
+    ],
+    answer: [0, 1],
+    explanation: 'Los enfoques modernos de gestión de red incluyen: gestión basada en dispositivo (configuración individual vía CLI, SNMP), gestión basada en controladora (SDN como DNA Center o ACI), gestión cloud (Meraki Dashboard), automatización con herramientas como Ansible, e Infrastructure as Code (IaC).',
+    textEn: 'Which of the following are valid network management approaches? (Select 2)',
+    optionsEn: [
+      'A. Device-based management (CLI/SNMP)',
+      'B. SDN controller-based management (DNA Center, ACI)',
+      'C. Manual spreadsheet-based management',
+      'D. Traffic-only management'
+    ],
+    explanationEn: 'Modern network management approaches include: device-based management (individual CLI/SNMP configuration), SDN controller-based management (DNA Center or ACI), cloud management (Meraki Dashboard), automation with tools like Ansible, and Infrastructure as Code (IaC).'
+  },
+
+  // 118: Cloud vs on-prem network management (5.3)
+  {
+    id: 118,
+    domain: 'ai_network_operations',
+    difficulty: 'medium',
+    type: 'single',
+    text: '¿Qué plataforma de gestión de red de Cisco ofrece una interfaz basada en la nube (cloud-managed) sin necesidad de controladora on-premise?',
+    options: [
+      'A. Cisco DNA Center',
+      'B. Cisco Meraki Dashboard',
+      'C. Cisco Prime Infrastructure',
+      'D. Cisco APIC'
+    ],
+    answer: 1,
+    explanation: 'Cisco Meraki Dashboard es una plataforma de gestión de red 100% basada en la nube. Los dispositivos Meraki (switches, APs, firewalls) se gestionan a través de una interfaz web sin necesidad de controladora física. DNA Center requiere hardware on-premise, Prime Infrastructure es on-premise, y APIC es para ACI.',
+    textEn: 'What Cisco network management platform offers a cloud-based interface without needing an on-premise controller?',
+    optionsEn: [
+      'A. Cisco DNA Center',
+      'B. Cisco Meraki Dashboard',
+      'C. Cisco Prime Infrastructure',
+      'D. Cisco APIC'
+    ],
+    explanationEn: 'Cisco Meraki Dashboard is a 100% cloud-based network management platform. Meraki devices (switches, APs, firewalls) are managed through a web interface without needing a physical controller. DNA Center requires on-premise hardware, Prime Infrastructure is on-premise, and APIC is for ACI.'
+  },
+
+  // 119: IaC and automation in networking (5.3)
+  {
+    id: 119,
+    domain: 'ai_network_operations',
+    difficulty: 'medium',
+    type: 'single',
+    text: '¿Qué ventaja principal ofrece Infrastructure as Code (IaC) sobre la configuración manual de dispositivos de red?',
+    options: [
+      'A. Elimina la necesidad de ingenieros de red',
+      'B. Permite versionar, revisar y reproducir configuraciones de forma consistente',
+      'C. Aumenta la velocidad de los switches',
+      'D. Reduce el costo de los cables de red'
+    ],
+    answer: 1,
+    explanation: 'IaC permite tratar las configuraciones de red como código: se almacenan en repositorios (Git), se pueden versionar, revisar (code review), probar y desplegar de forma automatizada y consistente. Esto elimina errores humanos de configuración y asegura consistencia en toda la red.',
+    textEn: 'What is the main advantage of Infrastructure as Code (IaC) over manual network device configuration?',
+    optionsEn: [
+      'A. Eliminates the need for network engineers',
+      'B. Allows versioning, reviewing, and reproducing configurations consistently',
+      'C. Increases switch speed',
+      'D. Reduces the cost of network cables'
+    ],
+    explanationEn: 'IaC allows treating network configurations as code: they are stored in repositories (Git), can be versioned, reviewed (code review), tested, and deployed automatically and consistently. This eliminates human configuration errors and ensures consistency across the network.'
+  },
+
+  // 120: Ansible playbook structure (5.5)
+  {
+    id: 120,
+    domain: 'ai_network_operations',
+    difficulty: 'medium',
+    type: 'multi',
+    text: '¿Cuáles de los siguientes son componentes clave de un playbook de Ansible? (Selecciona 2)',
+    options: [
+      'A. Hosts (inventario de dispositivos)',
+      'B. Tareas (tasks) con módulos',
+      'C. Compilador de C++',
+      'D. Base de datos SQL'
+    ],
+    answer: [0, 1],
+    explanation: 'Un playbook de Ansible define: el inventario de hosts (dispositivos a gestionar) y las tareas (tasks) que ejecutan módulos específicos (como `ios_config` para Cisco IOS). Los playbooks están escritos en YAML. No requieren compiladores ni bases de datos SQL para funcionar.',
+    textEn: 'Which of the following are key components of an Ansible playbook? (Select 2)',
+    optionsEn: [
+      'A. Hosts (device inventory)',
+      'B. Tasks with modules',
+      'C. C++ compiler',
+      'D. SQL database'
+    ],
+    explanationEn: 'An Ansible playbook defines: the host inventory (devices to manage) and tasks that execute specific modules (such as `ios_config` for Cisco IOS). Playbooks are written in YAML. They do not require compilers or SQL databases to function.'
+  },
+
+  // 121: Syslog severity levels (5.6)
+  {
+    id: 121,
+    domain: 'ai_network_operations',
+    difficulty: 'medium',
+    type: 'single',
+    text: '¿Cuál es el nivel de severidad de syslog para mensajes de "error" (error conditions)?',
+    options: [
+      'A. Nivel 1 (Alert)',
+      'B. Nivel 3 (Error)',
+      'C. Nivel 5 (Notice)',
+      'D. Nivel 7 (Debug)'
+    ],
+    answer: 1,
+    explanation: 'Syslog define 8 niveles de severidad (0-7): 0=Emergency, 1=Alert, 2=Critical, 3=Error, 4=Warning, 5=Notice, 6=Informational, 7=Debug. El nivel 3 (Error) indica condiciones de error en el dispositivo que requieren atención pero no son críticas.',
+    textEn: 'What syslog severity level corresponds to "error" (error conditions)?',
+    optionsEn: [
+      'A. Level 1 (Alert)',
+      'B. Level 3 (Error)',
+      'C. Level 5 (Notice)',
+      'D. Level 7 (Debug)'
+    ],
+    explanationEn: 'Syslog defines 8 severity levels (0-7): 0=Emergency, 1=Alert, 2=Critical, 3=Error, 4=Warning, 5=Notice, 6=Informational, 7=Debug. Level 3 (Error) indicates error conditions on the device that require attention but are not critical.'
+  },
+
+  // 122: Syslog facilities and configuration (5.6)
+  {
+    id: 122,
+    domain: 'ai_network_operations',
+    difficulty: 'hard',
+    type: 'single',
+    text: '¿Qué comando configura un router Cisco para enviar logs a un servidor syslog remoto en 192.168.1.100?',
+    options: [
+      'A. logging host 192.168.1.100',
+      'B. syslog server 192.168.1.100',
+      'C. logging 192.168.1.100',
+      'D. log server 192.168.1.100'
+    ],
+    answer: 2,
+    explanation: '`logging <IP>` configura el envío de mensajes syslog a un servidor remoto en la dirección IP especificada. También se pueden configurar: `logging trap <level>` para el nivel de severidad, `logging facility <facility>` para la facilidad syslog, y `logging source-interface` para definir la interfaz origen.',
+    textEn: 'What command configures a Cisco router to send logs to a remote syslog server at 192.168.1.100?',
+    optionsEn: [
+      'A. logging host 192.168.1.100',
+      'B. syslog server 192.168.1.100',
+      'C. logging 192.168.1.100',
+      'D. log server 192.168.1.100'
+    ],
+    explanationEn: '`logging <IP>` configures sending syslog messages to a remote server at the specified IP address. You can also configure: `logging trap <level>` for severity level, `logging facility <facility>` for syslog facility, and `logging source-interface` to define the source interface.'
+  },
+
+  // 123: Wireless RF interference and coverage (1.5)
+  {
+    id: 123,
+    domain: 'network_infrastructure',
+    difficulty: 'medium',
+    type: 'multi',
+    text: '¿Cuáles de los siguientes factores afectan negativamente la cobertura y rendimiento de una red WiFi? (Selecciona 2)',
+    options: [
+      'A. Interferencia de dispositivos que operan en la misma banda (Bluetooth, microondas)',
+      'B. Paredes y obstáculos físicos (atenuación de señal)',
+      'C. Uso de cables de red Cat6a',
+      'D. Configurar una VLAN nativa'
+    ],
+    answer: [0, 1],
+    explanation: 'La cobertura y rendimiento WiFi se ven afectados por: interferencia de radiofrecuencia (RF) de otros dispositivos en la misma banda (hornos microondas, Bluetooth, teléfonos inalámbricos), y atenuación de señal por obstáculos físicos (paredes, techos, muebles metálicos). Los cables Cat6a y VLANs no afectan la cobertura inalámbrica.',
+    textEn: 'Which of the following factors negatively affect WiFi coverage and performance? (Select 2)',
+    optionsEn: [
+      'A. Interference from devices operating in the same band (Bluetooth, microwaves)',
+      'B. Walls and physical obstacles (signal attenuation)',
+      'C. Using Cat6a network cables',
+      'D. Configuring a native VLAN'
+    ],
+    explanationEn: 'WiFi coverage and performance are affected by: radio frequency (RF) interference from other devices in the same band (microwave ovens, Bluetooth, cordless phones), and signal attenuation from physical obstacles (walls, ceilings, metal furniture). Cat6a cables and VLANs do not affect wireless coverage.'
+  },
+
+  // 124: Type 1 vs Type 2 hypervisors (1.2)
+  {
+    id: 124,
+    domain: 'network_infrastructure',
+    difficulty: 'medium',
+    type: 'single',
+    text: '¿Qué diferencia a un hipervisor Tipo 1 (bare-metal) de un hipervisor Tipo 2 (hosted)?',
+    options: [
+      'A. Tipo 1 se ejecuta directamente sobre el hardware; Tipo 2 se ejecuta sobre un sistema operativo host',
+      'B. Tipo 1 solo soporta Windows; Tipo 2 solo Linux',
+      'C. Tipo 2 es más rápido que Tipo 1',
+      'D. Tipo 1 requiere licencia; Tipo 2 es siempre gratuito'
+    ],
+    answer: 0,
+    explanation: 'Un hipervisor Tipo 1 (bare-metal como VMware ESXi, Microsoft Hyper-V, KVM) se ejecuta directamente sobre el hardware físico sin un sistema operativo intermedio, ofreciendo mayor rendimiento y eficiencia. Un hipervisor Tipo 2 (hosted como VirtualBox, VMware Workstation) se ejecuta como una aplicación sobre un sistema operativo existente.',
+    textEn: 'What distinguishes a Type 1 (bare-metal) hypervisor from a Type 2 (hosted) hypervisor?',
+    optionsEn: [
+      'A. Type 1 runs directly on hardware; Type 2 runs on top of a host operating system',
+      'B. Type 1 only supports Windows; Type 2 only Linux',
+      'C. Type 2 is faster than Type 1',
+      'D. Type 1 requires a license; Type 2 is always free'
+    ],
+    explanationEn: 'A Type 1 hypervisor (bare-metal like VMware ESXi, Microsoft Hyper-V, KVM) runs directly on the physical hardware without an intermediate operating system, offering better performance and efficiency. A Type 2 hypervisor (hosted like VirtualBox, VMware Workstation) runs as an application on top of an existing operating system.'
+  },
+
+  // 125: Network automation benefits / AIOps (5.5)
+  {
+    id: 125,
+    domain: 'ai_network_operations',
+    difficulty: 'easy',
+    type: 'single',
+    text: '¿Qué beneficio aporta la automatización de red combinada con IA (AIOps) en operaciones de red modernas?',
+    options: [
+      'A. Elimina completamente la necesidad de monitoreo',
+      'B. Detecta anomalías, predice fallas y sugiere acciones correctivas automáticamente',
+      'C. Aumenta el ancho de banda físico de los enlaces',
+      'D. Reemplaza todos los switches por software'
+    ],
+    answer: 1,
+    explanation: 'AIOps (Artificial Intelligence for IT Operations) combina automatización con machine learning para analizar grandes volúmenes de datos de red, detectar anomalías en tiempo real, predecir fallas antes de que ocurran y sugerir o ejecutar acciones correctivas automáticamente. No elimina el monitoreo ni aumenta el ancho de banda físico.',
+    textEn: 'What benefit does network automation combined with AI (AIOps) bring to modern network operations?',
+    optionsEn: [
+      'A. Completely eliminates the need for monitoring',
+      'B. Detects anomalies, predicts failures, and suggests corrective actions automatically',
+      'C. Increases physical link bandwidth',
+      'D. Replaces all switches with software'
+    ],
+    explanationEn: 'AIOps (Artificial Intelligence for IT Operations) combines automation with machine learning to analyze large volumes of network data, detect anomalies in real-time, predict failures before they occur, and suggest or execute corrective actions automatically. It does not eliminate monitoring or increase physical bandwidth.'
   }
 ];
-
-QUESTIONS.push(...MORE_QUESTIONS);
 
 // Make available globally
 if (typeof window !== 'undefined') {

@@ -42,9 +42,9 @@ const Analytics = {
     if (totalAnswered === 0) {
       return {
         title: Lang.isEn() ? '🚀 Start your preparation' : '🚀 Empezá tu preparación',
-        text: Lang.isEn() ? "You haven't answered any questions yet. I recommend starting with \"Network Fundamentals\" — it's the foundation for everything else and makes up 20% of the exam." : 'Todavía no respondiste preguntas. Te recomiendo empezar con "Fundamentos de Red" — es la base para todo lo demás y representa el 20% del examen.',
-        action: Lang.isEn() ? 'Network Fundamentals' : 'Fundamentos de Red',
-        domain: 'network_fundamentals'
+        text: Lang.isEn() ? "You haven't answered any questions yet. I recommend starting with \\\"Network Infrastructure & Connectivity\\\" — it's the foundation for everything else and makes up 25% of the exam." : 'Todavía no respondiste preguntas. Te recomiendo empezar con \"Infraestructura y Conectividad de Red\" — es la base para todo lo demás y representa el 25% del examen.',
+        action: Lang.isEn() ? 'Network Infrastructure' : 'Infraestructura de Red',
+        domain: 'network_infrastructure'
       };
     }
 

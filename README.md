@@ -6,7 +6,7 @@ Plataforma completa de preparación para el examen CCNA 200-301 de Cisco. Totalm
 
 ## ✨ Features
 
-- **📝 80+ preguntas realistas** cubriendo los 6 dominios del CCNA 200-301
+- **📝 125+ preguntas realistas** cubriendo los 5 dominios del CCNA 200-301 v2.0 (2026)
 - **🎯 Simulacro completo** — 60 preguntas en 90 minutos, replica el formato Cisco
 - **🔧 Labs interactivos** — CLI Cisco IOS simulada con troubleshooting real
 - **🧠 Tutor adaptativo** — detecta debilidades y ajusta dificultad automáticamente
@@ -76,12 +76,11 @@ La guía de estudio está en `js/data/study-guide.js`.
 
 | Dominio | % del Examen | Preguntas |
 |---------|-------------|-----------|
-| 🌐 Network Fundamentals | 20% | OSI, TCP/IP, subnetting, IPv6, cableado |
-| 🔌 Network Access | 20% | VLANs, STP, EtherChannel, trunking |
-| 🔗 IP Connectivity | 25% | OSPF, enrutamiento estático, FHRP, NAT |
-| ⚙️ IP Services | 10% | DHCP, DNS, NTP, SNMP, SSH |
-| 🔒 Security Fundamentals | 15% | ACLs, Port Security, AAA, VPN |
-| 🤖 Automation & Programmability | 10% | REST APIs, JSON, Ansible, SDN, DNA Center |
+| 🌐 Network Infrastructure and Connectivity | 25% | Cableado, VMs/containers, IPv4/IPv6, wireless, DHCP |
+| 🔌 Switching and Network Access | 25% | VLANs, STP/Rapid-PVST+, EtherChannel, CDP/LLDP |
+| 🔗 IP Routing | 20% | OSPFv2/v3, enrutamiento estático, FHRP (HSRP+VRRP) |
+| 🔒 Network Services and Security | 20% | AAA, ACLs, NAT/PAT, VPN, seguridad L2, DNS |
+| 🤖 AI, and Network Operations & Management | 10% | IA agéntica, prompts generativos, SNMP, Ansible, syslog |
 
 ## 📝 Licencia
 

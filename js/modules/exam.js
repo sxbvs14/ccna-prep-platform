@@ -9,12 +9,11 @@ const ExamSimulator = {
   start(totalQuestions = 60, timeLimitMinutes = 90) {
     // Build weighted question set matching CCNA domain percentages
     const domainWeights = {
-      network_fundamentals: 0.20,
-      network_access: 0.20,
-      ip_connectivity: 0.25,
-      ip_services: 0.10,
-      security_fundamentals: 0.15,
-      automation: 0.10
+      network_infrastructure: 0.25,
+      switching_network_access: 0.25,
+      ip_routing: 0.20,
+      network_services_security: 0.20,
+      ai_network_operations: 0.10
     };
 
     let selectedQuestions = [];
