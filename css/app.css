@@ -650,6 +650,21 @@ body::before {
   font-size: 0.82rem;
   outline: none;
   caret-color: var(--accent-light);
+  min-width: 50px;
+}
+
+/* Click anywhere on terminal input line to focus */
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: #0d0d0d;
+  border-top: 1px solid #1a1a2e;
+  cursor: text;
+  transition: background 0.2s;
+}
+.terminal-input-line:hover {
+  background: #111122;
 }
 
 .lab-question {

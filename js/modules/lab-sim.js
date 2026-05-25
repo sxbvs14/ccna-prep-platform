@@ -1,9 +1,12 @@
 // ═══════════════════════════════════════════
 // Lab Simulator — Cisco IOS CLI Simulator
 // ═══════════════════════════════════════════
-// Full mode system with reliable input handling.
-// Every call to loadLab() re-attaches the input
-// listener fresh — no flags, no delegation conflicts.
+// Complete interactive experience:
+// - Tab completion, command history (↑↓)
+// - Mode system: User/Priv EXEC, Global, Interface, VLAN, Line, Router
+// - do command in config mode, no prefix support
+// - 60+ show commands with realistic output
+// - Lab-specific command responses
 // ═══════════════════════════════════════════
 
 const IOS_MODE = {
@@ -24,18 +27,20 @@ const LabSim = {
   outputLines: [],
   selectedAnswer: null,
   solved: false,
+  cmdHistory: [],
+  historyIdx: -1,
 
   loadLab(labId) {
     this.currentLab = LAB_SCENARIOS.find(l => l.id === labId);
     if (!this.currentLab) return;
-
     this.currentHost = this.currentLab.initialHost;
     this.mode = IOS_MODE.PRIV_EXEC;
     this.modeStack = [];
     this.outputLines = [];
     this.selectedAnswer = null;
     this.solved = false;
-
+    this.cmdHistory = [];
+    this.historyIdx = -1;
     this.render();
   },
 
@@ -63,37 +68,43 @@ const LabSim = {
     const p = document.getElementById('labPrompt');
     const t = document.getElementById('labTermTitle');
     if (p) p.textContent = this.getPrompt();
-    if (t) t.textContent = `${this.getHostname()}> enable`;
+    if (t) t.textContent = this.getPrompt() + ' — CCNA IOS Simulator';
   },
 
-  // ── Render: re-builds scenario + re-attaches input listener ──
+  isConfigMode() {
+    return this.mode !== IOS_MODE.USER_EXEC && this.mode !== IOS_MODE.PRIV_EXEC;
+  },
+
+  // ── Render ──
 
   render() {
     const lab = this.currentLab;
     if (!lab) return;
 
     // Scenario + question
-    document.getElementById('labScenario').innerHTML = `
-      ${Lang.labScenario(lab)}
-      <div class="lab-question" id="labQuestionArea">
-        <h4 style="color:var(--accent-light);margin-bottom:10px">🔍 ${Lang.t('labsQuestionLabel')}</h4>
-        <p style="margin-bottom:12px">${Lang.labQuestion(lab)}</p>
-        <ul class="option-list" id="labOptions">
-          ${Lang.labOptions(lab).map((opt, i) => `
-            <li class="option-item" data-oi="${i}">
-              <div class="option-marker">${String.fromCharCode(65 + i)}</div>
-              <span>${opt}</span>
-            </li>
-          `).join('')}
-        </ul>
-        <div id="labAnswerFeedback" class="hidden mt-2"></div>
-      </div>
-    `;
+    const scenarioEl = document.getElementById('labScenario');
+    if (scenarioEl) {
+      scenarioEl.innerHTML = `
+        ${Lang.labScenario(lab)}
+        <div class="lab-question" id="labQuestionArea">
+          <h4 style="color:var(--accent-light);margin-bottom:10px">🔍 ${Lang.t('labsQuestionLabel')}</h4>
+          <p style="margin-bottom:12px">${Lang.labQuestion(lab)}</p>
+          <ul class="option-list" id="labOptions">
+            ${Lang.labOptions(lab).map((opt, i) => `
+              <li class="option-item" data-oi="${i}">
+                <div class="option-marker">${String.fromCharCode(65 + i)}</div>
+                <span>${opt}</span>
+              </li>
+            `).join('')}
+          </ul>
+          <div id="labAnswerFeedback" class="hidden mt-2"></div>
+        </div>
+      `;
+    }
 
-    // Lab selector — always rebuild options
+    // Lab selector — fresh replace kills stale listeners
     const sel = document.getElementById('labSelector');
     if (sel) {
-      // Replace the select entirely to kill any stale listeners
       const newSel = document.createElement('select');
       newSel.id = 'labSelector';
       newSel.style.cssText = sel.style.cssText || 'background:var(--bg-input);color:var(--text-primary);border:1px solid var(--border-card);border-radius:var(--radius-sm);padding:8px 12px;font-family:var(--font-sans)';
@@ -108,17 +119,16 @@ const LabSim = {
       sel.parentNode.replaceChild(newSel, sel);
     }
 
-    // Terminal header
     this.updatePromptUI();
 
     // Boot banner
     this.outputLines = [
       ``,
-      `<span class="highlight">╔══════════════════════════════════════╗</span>`,
-      `<span class="highlight">║   Cisco IOS Simulator — CCNA Lab    ║</span>`,
-      `<span class="highlight">║   Type <strong>?</strong> for available commands    ║</span>`,
-      `<span class="highlight">║   Type <strong>host</strong> &lt;name&gt; to switch device ║</span>`,
-      `<span class="highlight">╚══════════════════════════════════════╝</span>`,
+      `<span class="highlight">╔══════════════════════════════════════════╗</span>`,
+      `<span class="highlight">║   Cisco IOS Simulator — CCNA Lab        ║</span>`,
+      `<span class="highlight">║   Type <strong>?</strong> for commands | <strong>Tab</strong> for completion  ║</span>`,
+      `<span class="highlight">║   <strong>↑↓</strong> for command history             ║</span>`,
+      `<span class="highlight">╚══════════════════════════════════════════╝</span>`,
       ``
     ];
     this.updateOutput();
@@ -132,22 +142,20 @@ const LabSim = {
       });
     });
 
-    // ── ATTACH INPUT LISTENER FRESH EVERY TIME ──
     this.attachInput();
   },
 
-  // ── Attach Enter listener directly on #labInput (fresh each render) ──
+  // ── Input attachment — fresh KeyDown per render ──
 
   attachInput() {
     const input = document.getElementById('labInput');
     if (!input) return;
 
-    // Remove ALL previous listeners by cloning + replacing
     const newInput = input.cloneNode(true);
     newInput.id = 'labInput';
     newInput.className = 'terminal-input';
     newInput.setAttribute('autocomplete', 'off');
-    // Preserve placeholder
+    newInput.setAttribute('spellcheck', 'false');
     const oldPlaceholder = input.getAttribute('placeholder');
     if (oldPlaceholder) newInput.setAttribute('placeholder', oldPlaceholder);
     if (Lang && Lang.current) {
@@ -155,24 +163,98 @@ const LabSim = {
       if (i18nKey) newInput.setAttribute('placeholder', Lang.t(i18nKey));
     }
 
+    // ── Single handler for Enter, Tab, ArrowUp/Down ──
     newInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
         const cmd = newInput.value.trim();
         if (cmd) {
+          this.cmdHistory.push(cmd);
+          this.historyIdx = this.cmdHistory.length;
           this.executeCommand(cmd);
           newInput.value = '';
         }
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        const partial = newInput.value.trim().toLowerCase();
+        if (partial.length === 0) {
+          // Bare Tab = ? (show help)
+          this.outputLines.push(`<span class="prompt">${this.getPrompt()}</span> <span class="cmd">&lt;Tab&gt;</span>`);
+          this.showHelp();
+          this.updateOutput();
+          return;
+        }
+        // Find completions
+        const all = this.getAllCommands();
+        const matches = all.filter(c => c.startsWith(partial));
+        if (matches.length === 1) {
+          newInput.value = matches[0] + ' ';
+        } else if (matches.length > 1) {
+          // Show possible completions
+          this.outputLines.push(`<span class="prompt">${this.getPrompt()}</span> <span class="cmd">${newInput.value}</span>`);
+          this.outputLines.push(`<span class="highlight">${matches.join('  ')}</span>`);
+          this.updateOutput();
+        }
+      } else if (e.key === 'ArrowUp') {
+        if (this.cmdHistory.length > 0 && this.historyIdx > 0) {
+          this.historyIdx--;
+          newInput.value = this.cmdHistory[this.historyIdx];
+        }
+        e.preventDefault();
+      } else if (e.key === 'ArrowDown') {
+        if (this.historyIdx < this.cmdHistory.length - 1) {
+          this.historyIdx++;
+          newInput.value = this.cmdHistory[this.historyIdx];
+        } else {
+          this.historyIdx = this.cmdHistory.length;
+          newInput.value = '';
+        }
+        e.preventDefault();
       }
     });
 
     input.parentNode.replaceChild(newInput, input);
 
-    // Auto-focus the input after a tiny delay (DOM needs to settle)
-    setTimeout(() => newInput.focus(), 50);
+    // Click on the terminal input line focuses the input
+    const inputLine = newInput.closest('.terminal-input-line');
+    if (inputLine) {
+      inputLine.addEventListener('click', (e) => {
+        if (e.target !== newInput) newInput.focus();
+      });
+    }
+
+    setTimeout(() => newInput.focus(), 30);
   },
 
-  // ── Core command execution ──
+  // ── Collect all known commands for Tab completion ──
+
+  getAllCommands() {
+    const lab = this.currentLab;
+    const cmds = [];
+
+    if (this.mode === IOS_MODE.USER_EXEC) {
+      cmds.push('enable', 'show', 'ping', 'traceroute', '?', 'help', 'clear', 'cls', 'host');
+    } else if (this.mode === IOS_MODE.PRIV_EXEC) {
+      cmds.push('configure terminal', 'show', 'ping', 'traceroute', 'write memory', 'wr',
+        'reload', 'disable', 'copy running-config startup-config', 'copy run start',
+        'debug', '?', 'help', 'clear', 'cls', 'host');
+    } else if (this.isConfigMode()) {
+      cmds.push('do', 'exit', 'end', '?', 'help');
+      if (this.mode === IOS_MODE.GLOBAL_CONFIG) {
+        cmds.push('hostname', 'interface', 'vlan', 'ip route', 'router ospf', 'line', 'no');
+      } else if (this.mode === IOS_MODE.INTERFACE) {
+        cmds.push('ip address', 'no shutdown', 'shutdown', 'switchport', 'switchport mode',
+          'switchport access', 'no');
+      } else if (this.mode === IOS_MODE.ROUTER) {
+        cmds.push('network');
+      }
+    }
+
+    if (lab) Object.keys(lab.commands).forEach(c => cmds.push(c));
+    return [...new Set(cmds)];
+  },
+
+  // ── Core execution ──
 
   executeCommand(rawCmd) {
     if (!this.currentLab) return;
@@ -181,11 +263,12 @@ const LabSim = {
 
     const lab = this.currentLab;
     const prompt = this.getPrompt();
-    this.outputLines.push(`<span class="prompt">${prompt}</span> <span class="cmd">${cmd}</span>`);
     const lower = cmd.toLowerCase();
 
-    // --- Built-in commands ---
+    // Echo the command to terminal — this is the key visual feedback
+    this.outputLines.push(`<span class="prompt">${prompt}</span> <span class="cmd">${cmd}</span>`);
 
+    // --- Built-in ---
     if (lower === '?' || lower === 'help') { this.showHelp(); this.updateOutput(); return; }
     if (lower === 'clear' || lower === 'cls') { this.outputLines = []; this.updateOutput(); return; }
 
@@ -193,21 +276,18 @@ const LabSim = {
     if (lower.startsWith('host ')) {
       const target = cmd.split(' ')[1].toUpperCase();
       if (lab.hosts.includes(target)) {
-        this.currentHost = target;
-        this.mode = IOS_MODE.PRIV_EXEC;
-        this.modeStack = [];
+        this.currentHost = target; this.mode = IOS_MODE.PRIV_EXEC; this.modeStack = [];
         this.outputLines.push(`<span class="highlight">${Lang.t('labsConnected')} ${target}]</span>`);
         this.updatePromptUI();
       } else {
         this.outputLines.push(`<span class="error">% ${Lang.t('labsUnknownHost')} ${target}. ${Lang.t('labsAvailableHosts')}: ${lab.hosts.join(', ')}</span>`);
       }
-      this.updateOutput();
-      return;
+      this.updateOutput(); return;
     }
 
     // enable / disable
     if (lower === 'enable' || lower === 'en') {
-      if (this.mode === IOS_MODE.USER_EXEC) { this.setMode(IOS_MODE.PRIV_EXEC); this.outputLines.push(``); }
+      if (this.mode === IOS_MODE.USER_EXEC) { this.setMode(IOS_MODE.PRIV_EXEC); }
       else { this.outputLines.push(`<span class="error">% Already in privileged mode</span>`); }
       this.updateOutput(); return;
     }
@@ -226,37 +306,41 @@ const LabSim = {
       this.updateOutput(); return;
     }
 
+    // do command (run exec commands from config mode)
+    if (lower.startsWith('do ')) {
+      if (this.isConfigMode()) {
+        const execCmd = cmd.substring(3).trim();
+        if (execCmd) { this.executeCommand(execCmd); return; }
+      } else { this.outputLines.push(`<span class="error">% Invalid input</span>`); }
+      this.updateOutput(); return;
+    }
+
     // interface
     if (lower.startsWith('interface ') || lower.startsWith('int ')) {
-      if (this.mode === IOS_MODE.GLOBAL_CONFIG || this.mode === IOS_MODE.INTERFACE) {
+      if (this.mode === IOS_MODE.GLOBAL_CONFIG) {
         this.pushMode(IOS_MODE.INTERFACE);
-        this.outputLines.push(``);
       } else { this.outputLines.push(`<span class="error">% Invalid input</span>`); }
       this.updateOutput(); return;
     }
 
     // vlan
     if (lower.startsWith('vlan ')) {
-      if (this.mode === IOS_MODE.GLOBAL_CONFIG) {
-        this.pushMode(IOS_MODE.VLAN);
-        this.outputLines.push(`<span class="highlight">% Entering VLAN config mode.</span>`);
-      } else { this.outputLines.push(`<span class="error">% Invalid input</span>`); }
+      if (this.mode === IOS_MODE.GLOBAL_CONFIG) { this.pushMode(IOS_MODE.VLAN); }
+      else { this.outputLines.push(`<span class="error">% Invalid input</span>`); }
       this.updateOutput(); return;
     }
 
     // line
     if (lower.startsWith('line ')) {
-      if (this.mode === IOS_MODE.GLOBAL_CONFIG) { this.pushMode(IOS_MODE.LINE); this.outputLines.push(``); }
+      if (this.mode === IOS_MODE.GLOBAL_CONFIG) { this.pushMode(IOS_MODE.LINE); }
       else { this.outputLines.push(`<span class="error">% Invalid input</span>`); }
       this.updateOutput(); return;
     }
 
     // router
     if (lower.startsWith('router ')) {
-      if (this.mode === IOS_MODE.GLOBAL_CONFIG) {
-        this.pushMode(IOS_MODE.ROUTER);
-        this.outputLines.push(`<span class="highlight">% Entering routing protocol config mode.</span>`);
-      } else { this.outputLines.push(`<span class="error">% Invalid input</span>`); }
+      if (this.mode === IOS_MODE.GLOBAL_CONFIG) { this.pushMode(IOS_MODE.ROUTER); }
+      else { this.outputLines.push(`<span class="error">% Invalid input</span>`); }
       this.updateOutput(); return;
     }
 
@@ -266,9 +350,6 @@ const LabSim = {
         this.outputLines.push(`<span class="error">% Connection closed by foreign host.</span>`);
       } else if (this.mode !== IOS_MODE.PRIV_EXEC) {
         this.popMode();
-        if (this.mode === IOS_MODE.GLOBAL_CONFIG || this.mode === IOS_MODE.PRIV_EXEC) {
-          this.outputLines.push(`<span class="highlight">% Exiting configuration mode.</span>`);
-        }
       } else {
         this.setMode(IOS_MODE.USER_EXEC);
       }
@@ -277,22 +358,21 @@ const LabSim = {
 
     // end
     if (lower === 'end') {
-      if (this.mode !== IOS_MODE.USER_EXEC && this.mode !== IOS_MODE.PRIV_EXEC) {
-        this.modeStack = [];
-        this.setMode(IOS_MODE.PRIV_EXEC);
+      if (this.isConfigMode()) {
+        this.modeStack = []; this.setMode(IOS_MODE.PRIV_EXEC);
         this.outputLines.push(`<span class="highlight">%SYS-5-CONFIG_I: Configured from console by console</span>`);
       } else { this.outputLines.push(`<span class="error">% Invalid input</span>`); }
       this.updateOutput(); return;
     }
 
-    // show commands
+    // show
     if (lower.startsWith('show ') || lower.startsWith('sh ')) { this.handleShow(lower); return; }
 
-    // ping / traceroute
-    if (lower.startsWith('ping')) { this.handlePing(cmd, lower); return; }
-    if (lower.startsWith('traceroute') || lower.startsWith('trace ')) { this.handleTrace(cmd, lower); return; }
+    // ping / trace
+    if (lower.startsWith('ping')) { this.handlePing(cmd); return; }
+    if (lower.startsWith('traceroute') || lower.startsWith('trace ')) { this.handleTrace(cmd); return; }
 
-    // write memory / copy run start
+    // write / copy
     if (lower === 'write memory' || lower === 'wr' || lower.startsWith('copy run')) {
       if (this.mode === IOS_MODE.PRIV_EXEC) {
         this.outputLines.push(`<span class="highlight">Building configuration...</span>`);
@@ -305,18 +385,30 @@ const LabSim = {
     if (lower === 'reload') {
       if (this.mode === IOS_MODE.PRIV_EXEC) {
         this.outputLines.push(`<span class="highlight">Proceed with reload? [confirm]</span>`);
-        this.outputLines.push(``);
         this.outputLines.push(`<span class="error">% Reload in progress...</span>`);
         setTimeout(() => {
           this.mode = IOS_MODE.USER_EXEC; this.modeStack = [];
-          this.outputLines = [`<span class="highlight">C2960 Software (C2960-LANBASEK9-M), Version 15.2(7)E</span>`, `<span class="highlight">System restarted --</span>`, ``];
+          this.outputLines = [`<span class="highlight">C2960 Software, Version 15.2(7)E</span>`, `<span class="highlight">System restarted --</span>`, ``];
           this.updatePromptUI(); this.updateOutput();
-        }, 800);
+        }, 600);
       } else { this.outputLines.push(`<span class="error">% Invalid input</span>`); }
       this.updateOutput(); return;
     }
 
-    // interface config: no shutdown / shutdown / ip address / switchport / hostname
+    // no prefix for config commands
+    if (lower.startsWith('no ')) {
+      const sub = lower.substring(3).trim();
+      if (this.isConfigMode()) {
+        if (sub.startsWith('shutdown')) { this.outputLines.push(`<span class="highlight">% Interface is up</span>`); }
+        else if (sub.startsWith('ip route')) { this.outputLines.push(``); }
+        else if (sub.startsWith('ip address')) { this.outputLines.push(`<span class="highlight">% IP address removed</span>`); }
+        else if (sub.startsWith('switchport')) { this.outputLines.push(``); }
+        else { this.outputLines.push(``); }
+      } else { this.outputLines.push(`<span class="error">% Invalid input</span>`); }
+      this.updateOutput(); return;
+    }
+
+    // Interface config commands
     if (lower === 'no shutdown' || lower === 'no shut') {
       if (this.mode === IOS_MODE.INTERFACE) { this.outputLines.push(`<span class="highlight">%LINK-5-CHANGED: Interface is up, line protocol is up</span>`); }
       else { this.outputLines.push(`<span class="error">% Invalid input</span>`); }
@@ -357,7 +449,6 @@ const LabSim = {
     }
 
     // --- Lab-specific commands ---
-    let matched = false;
     for (const [pattern, outputs] of Object.entries(lab.commands)) {
       if (lower.startsWith(pattern)) {
         const output = outputs[this.currentHost];
@@ -370,18 +461,16 @@ const LabSim = {
         } else {
           this.outputLines.push(`<span class="error">% Command not available on ${this.currentHost}</span>`);
         }
-        matched = true;
-        break;
+        this.updateOutput();
+        return;
       }
     }
 
-    if (!matched) {
-      this.outputLines.push(`<span class="error">% Invalid input detected at '^' marker.</span>`);
-    }
+    this.outputLines.push(`<span class="error">% Invalid input detected at '^' marker.</span>`);
     this.updateOutput();
   },
 
-  // ── Show command handler ──
+  // ── Show ──
 
   handleShow(lower) {
     const lab = this.currentLab;
@@ -396,15 +485,11 @@ const LabSim = {
               this.outputLines.push(`<span class="error">${l}</span>`);
             } else { this.outputLines.push(l); }
           });
-        } else {
-          this.outputLines.push(`<span class="error">% Command not available on ${this.currentHost}</span>`);
-        }
-        this.updateOutput();
-        return;
+        } else { this.outputLines.push(`<span class="error">% Command not available on ${this.currentHost}</span>`); }
+        this.updateOutput(); return;
       }
     }
 
-    // Generic show commands
     const showMap = {
       'show version': `Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.2(7)E\nCopyright (c) 1986-2024 by Cisco Systems, Inc.\n${this.getHostname()} uptime is 0 days, 2 hours, 34 minutes\nSystem image file is "flash:c2960-lanbasek9-mz.152-7.E.bin"`,
       'show clock': `*14:28:22.735 UTC Mon May 25 2026`,
@@ -439,8 +524,7 @@ const LabSim = {
     for (const [pattern, output] of Object.entries(showMap)) {
       if (lower.startsWith(pattern)) {
         output.split('\n').forEach(l => this.outputLines.push(l));
-        this.updateOutput();
-        return;
+        this.updateOutput(); return;
       }
     }
 
@@ -448,7 +532,7 @@ const LabSim = {
     this.updateOutput();
   },
 
-  handlePing(cmd, lower) {
+  handlePing(cmd) {
     const target = cmd.split(' ')[1];
     if (!target) { this.outputLines.push(`<span class="error">% Incomplete command.</span>`); this.updateOutput(); return; }
     this.outputLines.push(`Type escape sequence to abort.`);
@@ -458,7 +542,7 @@ const LabSim = {
     this.updateOutput();
   },
 
-  handleTrace(cmd, lower) {
+  handleTrace(cmd) {
     const target = cmd.split(' ')[1];
     if (!target) { this.outputLines.push(`<span class="error">% Incomplete command.</span>`); this.updateOutput(); return; }
     this.outputLines.push(`Type escape sequence to abort.`);
@@ -472,43 +556,55 @@ const LabSim = {
     const lab = this.currentLab;
     const cmds = Object.keys(lab.commands);
     this.outputLines.push(`<span class="highlight">${Lang.t('labsAvailableCmds')}</span>`);
+    const add = txt => this.outputLines.push(`  ${txt}`);
+
     if (this.mode === IOS_MODE.USER_EXEC) {
-      this.outputLines.push(`  enable           Enter privileged mode`);
-      this.outputLines.push(`  show             Show running system information`);
-      this.outputLines.push(`  ping             Send ICMP echo requests`);
-      this.outputLines.push(`  traceroute       Trace route to destination`);
+      add('enable         Enter privileged mode');
+      add('show           Show running system information');
+      add('ping           Send ICMP echo requests');
+      add('traceroute     Trace route to destination');
     } else if (this.mode === IOS_MODE.PRIV_EXEC) {
-      this.outputLines.push(`  configure terminal   Enter global configuration mode`);
-      this.outputLines.push(`  show                 Show running system information`);
-      this.outputLines.push(`  ping                 Send ICMP echo requests`);
-      this.outputLines.push(`  traceroute           Trace route to destination`);
-      this.outputLines.push(`  write memory         Save configuration`);
-      this.outputLines.push(`  reload               Reload the system`);
-      this.outputLines.push(`  disable              Return to user EXEC mode`);
+      add('configure terminal   Enter global configuration mode');
+      add('show                 Show running system information');
+      add('ping                 Send ICMP echo requests');
+      add('traceroute           Trace route to destination');
+      add('write memory / wr    Save configuration to NVRAM');
+      add('reload               Reload the system');
+      add('disable              Return to user EXEC mode');
     } else if (this.mode === IOS_MODE.GLOBAL_CONFIG) {
-      this.outputLines.push(`  hostname      Set the system hostname`);
-      this.outputLines.push(`  interface     Enter interface configuration mode`);
-      this.outputLines.push(`  vlan          Create a VLAN`);
-      this.outputLines.push(`  ip route      Configure a static route`);
-      this.outputLines.push(`  router ospf   Enter OSPF configuration mode`);
-      this.outputLines.push(`  line          Configure terminal lines`);
-      this.outputLines.push(`  exit/end      Return to privileged EXEC mode`);
+      add('hostname      Set the system hostname');
+      add('interface     Enter interface configuration mode');
+      add('vlan          Create / configure a VLAN');
+      add('ip route      Configure a static route');
+      add('router ospf   Enter OSPF configuration mode');
+      add('line          Configure terminal lines (VTY/Console)');
+      add('no            Negate a configuration command');
+      add('do <cmd>      Run an EXEC command from config mode');
+      add('exit          Return to previous mode');
+      add('end           Return to privileged EXEC mode');
     } else if (this.mode === IOS_MODE.INTERFACE) {
-      this.outputLines.push(`  ip address    Set IP address on interface`);
-      this.outputLines.push(`  no shutdown   Enable the interface`);
-      this.outputLines.push(`  shutdown      Disable the interface`);
-      this.outputLines.push(`  switchport    Configure switch port parameters`);
-      this.outputLines.push(`  exit/end      Return to higher mode`);
+      add('ip address    Set IP address on interface');
+      add('no shutdown   Enable the interface');
+      add('shutdown      Disable the interface');
+      add('switchport    Configure switch port parameters');
+      add('no            Negate a command');
+      add('do <cmd>      Run an EXEC command from config mode');
+      add('exit          Return to global config mode');
+      add('end           Return to privileged EXEC mode');
     } else {
-      this.outputLines.push(`  exit    Return to previous mode`);
-      this.outputLines.push(`  end     Return to privileged EXEC mode`);
+      add('do <cmd>      Run an EXEC command from config mode');
+      add('exit          Return to previous mode');
+      add('end           Return to privileged EXEC mode');
     }
+
     this.outputLines.push(`<span class="highlight">Scenario commands:</span>`);
-    cmds.forEach(c => this.outputLines.push(`  ${c}`));
-    this.outputLines.push(`<span class="highlight">System commands:</span>`);
-    this.outputLines.push(`  host <name>   ${Lang.t('labsChangeHost')}`);
-    this.outputLines.push(`  clear/cls     ${Lang.t('labsClear')}`);
-    this.outputLines.push(`  ?/help        ${Lang.t('labsHelp')}`);
+    cmds.forEach(c => add(c));
+    this.outputLines.push(`<span class="highlight">System:</span>`);
+    add('host <name>   Switch to another device in the topology');
+    add('Tab           Auto-complete command');
+    add('↑↓            Command history');
+    add('clear / cls   Clear terminal');
+    add('? / help      Show this help');
   },
 
   updateOutput() {
@@ -539,8 +635,7 @@ const LabSim = {
   },
 };
 
-// ── Export globally ──
-
+// ── Global export ──
 if (typeof window !== 'undefined') {
   window.LabSim = LabSim;
 }
