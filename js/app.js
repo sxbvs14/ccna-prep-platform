@@ -171,7 +171,7 @@ const App = {
         document.getElementById('examResults').classList.add('hidden');
         document.getElementById('examIntro').classList.remove('hidden');
         break;
-      case 'labs': this.renderLabView(); if (window._setupLabInput) window._setupLabInput(); break;
+      case 'labs': this.renderLabView(); break;
       case 'guide': this.renderGuideView(); break;
       case 'analytics': Analytics.renderAnalytics(this.data); break;
       case 'tutor': this.renderTutorView(); break;

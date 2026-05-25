@@ -877,7 +877,37 @@ body::before {
   padding: 10px 14px;
   font-family: var(--font-sans);
   font-size: 0.9rem;
+}
+
+.terminal-input:focus {
   outline: none;
+}
+.terminal-input::selection {
+  background: var(--accent);
+  color: #fff;
+}
+.terminal-input::placeholder {
+  color: #404060;
+  font-style: italic;
+}
+
+.terminal-output .config-cmd { color: #93c5fd; }
+.terminal-output .interface-cmd { color: #86efac; }
+.terminal-output .info { color: #60a5fa; }
+.terminal-output .success { color: var(--success); }
+.terminal-output .warning { color: var(--warning); }
+
+.lab-terminal:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* Mobile-responsive lab layout */
+@media (max-width: 900px) {
+  .lab-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 .tutor-input:focus { border-color: var(--purple-600); }
