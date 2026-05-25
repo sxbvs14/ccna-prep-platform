@@ -126,12 +126,6 @@ const App = {
       }
     });
 
-    // Lab selector
-    const labSel = document.getElementById('labSelector');
-    if (labSel) {
-      labSel.addEventListener('change', (e) => LabSim.loadLab(e.target.value));
-    }
-
     // Reset button
     document.getElementById('btnConfirmReset').addEventListener('click', () => {
       this.data = Storage.reset();
@@ -400,15 +394,6 @@ const App = {
   // ═══ Lab View ═══
   renderLabView() {
     if (LAB_SCENARIOS.length > 0) {
-      // Refresh lab selector labels
-      const selector = document.getElementById('labSelector');
-      if (selector) {
-        const currentVal = selector.value;
-        selector.innerHTML = LAB_SCENARIOS.map(l =>
-          `<option value="${l.id}">${Lang.isEn() ? (l.titleEn || l.title) : l.title}</option>`
-        ).join('');
-        selector.value = currentVal;
-      }
       LabSim.loadLab(LAB_SCENARIOS[0].id);
     }
   },
